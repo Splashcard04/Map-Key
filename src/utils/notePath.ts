@@ -1,4 +1,4 @@
-import { notesBetween, Note } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { notesBetween, Note, json } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 
  /**
  * @param timeStart the time to start applying the custom data to the notes
@@ -9,18 +9,30 @@ import { notesBetween, Note } from "https://deno.land/x/remapper@3.0.0/src/mod.t
  */
 
 export class noteAnim {
-   constructor(timeStart: number, timeEnd: number, forNoteL: (n: Note) => void,  forNoteR: (n: Note) => void) {
-       notesBetween(timeStart, timeEnd, n => {
-           let pass = false;
-           if(n.type === 0) { pass = true } else { pass = false }
-           if (pass) forNoteL(n);
-         });
-        
-         notesBetween(timeStart, timeEnd, n => {
-           let pass = false;
-           if(n.type === 1) { pass = true } else { pass = false }
-           if (pass) forNoteR(n);
-         });
-   }
 
+  json: Json = {}
+
+  import(json: Json) {
+      this.json = json
+      return this
+  }
+
+  constructor(time: number, timeEnd: number) {
+    this.json.time = time
+    this.json.timeEnd = timeEnd
+  }
+  left(forNoteL: (n: Note) => void) {
+    notesBetween(this.json.time, this.json.timeEnd, n => {
+      let pass = false;
+      if(n.type === 0) { pass = true } else { pass = false }
+      if (pass) forNoteL(n);
+    });
+  }
+  right(forNoteR: (n: Note) => void) {
+    notesBetween(this.json.time, this.json.timeEnd, n => {
+      let pass = false;
+      if(n.type === 1) { pass = true } else { pass = false }
+      if (pass) forNoteL(n);
+    });
+  }
 }

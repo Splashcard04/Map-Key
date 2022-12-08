@@ -1,4 +1,4 @@
-import { KeyframesVec3, CustomEvent, notesBetween, chainsBetween, arcsBetween } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { Json, KeyframesVec3, CustomEvent, notesBetween, chainsBetween, arcsBetween } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 
 /**
  * animate the player and notes at once :)
@@ -10,49 +10,57 @@ import { KeyframesVec3, CustomEvent, notesBetween, chainsBetween, arcsBetween } 
 */
 
 export class playerAnim {
-  constructor(time timeEnd) {
-    this.time = time
-    this.timeEnd = timeEnd
+  json: Json = {}
+
+    import(json: Json) {
+        this.json = json
+        return this
+    }
+
+  constructor(time: number, timeEnd: number) {
+    this.json.time = time
+    this.json.timeEnd = timeEnd
   }
-  position(positions: Vec3) {
-    const dur = this.timeEnd - this.time
+  position(positions: KeyframesVec3) {
+    const dur = this.json.timeEnd - this.json.time
+    this.json.dur = dur
 
-    new CustomEvent(time).assignPlayerToTrack("player").push();
+    new CustomEvent(this.json.time).assignPlayerToTrack("player").push();
 
-    new CustomEvent(time).assignTrackParent(["note"], "player").push();
+    new CustomEvent(this.json.time).assignTrackParent(["note"], "player").push();
   
-    const player = new CustomEvent(time).animateTrack("player", duration);
+    const player = new CustomEvent(this.json.time).animateTrack("player", dur);
     player.animate.position = positions;
     player.push();
   
-    notesBetween(time, timeMax, note => [
+    notesBetween(this.json.time, this.json.timeEnd, note => [
       note.customData.track = "note"
     ])
-    chainsBetween(time, timeMax, c => {
+    chainsBetween(this.json.time, this.json.timeEnd, c => {
       c.customData.track = "note"
     })
-    arcsBetween(time, timeMax, c => {
+    arcsBetween(this.json.time, this.json.timeEnd, c => {
       c.customData.track = "note"
     })
   }
-  rotation(rotations: Vec3) {
-    const dur = this.timeEnd - this.time
+  rotation(rotations: KeyframesVec3) {
+    const dur = this.json.timeEnd - this.json.time
 
-    new CustomEvent(time).assignPlayerToTrack("player2").push();
+    new CustomEvent(this.json.time).assignPlayerToTrack("player2").push();
 
-    new CustomEvent(time).assignTrackParent(["note2"], "player2").push();
+    new CustomEvent(this.json.time).assignTrackParent(["note2"], "player2").push();
   
-    const player = new CustomEvent(time).animateTrack("player", duration);
+    const player = new CustomEvent(this.json.time).animateTrack("player", this.json.dur);
     player.animate.rotation = rotations
     player.push();
   
-    notesBetween(time, timeMax, note => [
+    notesBetween(this.json.time, this.json.timeEnd, note => [
       note.customData.track = "note2"
     ])
-    chainsBetween(time, timeMax, c => {
+    chainsBetween(this.json.time, this.json.timeEnd, c => {
       c.customData.track = "note2"
     })
-    arcsBetween(time, timeMax, c => {
+    arcsBetween(this.json.time, this.json.timeEnd, c => {
       c.customData.track = "note2"
     })
   }
