@@ -1,43 +1,40 @@
-import { Environment, LOOKUP } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
-
-/**
- * despawns any environment peice(s)
- * @param lookup lookup method for environment peice(S)
- * @param id id(s) for environment peices 
- * @param excludes (optional) objects to exclude when despawning large ammounts of environment peices 
- * @param hadrDespawn (optional) completely despawn selected objects?
- * @author splashcard__
-*/
+import { Environment, LOOKUP, Json } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 
 export class despawner {
-  constructor(lookup?: LOOKUP, ids?: Array<string>) {
-    if(lookup == undefined) {let lookup = "Contains"}
-    if(ids !== undefined) {
-      ids.forEach(obj => {
-        const env = new Environment(obj, lookup)
-        env.position = [-9999, -9999, -9999]
-        env.push();
-      });
+    json: Json = {}
+
+    import(json: Json) {
+        this.json = json
+        return this
     }
-  }
-  excludes(look?: LOOKUP, ids?: Array<string>) {
-    if(look == undefined) {let look = "Contains"}
-    if(ids !== undefined) {
+    constructor(lookup?: LOOKUP, ids?: string[]) {
+        if(lookup == undefined) { this.json.lookup = "Contains" } else { this.json.lookup = lookup}
+        if(ids !== undefined) {
+            this.json.ids = ids
+            ids.forEach(id => {
+                const env = new Environment(id, this.json.lookup)
+                env.position = [-9999, -9999, -9999]
+                env.push();
+            })
+        } else {
+            const env = new Environment("Environment", this.json.lookup)
+            env.position = [-9999, -9999, -9999]
+            env.push();
+        }
+
+    }
+    excludes(ids: string[]) {
         ids.forEach(id => {
-            const env = new Environment(id, look)
+            const env = new Environment(id, this.json.lookup)
             env.position = [0, 0, 0]
             env.push();
         })
     }
-  }
-  hardDespawn(lookup?: LOOKUP, ids?: Array<string>) {
-    if(lookup == undefined) { let lookup = "Contains"}
-    if(ids !== undefined) {
-        ids.forEach(id => {
-            const env = new Environment(id, lookup)
-            env.active = false;
+    hardDespawn() {
+        this.json.ids.forEach((id: string) => {
+            const env = new Environment(id, this.json.lookup)
+            env.active = false
             env.push();
         })
     }
-  }
 }
