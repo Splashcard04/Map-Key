@@ -1,11 +1,11 @@
-import { activeDiff, GeometryMaterial, Geometry, GEO_TYPE } from "https://deno.land/x/remapper@3.0.0/src/mod.ts" 
+import { activeDiff, GeometryMaterial, Geometry, GEO_TYPE, Vec3 } from "https://deno.land/x/remapper@3.0.0/src/mod.ts" 
 
 type addGroupSettings = {
-    addGroup: boolean,
     // deno-lint-ignore no-explicit-any
     sceneName: any
-    matName: string,
-    geoType: GEO_TYPE
+    blenderMatName: string,
+    geoType: GEO_TYPE,
+    scale?: Vec3
 }
 
 export class geoMaterail {
@@ -17,11 +17,11 @@ export class geoMaterail {
 
     }
     addGroup(addGroup: addGroupSettings) {
-        if(addGroup?.addGroup === true) {
-            addGroup.sceneName.addPrimaryGroups(
-                addGroup.matName,
-                new Geometry(addGroup.geoType, geoMaterail.name+"Material")
-            )
-        }
+        if(addGroupSettings.scale == undefined) { this.json.scale = [1, 1, 1]} else { this.json.scale = addGroupSettings.scale}
+        addGroup.sceneName.addPrimaryGroups(
+            addGroup.blenderMatName,
+            new Geometry(addGroup.geoType, geoMaterail.name+"Material"),
+            this.json.scale
+        )
     }
 }
