@@ -1,4 +1,4 @@
-import { groupObjectTypes, json } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { GroupObjectTypes, Json, ModelScene } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 
 /**
  * @param object geometry or environment object for your group
@@ -17,23 +17,23 @@ export class lightGroup {
 
     /**the minimum light id of your laser group, suggested intervals of 100 of multiple groups */
     lightIDMin(id: number) {
-        this.json.lightID = lightID
+        this.json.lightID = id
     }
     /**the light type for your laser group to be lit with */
     lightType(type: number) {
         this.json.lightType = type
     }
     /** the name of your model scene */
-    sceneName(name: any) {
+    sceneName(name: ModelScene) {
         this.json.sceneName = name
     }
     /**the nae of your laser material in blender */
     matName(matName: string) {
-        this.json.matName = matname
+        this.json.matName = matName
     }
-    constructor(object: groupObjectTypes, ammount: number, scale?: [number, number, number]) {
+    constructor(object: GroupObjectTypes, ammount: number, scale?: [number, number, number]) {
         const objTracks: string[] = [];
-        const sceneObj = environment;
+        const sceneObj = object;
         const sceneName = this.json.sceneName
         sceneObj.lightID = this.json.lightID
         sceneObj.lightType = this.json.lightType
@@ -51,8 +51,16 @@ export class lightGroup {
  */
 
 export class objectGroup {
+
+    json: Json = {}
+
+    import(json: Json) {
+        this.json = json
+        return this
+    }
+
     /**your model scene name */
-    sceneName(name: any) {
+    sceneName(name: ModelScene) {
         this.json.name = name
     }
     /** the name of your material in blender */
@@ -63,8 +71,8 @@ export class objectGroup {
      * @param object your primary group object to add   
      * @param scale the scale offset of your object
      */
-    constructor(object: groupObjectTypes, scale?: [number, number, number]) {
-        sceneName.addPrimaryGroups(
+    constructor(object: GroupObjectTypes, scale?: [number, number, number]) {
+        this.json.name.addPrimaryGroups(
             this.json.matNamee,
             object,
             scale
