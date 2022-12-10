@@ -1,6 +1,8 @@
 import { activeDiff, getBaseEnvironment } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 
 export function logMapData(objects?: boolean, environment?: boolean, fakeArray?: boolean) {
+    const map = activeDiff
+    
     if(objects !== undefined && objects === true) {
         console.log('\n======================Objects==========================\n')
         console.log(`\n Notes:`map.notes.length, `\n Walls:`, map.walls.length, `\n bombs:`, map.bombs.length)
