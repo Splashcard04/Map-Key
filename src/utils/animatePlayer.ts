@@ -50,7 +50,7 @@ export class playerAnim {
 
     new CustomEvent(this.json.time).assignTrackParent(["note2"], "player2").push();
   
-    const player = new CustomEvent(this.json.time).animateTrack("player", this.json.dur);
+    const player = new CustomEvent(this.json.time).animateTrack("player", dur);
     player.animate.rotation = rotations
     player.push();
   
