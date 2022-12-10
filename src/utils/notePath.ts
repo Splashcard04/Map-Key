@@ -1,4 +1,4 @@
-import { notesBetween, Note, json } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { notesBetween, Note, Json } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 
  /**
  * @param timeStart the time to start applying the custom data to the notes
@@ -32,7 +32,7 @@ export class noteAnim {
     notesBetween(this.json.time, this.json.timeEnd, n => {
       let pass = false;
       if(n.type === 1) { pass = true } else { pass = false }
-      if (pass) forNoteL(n);
+      if (pass) forNoteR(n);
     });
   }
 }
