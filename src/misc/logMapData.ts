@@ -9,7 +9,7 @@ export function logMapData(objects?: boolean, environment?: boolean, fakeArray?:
         console.log(`==========================Environment======================`)
         console.log(`\n Environment:`, map.customData.environment)
     }
-    if(fakeArray === undefined && fakeArray === true) {
+    if(fakeArray !== undefined && fakeArray === true) {
         console.log(`========================fake objects=======================`)
         console.log(`\n Fake notes:` map.fakeNotes.length, `\n Fake walls:`, map.fakeWalls.length, `\n Fake bombs:`, map.fakeBombs.length, `\n Fake Chains: `, map.fakeChains.length)
     }
