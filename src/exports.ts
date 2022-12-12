@@ -1,3 +1,5 @@
+export * from './constants.ts'
+
 export * from './src/utils/geoMaterial.ts'
 export * from './src/utils/animatePlayer.ts'
 export * from './src/utils/despawner.ts'

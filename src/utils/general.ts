@@ -1,5 +1,5 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { ColorType, DIFFS, FILENAME, info, Note, RMLog, Wall } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { ColorType, DIFFS, FILENAME, info, Note, RMLog } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 
 /**
  * convert rgb values easily
@@ -18,6 +18,7 @@ export function rgb(value: ColorType) {
 }
 
 import { notesBetween, arcsBetween, chainsBetween, wallsBetween} from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { BFM_PROPS } from "../constants.ts";
 
 export function allBetween(includeWalls: boolean, time: number, timeEnd: number, forAll: (n: Note) => void) {
   notesBetween(time, timeEnd, forAll)
@@ -28,18 +29,50 @@ export function allBetween(includeWalls: boolean, time: number, timeEnd: number,
   }
 }
 
-/**
- * Does some basic math to help with working out the frame values in blender compared to a Beat SAber project.
- * Call the function by itself, it will log all of the necessary info in the console.
- * @param bpm The BPM of your song.
- * @param beats The number of beats you want the animation to play over.
- * @param fps The FPS of your blender project.
- * @author Aurellis
- */
-export function blenderFrameMath(bpm: number, beats: number, fps: number){
-  RMLog(`For an animation of ${beats} beats at ${bpm} BPM (which will take ${beats*60/bpm} seconds)...`);
-  RMLog(`You will need ${beats*fps*60/bpm} total frames in blender at ${fps} fps.`);
-  RMLog(`Each beat takes ${60/bpm} seconds, or ${fps*60/bpm}} frames`);
+export class blenderFrameMath {
+  /**
+   * Some basic math to aid with the timing of Blender animations to RM
+   * @param bpm The BPM of the song.
+   * @param beats The duration of your animation in RM.
+   * @param fps The fps of your blender project.
+   * @author Aurellis
+   */
+  constructor(public bpm: number, public beats: number, public fps: number){
+      this.bpm = bpm;
+      this.beats = beats;
+      this.fps = fps;
+      
+  }
+  /**
+   * Console logs the duration (in seconds) that you animation goes for in the song.
+   */
+ public durationInSong() {
+  console.log(`An animation of ${this.beats} beats at ${this.bpm} BPM will take ${this.beats*60/this.bpm} seconds`);
+ }
+ /**
+  * Console logs the total frames required in blender to match your animation.
+  */
+ public totalFramesInBlender(){
+  console.log(`The animation will need ${this.beats*this.fps*60/this.bpm} total frames in blender at ${this.fps} fps.`);
+ }
+ /**
+  * Console logs the length in seconds and frames that each beat in your song will take.
+  */
+ public beatLength(){
+  console.log(`Each beat takes ${60/this.bpm} seconds, or ${this.fps*60/this.bpm} frames`);
+ }
+ /**
+  * Gets the same information that the other methods supply. Returning it rather than logging it.
+  * @param property The property you wish to return.
+  * @returns The value of the property.
+  */
+ public returnProperty(property: BFM_PROPS){
+  const _beat_time = 60/this.bpm;
+  const _seconds = this.beats*_beat_time;
+  const _totalFrames = _seconds*this.fps;
+  const _framesPerBeat = _beat_time*this.fps;
+  return eval(property);
+ }
 }
 
 /**
