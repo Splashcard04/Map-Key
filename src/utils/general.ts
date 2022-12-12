@@ -3,7 +3,7 @@ import { ColorType, DIFFS, FILENAME, info, Note, RMLog } from "https://deno.land
 
 /**
  * convert rgb values easily
- * @param rgbVal input your array of rgb 255-255!
+ * @param value input your array of rgb 255-255!
  * @returns beat saber compatible rgb values
  * @author splashcard__
  * @suggested scuffedItalian
@@ -67,11 +67,11 @@ export class blenderFrameMath {
   * @returns The value of the property.
   */
  public returnProperty(property: BFM_PROPS){
-  const _beat_time = 60/this.bpm;
-  const _seconds = this.beats*_beat_time;
-  const _totalFrames = _seconds*this.fps;
-  const _framesPerBeat = _beat_time*this.fps;
-  return eval(property);
+  const _beatTime = 60/this.bpm; //Seconds per song beat
+  const _seconds = this.beats*_beatTime; //Seconds of full animation
+  const _totalFrames = _seconds*this.fps; //Total frame count of the full animation
+  const _framesPerBeat = _beatTime*this.fps; //Like _beat_time but synced to fps
+  return eval(property); //Converts the string BFM_PROP into the name of one of the consts
  }
 }
 
