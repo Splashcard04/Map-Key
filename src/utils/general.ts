@@ -20,13 +20,10 @@ export function rgb(value: ColorType) {
 import { notesBetween, arcsBetween, chainsBetween, wallsBetween} from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 import { BFM_PROPS } from "../constants.ts";
 
-export function allBetween(includeWalls: boolean, time: number, timeEnd: number, forAll: (n: Note) => void) {
+export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => void) {
   notesBetween(time, timeEnd, forAll)
   arcsBetween(time, timeEnd, forAll)
   chainsBetween(time, timeEnd, forAll)
-  if(forWall !== undefined && includeWalls === true) {
-    wallsBetween(time, timeEnd, forAll)
-  }
 }
 
 export class blenderFrameMath {
