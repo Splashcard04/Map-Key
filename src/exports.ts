@@ -1,13 +1,13 @@
 export * from './constants.ts'
 
-export * from './src/utils/geoMaterial.ts'
-export * from './src/utils/animatePlayer.ts'
-export * from './src/utils/despawner.ts'
-export * from './src/utils/general.ts'
-export * from './src/utils/noteFilter.ts'
-export * from './src/utils/notePath.ts'
-export * from './src/utils/sceneGroup.ts'
+export * from './utils/geoMaterial.ts'
+export * from './utils/animatePlayer.ts'
+export * from './utils/despawner.ts'
+export * from './utils/general.ts'
+export * from './utils/noteFilter.ts'
+export * from './utils/notePath.ts'
+export * from './utils/sceneGroup.ts'
 export * from './utils/shapeGenerator.ts'
 
 
-export * from './src/misc/logMapData.ts'
+export * from './misc/logMapData.ts'

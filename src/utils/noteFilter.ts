@@ -24,7 +24,7 @@ export class noteFilter {
   constructor(timeStart: number, timeEnd: number, forNote: (n: Note) => void) {
     notesBetween(timeStart, timeEnd, n => {
       let pass = false;
-      this.json.positions.forEach((p: number[[]]) => {
+      this.json.positions.forEach((p: [number, number]) => {
         if (n.x === p[0] && n.y === p[1]) pass = true;
       });
       if (pass) forNote(n);
