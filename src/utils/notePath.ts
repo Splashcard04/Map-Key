@@ -8,15 +8,13 @@ import { notesBetween, Note, Json } from "https://deno.land/x/remapper@3.0.0/src
  * @author splashcard__ 
  */
 
-export class noteAnim {
+export class noteSplit {
 
   json: Json = {}
 
   import(json: Json) {
       this.json = json
       return this
-  }
-
   constructor(time: number, timeEnd: number) {
     this.json.time = time
     this.json.timeEnd = timeEnd
