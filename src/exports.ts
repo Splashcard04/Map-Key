@@ -7,7 +7,7 @@ export * from './src/utils/general.ts'
 export * from './src/utils/noteFilter.ts'
 export * from './src/utils/notePath.ts'
 export * from './src/utils/sceneGroup.ts'
-export * from './utils/shapeGenerator.ts'
+export * from './src/utils/shapeGenerator.ts'
 
 
 export * from './src/misc/logMapData.ts'
