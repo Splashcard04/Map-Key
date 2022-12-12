@@ -3,7 +3,7 @@ import { ColorType, DIFFS, FILENAME, info, Note, RMLog } from "https://deno.land
 
 /**
  * convert rgb values easily
- * @param rgbVal input your array of rgb 255-255!
+ * @param value input your array of rgb 255-255!
  * @returns beat saber compatible rgb values
  * @author splashcard__
  * @suggested scuffedItalian
