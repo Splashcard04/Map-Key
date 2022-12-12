@@ -15,6 +15,7 @@ export class noteSplit {
   import(json: Json) {
       this.json = json
       return this
+  }
   constructor(time: number, timeEnd: number) {
     this.json.time = time
     this.json.timeEnd = timeEnd
