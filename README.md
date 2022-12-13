@@ -65,10 +65,11 @@ To use Map Key in your script, you will need to import it. This works in the sam
 
 You can either import all items.
 ```ts
-import * as mk from "https://deno.land/x/mapkey@0.0.3/src/exports.ts"
+import * as mk from "https://deno.land/x/mapkey/src/exports.ts"
 ```
 Or specify the individual items you need.
 ```ts
-import { PlayerAnim, shapeGenerator } from "https://deno.land/x/mapkey@0.0.3/src/exports.ts"
+import { PlayerAnim, shapeGenerator } from "https://deno.land/x/mapkey/src/exports.ts"
 ```
-Just make sure that your version tag is set to the latest release to make sure that the code remains compatible with ReMapper.
+**Important**
+When you add your import it will likely show an error, make sure you update the version to its redirected specifier, and that you cache all dependencies.
