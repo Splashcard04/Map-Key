@@ -60,3 +60,15 @@ des.exclude([
 ])
 ```
 these 2 choices will apply to almost all of the functions here, for any that it doesn't I'll say that in the documentation for the function
+# Installation
+To use Map Key in your script, you will need to import it. This works in the same way as ReMapper.
+
+You can either import all items.
+```ts
+import * as mk from "https://deno.land/x/mapkey@0.0.3/src/exports.ts"
+```
+Or specify the individual items you need.
+```ts
+import { PlayerAnim, shapeGenerator } from "https://deno.land/x/mapkey@0.0.3/src/exports.ts"
+```
+Just make sure that your version tag is set to the latest release to make sure that the code remains compatible with ReMapper.
