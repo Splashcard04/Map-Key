@@ -71,5 +71,6 @@ Or specify the individual items you need.
 ```ts
 import { PlayerAnim, shapeGenerator } from "https://deno.land/x/mapkey/src/exports.ts"
 ```
-**Important**
+**Important!**
+
 When you add your import it will likely show an error, make sure you update the version to its redirected specifier, and that you cache all dependencies.
