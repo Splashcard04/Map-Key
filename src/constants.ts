@@ -4,3 +4,11 @@ export type BFM_PROPS =
     "_seconds" |
     "_totalFrames" |
     "_framesPerBeat"
+    
+export const Env = {
+    gaga: {
+        Aurora: ,
+        Lightning: ,
+        SolidLaser: ,
+    }
+}
