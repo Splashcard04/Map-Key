@@ -17,7 +17,7 @@ export function rgb(value: ColorType) {
   return [val1, val2, val3, value[3]] as ColorType
 }
 
-import { notesBetween, arcsBetween, chainsBetween, wallsBetween} from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { notesBetween, arcsBetween, chainsBetween} from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 import { BFM_PROPS } from "../constants.ts";
 
 export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => void) {
