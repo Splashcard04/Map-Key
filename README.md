@@ -1,76 +1,21 @@
+![image](https://user-images.githubusercontent.com/111317032/207435249-e15b8624-bde4-4cd7-b96a-0713ceaac681.png)
+
 # Map Key
-map key is a library of functions designed to extend [ReMapper](https://github.com/Swifter1243/ReMapper) if you don't know what that is then im sorry but this is not the tool for you.  If you do then welcome! Map Key is designed to make otherwise tedious things easier, here are a few examples:
+May Key is a typescript library designed to extend [ReMapper](https://github.com/Swifter1243/ReMapper) which allows you to do tedious things much faster and more efficiently.
 
-**despawning environment pieces**
-**base ReMapper**
-```ts
-const piece1 = new Environment("Building$", "Regex")
-peice1.position = [-9999, -9999, -9999]
-peice1.push
-
-const piece2 = new Environemnt("Track$", "Regex")
-piece2.position = [-9999, -9999, -9999]
-piece2.push();
-```
-**with Map Key**
-```ts
-new despawner("Regex", [
-    "Building$",
-    "Track$"
-])
-```
-**moving the player**
-**with base ReMapper**
-```ts
-new CustomEvent(0).assignPlayerToTrack("player").push();
-
-const track = new CustomEvent(0).animateTrack()
-track.animate.position = [[0, 0, 0, 0], [0, 10, 0, 0.5], [0, 0, 0, 1, "easeOutQuad"]]
-track.push();
-
-new CustomEvent().assignTrackParent(["notes"], "player").push();
-
-notesBetween(0, 10, n => {
-   n.customData.track = "notes"
-})
-```
-**with Map Key**
-```ts
-new PlayerAnim(0, 10).position([[0, 0, 0, 0], [0, 10, 0, 0.5], [0, 0, 0, 1, "easeOutQuad"]])
-```
-# Documentation
-there are 2 similar ways to call these functions, one using const and one not, each function will be documented here
-**option 1**
-```ts
-new despwner("Contains", [
-   "Environment"
-]).exclude([
-   "Lighting",
-   "Auroras"
-])
-```
-**option2**
-```ts
-const des = new despawner("Contains", [
-   "Environment"
-])
-des.exclude([
-   "Auroras",
-   "Lightning"
-])
-```
-these 2 choices will apply to almost all of the functions here, for any that it doesn't I'll say that in the documentation for the function
 # Installation
 To use Map Key in your script, you will need to import it. This works in the same way as ReMapper.
 
-You can either import all items.
+You can either import all items (not reccomended as you will have to prefix everything with `mk.`
 ```ts
-import * as mk from "https://deno.land/x/mapkey/src/exports.ts"
+import * as mk from "https://deno.land/x/mapkey@0.0.3/src/exports.ts"
 ```
 Or specify the individual items you need.
 ```ts
-import { PlayerAnim, shapeGenerator } from "https://deno.land/x/mapkey/src/exports.ts"
+import { PlayerAnim, shapeGenerator } from "https://deno.land/x/mapkey@0.0.3/src/exports.ts"
 ```
 **Important!**
 
-When you add your import it will likely show an error, make sure you update the version to its redirected specifier, and that you cache all dependencies.
+When you add your import it will likely show an error, hover over the link, click quick fix => cache dependancy.
+
+to get started with map key, head over to the #### **[Wiki](https://github.com/Splashcard04/map-key/wiki)**
