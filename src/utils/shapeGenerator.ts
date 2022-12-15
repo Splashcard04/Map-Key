@@ -1,5 +1,5 @@
 import { Geometry, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.0.0/src/mod.ts";
-
+import { logFunctionss } from './general.ts'
 export class shapeGenerator {
     /**
      * Creates a 2d shape defaulting along the xy plane.
@@ -49,7 +49,10 @@ export class shapeGenerator {
                 }
                 cube.rotation = [this.rotation[0],this.rotation[1],this.rotation[2]-180*angle/Math.PI];
                 cube.push();
-        
+                
+                if(logFunctionss) {
+                    console.log(`new shape generated`, '\n' `sides: ${this.sides}`, '\n' `radius: ${this.radius}`, '\n', `track: ${this.track}`)
+                }
             }
         }
 }
