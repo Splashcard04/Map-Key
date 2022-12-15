@@ -1,5 +1,5 @@
 import { Json, KeyframesVec3, CustomEvent, notesBetween, chainsBetween, arcsBetween } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
-
+import { logFunctionss } from './general.ts' 
 /**
  * animate the player and notes at once :)
  * @param time the time at which the track will start
@@ -16,14 +16,10 @@ export class playerAnim {
         this.json = json
         return this
     }
-
-  constructor(time: number, timeEnd: number) {
-    this.json.time = time
-    this.json.timeEnd = timeEnd
-  }
   position(positions: KeyframesVec3) {
     const dur = this.json.timeEnd - this.json.time
     this.json.dur = dur
+    this.json.positions = positions
 
     new CustomEvent(this.json.time).assignPlayerToTrack("player").push();
 
@@ -44,6 +40,7 @@ export class playerAnim {
     })
   }
   rotation(rotations: KeyframesVec3) {
+    this.json.rotations = rotations
     const dur = this.json.timeEnd - this.json.time
 
     new CustomEvent(this.json.time).assignPlayerToTrack("player2").push();
@@ -63,5 +60,15 @@ export class playerAnim {
     arcsBetween(this.json.time, this.json.timeEnd, c => {
       c.customData.track = "note2"
     })
+  }
+  constructor(time: number, timeEnd: number) {
+    this.json.time = time
+    this.json.timeEnd = timeEnd
+
+    if(logFunctionss) {
+      console.log(`
+      new player animation at ${this.json.time} and ending at ${this.json.timeEnd}
+      `, '\n', `positions: ${this.json.positions}`, '\n', `rotations: ${this.json.rotations}`)
+    }
   }
 }
