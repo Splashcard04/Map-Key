@@ -5,16 +5,22 @@ import { ColorType, DIFFS, FILENAME, info, Note, RMLog } from "https://deno.land
  * convert rgb values easily
  * @param value input your array of rgb 255-255!
  * @returns beat saber compatible rgb values
- * @author splashcard__
- * @suggested scuffedItalian
+ * @author splashcard__ x scuffedItalian
  */
 
 
-export function rgb(value: ColorType) {
-  const val1 = value[0] / 255
-  const val2 = value[1] / 255
-  const val3 = value[2] / 255
-  return [val1, val2, val3, value[3]] as ColorType
+export function rgb(value: ColorType, colorMultiplier?: number) {
+  if(colorMultiplier === undefined) {
+    const val1 = value[0] / 255
+    const val2 = value[1] / 255
+    const val3 = value[2] / 255
+    return [val1, val2, val3, value[3]] as ColorType
+  }  else {
+    const val1 = (value[0] * colorMultiplier) /255
+    const val2 = (value[1] * colorMultiplier) /255
+    const val3 = (value[2] * colorMultiplier) /255
+    return [val1, val2, val3, value[3]] as ColorType
+  }
 }
 
 import { notesBetween, arcsBetween, chainsBetween} from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
