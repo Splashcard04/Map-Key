@@ -1,5 +1,5 @@
 import { GroupObjectTypes, Json, ModelScene } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
-
+import { logFunctionss } from "./general.ts" 
 /**
  * @param object geometry or environment object for your group
  * @param ammount the ammount of the stated object
@@ -40,6 +40,10 @@ export class lightGroup {
 
         for (let i = 1; i <= ammount; i++) objTracks.push(this.json.matName + `${i}`);
         sceneName.addPrimaryGroups(objTracks, sceneObj, scale)
+
+        if(logFunctionss) {
+            console.log(`new lightGroup in ${this.json.sceneName}`, '\n' `material name: ${this.json.matName}`, '\n', `object: ${object}`)
+        }
     }
 }
 
