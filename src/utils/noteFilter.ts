@@ -1,5 +1,5 @@
 import { notesBetween, Vec2, Note, Json } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
-
+import { logFunctionss } from "./general.ts" 
 /**
 * filters notes at certain positions
 * @param timeStart the time your track will start
@@ -29,5 +29,8 @@ export class noteFilter {
       });
       if (pass) forNote(n);
     });
+    if(logFunctionss) {
+      console.log(`new Note Filter at ${timeStart} until ${timeEnd}`, '\n' `positions: ${this.json.positions}`)
+    }
   }
 }
