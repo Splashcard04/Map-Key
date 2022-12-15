@@ -4,6 +4,7 @@ import { ColorType, DIFFS, FILENAME, info, Note, RMLog } from "https://deno.land
 /**
  * convert rgb values easily
  * @param value input your array of rgb 255-255!
+ * @param colorMultiplier? the multilier for your colors (esentially effects brightness)
  * @returns beat saber compatible rgb values
  * @author splashcard__ x scuffedItalian
  */
