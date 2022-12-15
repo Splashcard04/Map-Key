@@ -1,5 +1,5 @@
 import { activeDiff, GeometryMaterial, Geometry, GEO_TYPE, Vec3, Json } from "https://deno.land/x/remapper@3.0.0/src/mod.ts" 
-
+import { logFunctionss } from './general.ts'
 type addGroupSettings = {
     // deno-lint-ignore no-explicit-any
     sceneName: any
@@ -16,15 +16,17 @@ export class geoMaterail {
         this.json = json
         return this
     }
-  
 
     constructor(name: string, material: GeometryMaterial) {
         const map = activeDiff
         
         map.geoMaterials[name+"Material"] = material
 
-
+        if(logFunctionss) {
+            console.log(`new GeoMaterial`, '\n', `name: ${name}`, '\n', `material: ${material}`)
+        }
     }
+  
     addGroup(addGroup: addGroupSettings) {
         if(addGroup.scale == undefined) { this.json.scale = [1, 1, 1]} else { this.json.scale = addGroup.scale}
         addGroup.sceneName.addPrimaryGroups(
@@ -33,4 +35,7 @@ export class geoMaterail {
             this.json.scale
         )
     }
+
+
+
 }
