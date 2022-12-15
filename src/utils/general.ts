@@ -1,6 +1,10 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
 import { ColorType, DIFFS, FILENAME, info, Note, RMLog } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 
+export function logFunctions() {
+  export const logFunctionss = true
+}
+
 /**
  * convert rgb values easily
  * @param value input your array of rgb 255-255!
