@@ -39,11 +39,8 @@ export class despawner {
     }
 }
 
-type ids = 
-    [[string, LOOKUP]]
-
 export class advDespawner {
-    constructor(ids: ids) {
+    constructor([ids: string, lookup: LOOKUP]) {
         ids.forEach(id => {
             const env = new Environment(id[0], id[1])
             env.position = [-9999, -9999, -9999];
