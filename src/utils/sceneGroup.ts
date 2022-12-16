@@ -4,6 +4,7 @@ import { logFunctionss } from "./general.ts"
  * @param object geometry or environment object for your group
  * @param ammount the ammount of the stated object
  * @param scale? the scale of your stated object 
+ * @author splashcard__
  */
 
 export class lightGroup {
