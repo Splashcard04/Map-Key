@@ -7,8 +7,9 @@ import { logFunctionss } from "./general.ts"
  * @author splashcard__
  */
 
-export class lightGroup {
+import { ModelScene, Geometry, Environment, Json } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 
+export class lightGroup {
     json: Json = {}
 
     import(json: Json) {
@@ -16,38 +17,53 @@ export class lightGroup {
         return this
     }
 
-    /**the minimum light id of your laser group, suggested intervals of 100 of multiple groups */
-    lightIDMin(id: number) {
-        this.json.lightID = id
+    amount(ammount: number) {
+        this.json.ammount = ammount
     }
-    /**the light type for your laser group to be lit with */
+    lightID(id: number) {
+        this.json.id = id
+    }
     lightType(type: number) {
-        this.json.lightType = type
+        this.json.type = type
     }
-    /** the name of your model scene */
     sceneName(name: ModelScene) {
-        this.json.sceneName = name
+        const scene = new ModelScene(new Geometry())
+        if(name === undefined) {
+            let name = scene
+        }
+        this.json.name = name
     }
-    /**the nae of your laser material in blender */
-    matName(matName: string) {
-        this.json.matName = matName
+    matName(mat: string) {
+        this.json.matname = mat
     }
-    constructor(object: GroupObjectTypes, ammount: number, scale?: [number, number, number]) {
-        const objTracks: string[] = [];
-        const sceneObj = object;
-        const sceneName = this.json.sceneName
-        sceneObj.lightID = this.json.lightID
-        sceneObj.lightType = this.json.lightType
+    constructor(object: Geometry | Environment, scale?: [number, number, number], anchor?: [number, number, number]) {
+        const lasers = this.json.ammount;
+        const laserTracks: string[] = [];
+        const laserEnv = object
+        if(scale === undefined) {
+            let scale = [1, 1, 1]
+            this.json.scale = scale
+        }
+        if(anchor === undefined) {
+            let anchor = [0, 0, 0]
+            this.json.anchor = anchor
+        }
+        this.json.scale = scale
+        this.json.anchor = anchor
 
-        for (let i = 1; i <= ammount; i++) objTracks.push(this.json.matName + `${i}`);
-        sceneName.addPrimaryGroups(objTracks, sceneObj, scale)
+        for (let i = 1; i <= lasers; i++) laserTracks.push(`${this.json.matname}`, `${i}`);
 
+        this.json.sceneName.addPrimaryGroups(
+            laserTracks,
+            laserEnv,
+            this.json.scale,
+            this.json.anchor
+        );
         if(logFunctionss) {
-            console.log(`new lightGroup in ${this.json.sceneName}`, '\n' `material name: ${this.json.matName}`, '\n', `object: ${object}`)
+            console.log(`new lightGroup`, '\n', `object: ${object}`, '\n', `ammount: ${this.json.ammount}`)
         }
     }
 }
-
 /**
  * add an object to a primaryGroup efficiently
  * @param sceneName the name of your model scene
