@@ -1,5 +1,5 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { ColorType, DIFFS, FILENAME, info, Note, RMLog } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { ColorType, DIFFS, FILENAME, info, Note, RMLog, Geometry, Track, activeDiffGet } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 
 export function logFunctions() {
   export const logFunctionss = true
@@ -35,6 +35,19 @@ export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => v
   notesBetween(time, timeEnd, forAll)
   arcsBetween(time, timeEnd, forAll)
   chainsBetween(time, timeEnd, forAll)
+}
+
+/**
+ * Works like notesBetween. Except it searches for geometry, with track as a filter rather than time.
+ * @param track The track of the geometry you wish to target.
+ * @param forEach Executed for every geometry piece.
+ */
+export function filterGeometry(track: Track, forEach: (x: Geometry) => void){
+  activeDiffGet().geometry((arr: any[]) =>{
+    arr.forEach(x =>{
+      if (x.track.has("track")) {forEach(x)}
+    });
+  });
 }
 
 export class blenderFrameMath {
