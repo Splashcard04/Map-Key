@@ -29,7 +29,7 @@ export function rgb(value: ColorType, colorMultiplier?: number) {
 }
 
 import { notesBetween, arcsBetween, chainsBetween} from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
-import { BFM_PROPS } from "../constants.ts";
+import { BFM_PROPS, GEO_FILTER_PROPERTIES } from "../constants.ts";
 
 export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => void) {
   notesBetween(time, timeEnd, forAll)
@@ -39,15 +39,27 @@ export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => v
 
 /**
  * Works like notesBetween. Except it searches for geometry, with track as a filter rather than time.
- * @param track The track of the geometry you wish to target.
- * @param forEach Executed for every geometry piece.
+ * @param property The property of the geometry you wish to target
+ * @param value The value of that property to pass.
+ * @param forEach Executed for every passed geometry piece.
  */
-export function filterGeometry(track: Track, forEach: (x: Geometry) => void){
-  activeDiffGet().geometry((arr: any[]) =>{
-    arr.forEach(x =>{
-      if (x.track.has("track")) {forEach(x)}
-    });
-  });
+export function filterGeometry(property: GEO_FILTER_PROPERTIES, value: number[] | string | number, forEach: (x: Geometry) => void){
+  activeDiffGet().geometry((arr: Geometry[]) =>{
+    if(property === "track"){
+      arr.forEach(x =>{
+        if (x.track.has(value.toString())){
+            forEach(x);
+        }
+      })
+    }
+    else {
+      arr.forEach((x) =>{
+        if(eval(`x.${property}.toString()`) == value.toString()){
+            forEach(x);
+        }
+      })
+    }
+  })
 }
 
 export class blenderFrameMath {
