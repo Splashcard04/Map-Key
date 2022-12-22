@@ -1,5 +1,5 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { ColorType, DIFFS, FILENAME, info, Note, RMLog, Geometry, Track, activeDiffGet } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { ColorType, DIFFS, FILENAME, info, Note, RMLog, Environment, Geometry, activeDiffGet } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 
 export function logFunctions() {
   export const logFunctionss = true
@@ -29,7 +29,7 @@ export function rgb(value: ColorType, colorMultiplier?: number) {
 }
 
 import { notesBetween, arcsBetween, chainsBetween} from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
-import { BFM_PROPS, GEO_FILTER_PROPERTIES } from "../constants.ts";
+import { BFM_PROPS, GEO_FILTER_PROPS, ENV_FILTER_PROPS } from "../constants.ts";
 
 export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => void) {
   notesBetween(time, timeEnd, forAll)
@@ -43,8 +43,26 @@ export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => v
  * @param value The value of that property to pass.
  * @param forEach Executed for every passed geometry piece.
  */
-export function filterGeometry(property: GEO_FILTER_PROPERTIES, value: number[] | string | number, forEach: (x: Geometry) => void){
+export function filterGeometry(property: GEO_FILTER_PROPS, value: number[] | string | number, forEach: (x: Geometry) => void){
   activeDiffGet().geometry((arr: Geometry[]) =>{
+    if(property === "track"){
+      arr.forEach(x =>{
+        if (x.track.has(value.toString())){
+            forEach(x);
+        }
+      })
+    }
+    else {
+      arr.forEach((x) =>{
+        if(eval(`x.${property}.toString()`) == value.toString()){
+            forEach(x);
+        }
+      })
+    }
+  })
+}
+export function filterEnvironments(property: ENV_FILTER_PROPS, value: number[] | string | number, forEach: (x: Environment) => void){
+  activeDiffGet().environment((arr: Environment[]) =>{
     if(property === "track"){
       arr.forEach(x =>{
         if (x.track.has(value.toString())){

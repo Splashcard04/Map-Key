@@ -7,7 +7,7 @@ export type BFM_PROPS =
     "_totalFrames" |
     "_framesPerBeat"
     
-export type GEO_FILTER_PROPERTIES = 
+export type GEO_FILTER_PROPS = 
     "track" |
     "position" |
     "position[0]" |
@@ -21,6 +21,23 @@ export type GEO_FILTER_PROPERTIES =
     "scale[0]" |
     "scale[1]" |
     "scale[2]"
+
+export type ENV_FILTER_PROPS = 
+    "track" |
+    "position" |
+    "position[0]" |
+    "position[1]" |
+    "position[2]" |
+    "rotation" |
+    "rotation[0]" |
+    "rotation[1]" |
+    "rotation[2]" |
+    "scale" |
+    "scale[0]" |
+    "scale[1]" |
+    "scale[2]" |
+    "id" |
+    "lookupMethod"
 
 export const Env = {
     gaga: {
