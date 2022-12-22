@@ -7,7 +7,7 @@ export type BFM_PROPS =
     "_totalFrames" |
     "_framesPerBeat"
     
-export type GEO_FILTER_PROPS = 
+    export type GEO_FILTER_PROPS = 
     "track" |
     "position" |
     "position[0]" |
@@ -20,7 +20,9 @@ export type GEO_FILTER_PROPS =
     "scale" |
     "scale[0]" |
     "scale[1]" |
-    "scale[2]"
+    "scale[2]" |
+    "type" |
+    "material"
 
 export type ENV_FILTER_PROPS = 
     "track" |
