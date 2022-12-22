@@ -38,7 +38,7 @@ export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => v
 }
 
 /**
- * Works like notesBetween. Except it searches for environments, with a set value for any property on the object as the filter.
+ * Works like notesBetween. Except it searches for geometry, with a set value for any property on the object as the filter.
  * @param property The property to check for on each geometry object.
  * @param value The value that the property must be to pass.
  * @param forEach What to execute for each object that passes.
