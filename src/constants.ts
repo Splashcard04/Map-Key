@@ -41,6 +41,43 @@ export type ENV_FILTER_PROPS =
     "id" |
     "lookupMethod"
 
+// I have no clue what I'm doing here - Aurellis
+// export enum GEO_FILTER_PROPS_ENUM {
+//     Track = "track",
+//     Position = "position",
+//     Position X = "position[0]",
+//     Position Y = "position[1]",
+//     Position Z = "position[2]",
+//     Rotation = "rotation",
+//     Rotation X = "rotation[0]",
+//     Rotation Y = "rotation[1]",
+//     Rotation Z = "rotation[2]",
+//     Scale = "scale",
+//     Scale X = "scale[0]",
+//     Scale Y = "scale[1]",
+//     Scale Z = "scale[2]",
+//     GeoType = "type",
+//     Material = "material"
+// }
+
+// export enum ENV_FILTER_PROPS_ENUM {
+//     Track = "track",
+//     Position = "position",
+//     Position X = "position[0]",
+//     Position Y = "position[1]",
+//     Position Z = "position[2]",
+//     Rotation = "rotation",
+//     Rotation X = "rotation[0]",
+//     Rotation Y = "rotation[1]",
+//     Rotation Z = "rotation[2]",
+//     Scale = "scale",
+//     Scale X = "scale[0]",
+//     Scale Y = "scale[1]",
+//     Scale Z = "scale[2]",
+//     ID = "id",
+//     LookupMethod = "lookupMethod"
+// }
+
 export const Env = {
     gaga: {
         Aurora: "AuroraSecondary$",
