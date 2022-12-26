@@ -112,3 +112,22 @@ export const colors = {
     brown: [0.5, 0.12, 0.01, 1] as ColorType,
     cyan: [0.1, 0.9, 0.9, 1]
 }
+
+// to use with params in the filter functions
+export enum position {
+  x = "position[0]",
+  y = "position[1]",
+  z = "position[2]"
+}
+
+export enum rotation {
+  pitch = "rotation[0]",
+  yaw = "rotation[1]",
+  roll = "rotation[2]",
+}
+
+export enum scale {
+  x = "scale[0]",
+  y = "scale[1]",
+  z = "scale[2]"
+}
