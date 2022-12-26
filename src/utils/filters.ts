@@ -1,4 +1,4 @@
-import { Geometry, activeDiffGet, Environment } from "https://deno.land/x/remapper/src/mod.ts"
+import { Geometry, activeDiffGet, Environment } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { GEO_FILTER_PROPS, ENV_FILTER_PROPS, position, rotation, scale } from "../constants.ts";
 
 /**
