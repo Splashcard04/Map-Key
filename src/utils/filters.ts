@@ -1,9 +1,9 @@
 import { Geometry, activeDiffGet, Environment } from "https://deno.land/x/remapper/src/mod.ts"
-import { BFM_PROPS, GEO_FILTER_PROPS, ENV_FILTER_PROPS, position, rotation, scale } from "../constants.ts";
+import { GEO_FILTER_PROPS, ENV_FILTER_PROPS, position, rotation, scale } from "../constants.ts";
 
 /**
  * Works like notesBetween. Except it searches for geometry, with a set value for any property on the object as the filter.
- * @param property The property to check for on each geometry object.
+ * @param property The property to check for on each geometry object. This can either be an autofill property like "position", or it can be one of the available enums (like position.x).
  * @param value The value that the property must be to pass.
  * @param forEach What to execute for each object that passes.
  * @author Aurellis
@@ -30,7 +30,7 @@ export function filterGeometry(property: GEO_FILTER_PROPS | position | rotation 
   
   /**
    * Works like notesBetween. Except it searches for environments, with a set value for any property on the object as the filter.
-   * @param property The property to check for on each environment object.
+   * @param property The property to check for on each environment object. This can either be an auto-fill property like "position", or it can be one of the available enums (like position.x).
    * @param value The value that the property must be to pass.
    * @param forEach What to execute for each object that passes.
    * @author Aurellis
