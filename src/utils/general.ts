@@ -1,5 +1,5 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { ColorType, DIFFS, FILENAME, info, Note, RMLog, Geometry, Track, activeDiffGet } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { ColorType, DIFFS, FILENAME, info, Note, RMLog, Environment, Geometry, activeDiffGet } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 
 export function logFunctions() {
   export const logFunctionss = true
@@ -29,7 +29,7 @@ export function rgb(value: ColorType, colorMultiplier?: number) {
 }
 
 import { notesBetween, arcsBetween, chainsBetween} from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
-import { BFM_PROPS } from "../constants.ts";
+import { BFM_PROPS, GEO_FILTER_PROPS, ENV_FILTER_PROPS } from "../constants.ts";
 
 export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => void) {
   notesBetween(time, timeEnd, forAll)
@@ -38,16 +38,57 @@ export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => v
 }
 
 /**
- * Works like notesBetween. Except it searches for geometry, with track as a filter rather than time.
- * @param track The track of the geometry you wish to target.
- * @param forEach Executed for every geometry piece.
+ * Works like notesBetween. Except it searches for geometry, with a set value for any property on the object as the filter.
+ * @param property The property to check for on each geometry object.
+ * @param value The value that the property must be to pass.
+ * @param forEach What to execute for each object that passes.
+ * @author Aurellis
+ * @todo Enum property for easier use.
  */
-export function filterGeometry(track: Track, forEach: (x: Geometry) => void){
-  activeDiffGet().geometry((arr: any[]) =>{
-    arr.forEach(x =>{
-      if (x.track.has("track")) {forEach(x)}
-    });
-  });
+export function filterGeometry(property: GEO_FILTER_PROPS, value: number[] | string | number, forEach: (x: Geometry) => void){
+  activeDiffGet().geometry((arr: Geometry[]) =>{
+    if(property === "track"){
+      arr.forEach(x =>{
+        if (x.track.has(value.toString())){
+            forEach(x);
+        }
+      })
+    }
+    else {
+      arr.forEach((x) =>{
+        if(eval(`x.${property}.toString()`) == value.toString()){
+            forEach(x);
+        }
+      })
+    }
+  })
+}
+
+/**
+ * Works like notesBetween. Except it searches for environments, with a set value for any property on the object as the filter.
+ * @param property The property to check for on each environment object.
+ * @param value The value that the property must be to pass.
+ * @param forEach What to execute for each object that passes.
+ * @author Aurellis
+ * @todo Enum property for easier use.
+ */
+export function filterEnvironments(property: ENV_FILTER_PROPS, value: number[] | string | number, forEach: (x: Environment) => void){
+  activeDiffGet().environment((arr: Environment[]) =>{
+    if(property === "track"){
+      arr.forEach(x =>{
+        if (x.track.has(value.toString())){
+            forEach(x);
+        }
+      })
+    }
+    else {
+      arr.forEach((x) =>{
+        if(eval(`x.${property}.toString()`) == value.toString()){
+            forEach(x);
+        }
+      })
+    }
+  })
 }
 
 export class blenderFrameMath {

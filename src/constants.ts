@@ -7,22 +7,94 @@ export type BFM_PROPS =
     "_totalFrames" |
     "_framesPerBeat"
     
+    export type GEO_FILTER_PROPS = 
+    "track" |
+    "position" |
+    "position[0]" |
+    "position[1]" |
+    "position[2]" |
+    "rotation" |
+    "rotation[0]" |
+    "rotation[1]" |
+    "rotation[2]" |
+    "scale" |
+    "scale[0]" |
+    "scale[1]" |
+    "scale[2]" |
+    "type" |
+    "material"
+
+export type ENV_FILTER_PROPS = 
+    "track" |
+    "position" |
+    "position[0]" |
+    "position[1]" |
+    "position[2]" |
+    "rotation" |
+    "rotation[0]" |
+    "rotation[1]" |
+    "rotation[2]" |
+    "scale" |
+    "scale[0]" |
+    "scale[1]" |
+    "scale[2]" |
+    "id" |
+    "lookupMethod"
+
+// I have no clue what I'm doing here - Aurellis
+// export enum GEO_FILTER_PROPS_ENUM {
+//     Track = "track",
+//     Position = "position",
+//     Position X = "position[0]",
+//     Position Y = "position[1]",
+//     Position Z = "position[2]",
+//     Rotation = "rotation",
+//     Rotation X = "rotation[0]",
+//     Rotation Y = "rotation[1]",
+//     Rotation Z = "rotation[2]",
+//     Scale = "scale",
+//     Scale X = "scale[0]",
+//     Scale Y = "scale[1]",
+//     Scale Z = "scale[2]",
+//     GeoType = "type",
+//     Material = "material"
+// }
+
+// export enum ENV_FILTER_PROPS_ENUM {
+//     Track = "track",
+//     Position = "position",
+//     Position X = "position[0]",
+//     Position Y = "position[1]",
+//     Position Z = "position[2]",
+//     Rotation = "rotation",
+//     Rotation X = "rotation[0]",
+//     Rotation Y = "rotation[1]",
+//     Rotation Z = "rotation[2]",
+//     Scale = "scale",
+//     Scale X = "scale[0]",
+//     Scale Y = "scale[1]",
+//     Scale Z = "scale[2]",
+//     ID = "id",
+//     LookupMethod = "lookupMethod"
+// }
+
 export const Env = {
     gaga: {
-        Aurora: "Aurora\\.\\[1\\]AuroraSecondary$",
-        Lightning: "[3\\]LightingWithTarget$",
-        solidLaser: "[0\\]FrontLaserL$",
-        directionalLight: "DirectionalLights\\.\\[0\\]DirectionalLightFront$"
+        Aurora: "AuroraSecondary$",
+        Lightning: "1L\\.\\[\\d+\\]\\w+\\.\\[\\d+\\]LightningWithTarget$",
+        solidLaser: "FrontLaserL$",
+        directionalLight: "DirectionalLightFront$",
+        gagaLogo: "[^Logo]{4}\\.\\[\\d+\\]Logo$",
     },
     billie: {
-        directionalLight: "DayAndNight\\.\\[0\\]Day\\.\\[1\\]DirectionalLightFront$",
-        solidLaser: "[46\\]BottomPairLasers\\.\\[0\\]PillarL\\.\\[0\\]RotationBaseL\\.\\[0\\]LaserLH"
+        directionalLight: "Day\\.\\[\\d+\\]\\w+Front$",
+        solidLaser: "\\w+\\.\\[\\d+\\]\\w+L\\.\\[\\d+\\]\\w+L\\.\\[\\d+\\]\\w+LH"
     },
 
     all: {
         cinemaScreen: "CinemaScreen$",
         cinemaDirLight: "CinemaDirectionalLight$",
-        mirror: "PlayersPlace\\.\\[d*\\]Mirror"
+        mirror: "Place\\.\\[\\d+\\]Mirror$"
     }
 }
 
