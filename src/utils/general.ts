@@ -42,6 +42,8 @@ export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => v
  * @param property The property to check for on each geometry object.
  * @param value The value that the property must be to pass.
  * @param forEach What to execute for each object that passes.
+ * @author Aurellis
+ * @todo Enum property for easier use.
  */
 export function filterGeometry(property: GEO_FILTER_PROPS, value: number[] | string | number, forEach: (x: Geometry) => void){
   activeDiffGet().geometry((arr: Geometry[]) =>{
@@ -67,6 +69,8 @@ export function filterGeometry(property: GEO_FILTER_PROPS, value: number[] | str
  * @param property The property to check for on each environment object.
  * @param value The value that the property must be to pass.
  * @param forEach What to execute for each object that passes.
+ * @author Aurellis
+ * @todo Enum property for easier use.
  */
 export function filterEnvironments(property: ENV_FILTER_PROPS, value: number[] | string | number, forEach: (x: Environment) => void){
   activeDiffGet().environment((arr: Environment[]) =>{

@@ -43,20 +43,20 @@ export type ENV_FILTER_PROPS =
 
 export const Env = {
     gaga: {
-        Aurora: "Aurora\\.\\[1\\]AuroraSecondary$",
-        Lightning: "[3\\]LightingWithTarget$",
-        solidLaser: "[0\\]FrontLaserL$",
-        directionalLight: "DirectionalLights\\.\\[0\\]DirectionalLightFront$"
+        Aurora: "AuroraSecondary$",
+        Lightning: "1L\\.\\[\\d+\\]\\w+\\.\\[\\d+\\]LightningWithTarget$",
+        solidLaser: "FrontLaserL$",
+        directionalLight: "DirectionalLightFront$"
     },
     billie: {
-        directionalLight: "DayAndNight\\.\\[0\\]Day\\.\\[1\\]DirectionalLightFront$",
-        solidLaser: "[46\\]BottomPairLasers\\.\\[0\\]PillarL\\.\\[0\\]RotationBaseL\\.\\[0\\]LaserLH"
+        directionalLight: "Day\\.\\[\\d+\\]\\w+Front$",
+        solidLaser: "\\w+\\.\\[\\d+\\]\\w+L\\.\\[\\d+\\]\\w+L\\.\\[\\d+\\]\\w+LH"
     },
 
     all: {
         cinemaScreen: "CinemaScreen$",
         cinemaDirLight: "CinemaDirectionalLight$",
-        mirror: "PlayersPlace\\.\\[d*\\]Mirror"
+        mirror: "Place\\.\\[\\d+\\]Mirror$"
     }
 }
 
