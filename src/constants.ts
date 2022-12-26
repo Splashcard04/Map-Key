@@ -83,7 +83,8 @@ export const Env = {
         Aurora: "AuroraSecondary$",
         Lightning: "1L\\.\\[\\d+\\]\\w+\\.\\[\\d+\\]LightningWithTarget$",
         solidLaser: "FrontLaserL$",
-        directionalLight: "DirectionalLightFront$"
+        directionalLight: "DirectionalLightFront$",
+        gagaLogo: "[^Logo]{4}\\.\\[\\d+\\]Logo$",
     },
     billie: {
         directionalLight: "Day\\.\\[\\d+\\]\\w+Front$",
