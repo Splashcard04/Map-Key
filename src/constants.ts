@@ -27,17 +27,8 @@ export type BFM_PROPS =
 export type ENV_FILTER_PROPS = 
     "track" |
     "position" |
-    "position[0]" |
-    "position[1]" |
-    "position[2]" |
     "rotation" |
-    "rotation[0]" |
-    "rotation[1]" |
-    "rotation[2]" |
     "scale" |
-    "scale[0]" |
-    "scale[1]" |
-    "scale[2]" |
     "id" |
     "lookupMethod"
 
