@@ -29,7 +29,7 @@ export function rgb(value: ColorType, colorMultiplier?: number) {
 }
 
 import { notesBetween, arcsBetween, chainsBetween} from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
-import { BFM_PROPS, GEO_FILTER_PROPS, ENV_FILTER_PROPS } from "../constants.ts";
+import { BFM_PROPS, GEO_FILTER_PROPS, ENV_FILTER_PROPS, position, rotation, scale } from "../constants.ts";
 
 export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => void) {
   notesBetween(time, timeEnd, forAll)
@@ -45,7 +45,7 @@ export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => v
  * @author Aurellis
  * @todo Enum property for easier use.
  */
-export function filterGeometry(property: GEO_FILTER_PROPS, value: number[] | string | number, forEach: (x: Geometry) => void){
+export function filterGeometry(property: GEO_FILTER_PROPS | position | rotation | scale, value: number[] | string | number, forEach: (x: Geometry) => void){
   activeDiffGet().geometry((arr: Geometry[]) =>{
     if(property === "track"){
       arr.forEach(x =>{
@@ -72,7 +72,7 @@ export function filterGeometry(property: GEO_FILTER_PROPS, value: number[] | str
  * @author Aurellis
  * @todo Enum property for easier use.
  */
-export function filterEnvironments(property: ENV_FILTER_PROPS, value: number[] | string | number, forEach: (x: Environment) => void){
+export function filterEnvironments(property: ENV_FILTER_PROPS | position | rotation| scale, value: number[] | string | number, forEach: (x: Environment) => void){
   activeDiffGet().environment((arr: Environment[]) =>{
     if(property === "track"){
       arr.forEach(x =>{
