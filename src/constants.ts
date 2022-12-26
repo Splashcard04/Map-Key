@@ -10,17 +10,8 @@ export type BFM_PROPS =
     export type GEO_FILTER_PROPS = 
     "track" |
     "position" |
-    "position[0]" |
-    "position[1]" |
-    "position[2]" |
     "rotation" |
-    "rotation[0]" |
-    "rotation[1]" |
-    "rotation[2]" |
     "scale" |
-    "scale[0]" |
-    "scale[1]" |
-    "scale[2]" |
     "type" |
     "material"
 
@@ -32,42 +23,25 @@ export type ENV_FILTER_PROPS =
     "id" |
     "lookupMethod"
 
-// I have no clue what I'm doing here - Aurellis
-// export enum GEO_FILTER_PROPS_ENUM {
-//     Track = "track",
-//     Position = "position",
-//     Position X = "position[0]",
-//     Position Y = "position[1]",
-//     Position Z = "position[2]",
-//     Rotation = "rotation",
-//     Rotation X = "rotation[0]",
-//     Rotation Y = "rotation[1]",
-//     Rotation Z = "rotation[2]",
-//     Scale = "scale",
-//     Scale X = "scale[0]",
-//     Scale Y = "scale[1]",
-//     Scale Z = "scale[2]",
-//     GeoType = "type",
-//     Material = "material"
-// }
+// to use with params in the filter functions
+export enum position {
+  x = "position[0]",
+  y = "position[1]",
+  z = "position[2]"
+}
 
-// export enum ENV_FILTER_PROPS_ENUM {
-//     Track = "track",
-//     Position = "position",
-//     Position X = "position[0]",
-//     Position Y = "position[1]",
-//     Position Z = "position[2]",
-//     Rotation = "rotation",
-//     Rotation X = "rotation[0]",
-//     Rotation Y = "rotation[1]",
-//     Rotation Z = "rotation[2]",
-//     Scale = "scale",
-//     Scale X = "scale[0]",
-//     Scale Y = "scale[1]",
-//     Scale Z = "scale[2]",
-//     ID = "id",
-//     LookupMethod = "lookupMethod"
-// }
+export enum rotation {
+  pitch = "rotation[0]",
+  yaw = "rotation[1]",
+  roll = "rotation[2]",
+}
+
+export enum scale {
+  x = "scale[0]",
+  y = "scale[1]",
+  z = "scale[2]"
+}
+
 
 export const Env = {
     gaga: {
@@ -102,23 +76,4 @@ export const colors = {
     yellow: [1, 1, 0.1, 1] as ColorType,
     brown: [0.5, 0.12, 0.01, 1] as ColorType,
     cyan: [0.1, 0.9, 0.9, 1]
-}
-
-// to use with params in the filter functions
-export enum position {
-  x = "position[0]",
-  y = "position[1]",
-  z = "position[2]"
-}
-
-export enum rotation {
-  pitch = "rotation[0]",
-  yaw = "rotation[1]",
-  roll = "rotation[2]",
-}
-
-export enum scale {
-  x = "scale[0]",
-  y = "scale[1]",
-  z = "scale[2]"
 }
