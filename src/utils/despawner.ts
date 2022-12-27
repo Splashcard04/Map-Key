@@ -40,21 +40,22 @@ export class despawner {
 }
 
 export class advDespawner {
-    constructor([ids: string, lookup: LOOKUP]) {
+    constructor(public ids: [string, LOOKUP][]) {
+        this.ids = ids;
         ids.forEach(id => {
             const env = new Environment(id[0], id[1])
             env.position = [-9999, -9999, -9999];
             env.push();
         })
     }
-    hardDespawn(hard: ids) {
-        hard.forEach(h => {
-            const env = new Environment(h[0], h[1])
+    hardDespawn() {
+        this.ids.forEach(id => {
+            const env = new Environment(id[0], id[1])
             env.active = false
             env.push();
         })
     }
-    exclude(excludes: ids) {
+    exclude(excludes: [string,LOOKUP][]) {
         excludes.forEach(ex => {
             const env = new Environment(ex[0], ex[1])
             env.active = true
