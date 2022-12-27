@@ -8,7 +8,7 @@ type addGroupSettings = {
     scale?: Vec3
 }
 
-export class geoMaterail {
+export class geoMaterial {
 
     json: Json = {}
 
@@ -31,7 +31,7 @@ export class geoMaterail {
         if(addGroup.scale == undefined) { this.json.scale = [1, 1, 1]} else { this.json.scale = addGroup.scale}
         addGroup.sceneName.addPrimaryGroups(
             addGroup.blenderMatName,
-            new Geometry(addGroup.geoType, geoMaterail.name+"Material"),
+            new Geometry(addGroup.geoType, geoMaterial.name+"Material"),
             this.json.scale
         )
     }
