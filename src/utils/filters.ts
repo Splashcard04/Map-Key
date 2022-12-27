@@ -36,7 +36,7 @@ export function filterGeometry(property: GEO_FILTER_PROPS | position | rotation 
    * @author Aurellis
    * @todo Enum property for easier use.
    */
-  export function filterEnvironments(property: ENV_FILTER_PROPS | position | rotation| scale, value: number[] | string | number, forEach: (x: Environment) => void){
+  export function filterEnvironments(property: ENV_FILTER_PROPS | position | rotation | scale, value: number[] | string | number, forEach: (x: Environment) => void){
     activeDiffGet().environment((arr: Environment[]) =>{
       if(property === "track"){
         arr.forEach(x =>{
