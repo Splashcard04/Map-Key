@@ -30,7 +30,7 @@ export class noteFilter {
       if (pass) forNote(n);
     });
     if(logFunctionss) {
-      console.log(`new Note Filter at ${timeStart} until ${timeEnd}`, '\n' `positions: ${this.json.positions}`)
+      console.log(`new Note Filter at ${timeStart} until ${timeEnd} \n positions: ${this.json.positions}`)
     }
   }
 }
