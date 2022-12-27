@@ -57,7 +57,7 @@ export class shapeGenerator {
                 cube.push();
                 
                 if(logFunctionss) {
-                    console.log(`new shape generated`, '\n' `sides: ${this.sides}`, '\n' `radius: ${this.radius}`, '\n', `track: ${this.track}`)
+                    console.log(`new shape generated\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`)
                 }
             }
         }
