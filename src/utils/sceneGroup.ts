@@ -1,4 +1,4 @@
-import { GroupObjectTypes, Json, ModelScene } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { Environment, Geometry, GroupObjectTypes, Json, ModelScene } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 import { logFunctionss } from "./general.ts" 
 /**
  * @param object geometry or environment object for your group
@@ -6,8 +6,6 @@ import { logFunctionss } from "./general.ts"
  * @param scale? the scale of your stated object 
  * @author splashcard__
  */
-
-import { ModelScene, Geometry, Environment, Json } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 
 export class lightGroup {
     json: Json = {}
@@ -41,11 +39,11 @@ export class lightGroup {
         const laserTracks: string[] = [];
         const laserEnv = object
         if(scale === undefined) {
-            let scale = [1, 1, 1]
+            const scale = [1, 1, 1]
             this.json.scale = scale
         }
         if(anchor === undefined) {
-            let anchor = [0, 0, 0]
+            const anchor = [0, 0, 0]
             this.json.anchor = anchor
         }
         this.json.scale = scale
@@ -60,7 +58,7 @@ export class lightGroup {
             this.json.anchor
         );
         if(logFunctionss) {
-            console.log(`new lightGroup`, '\n', `object: ${object}`, '\n', `ammount: ${this.json.ammount}`)
+            console.log(`new lightGroup\nobject: ${object}\nammount: ${this.json.ammount}`)
         }
     }
 }
