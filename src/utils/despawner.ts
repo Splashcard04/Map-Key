@@ -40,6 +40,11 @@ export class despawner {
 }
 
 export class advDespawner {
+    /**
+     * A class to aid in the despawning of objects. Handles each object separately with per-object lookup.
+     * @param ids The objects to despawn, and the lookup to use for each object.
+     * @example new advDespawner([["Environment","Contains"],["PlayersPlace$","Regex"]]);
+     */
     constructor(public ids: [string, LOOKUP][]) {
         this.ids = ids;
         ids.forEach(id => {
@@ -48,6 +53,10 @@ export class advDespawner {
             env.push();
         })
     }
+    /**
+     * Sets the objects as `"_active": false` on top of changing their position.
+     * Useful for objects that don't respond to a position value.
+     */
     hardDespawn() {
         this.ids.forEach(id => {
             const env = new Environment(id[0], id[1])
@@ -55,6 +64,11 @@ export class advDespawner {
             env.push();
         })
     }
+    /**
+     * The ids to exclude from despawning. Sets their position to [0,0,0] and active to true.
+     * If hardDespawn is used, this will need to be executed after, or it won't work.
+     * @param excludes The ids to exclude. Uses the same format as when the class is initialized.
+     */
     exclude(excludes: [string,LOOKUP][]) {
         excludes.forEach(ex => {
             const env = new Environment(ex[0], ex[1])
