@@ -53,7 +53,12 @@ export const Env = {
     },
     billie: {
         directionalLight: "Day\\.\\[\\d+\\]\\w+Front$",
-        solidLaser: "\\w+\\.\\[\\d+\\]\\w+L\\.\\[\\d+\\]\\w+L\\.\\[\\d+\\]\\w+LH"
+        solidLaser: "\\w+\\.\\[\\d+\\]\\w+L\\.\\[\\d+\\]\\w+L\\.\\[\\d+\\]\\w+LH",
+        sun: "Sun$",
+        clouds: "Clouds$",
+        smoke: "BigSmokePS$",
+        railLight: "t\\.\\[\\d+\\]Neon\\w+L$",
+        rain: "Rain$"
     },
 
     all: {
