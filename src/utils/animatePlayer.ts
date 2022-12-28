@@ -1,15 +1,66 @@
 import { KeyframesVec3, CustomEvent, Note } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 import { allBetween, logFunctionss } from './general.ts' 
-/**
- * animate the player and notes at once :)
- * @param time the time at which the track will start
- * @param timeMax the end time of the animate track
- * @param positions the position of the animate Track CAN USE MULTIPLE POINTS
- * @param rotations the rotation animation of the player track
- * @author splashcard__
-*/
 
-//Saving it so I don't fuck it up too bad - Aurellis
+export class playerAnim {
+  /**
+   * Class to help with animating the player and the notes together.
+   * @param time The time to start the animation.
+   * @param duration The duration of the animation.
+   * @param position Any position keyframes to add.
+   * @param rotation Any rotation keyframes to add.
+   * @param playerTrack (optional) The track to assign the player to. This must not be the same as noteTrack. Or if noteTrack is undefined, playerTrack must not be "playerAnimNote".
+   * @param noteTrack (optional) The track to assign the notes. This can be a pre-existing track that you have already assigned the notes.
+   * @author splashcard__ & Aurellis
+   */
+  constructor(public time: number, public duration: number, public position?: KeyframesVec3, public rotation?: KeyframesVec3, public playerTrack?: string, public noteTrack?: string) {
+    this.time = time;
+    this.duration = duration;
+    this.position = position;
+    this.rotation = rotation;
+    this.playerTrack = playerTrack;
+    this.noteTrack = noteTrack;
+  }
+  push() {
+    // Confirms that there is a track for the player
+    if(typeof(this.playerTrack) !== "string"){
+      this.playerTrack = "player";
+    }
+    // Confirms that there is a track for the notes
+    if(typeof(this.noteTrack) !== "string"){
+      this.noteTrack = "playerAnimNote";
+    }
+
+    new CustomEvent(this.time).assignPlayerToTrack(this.playerTrack).push();
+    new CustomEvent(this.time).assignTrackParent([this.noteTrack],this.playerTrack).push();
+
+    allBetween(this.time, this.time+this.duration, (note: Note) => {
+      // For some reason I have to do this again????
+      if(typeof(this.noteTrack) !== "string"){
+        this.noteTrack = "playerAnimNote";
+      }
+      // Incase the notes already have the track, it won't assign the track again.
+      if(!note.track.has(this.noteTrack)){
+        note.track.add(this.noteTrack)
+      }
+    });
+
+    const player = new CustomEvent(this.time).animateTrack(this.playerTrack, this.duration);
+    if(this.position){
+      player.animate.position = this.position;
+    }
+    if(this.rotation){
+      player.animate.rotation = this.rotation;
+    }
+    player.push();
+
+    if(logFunctionss) {
+      console.log(`
+      new player animation at ${this.time} and ending at ${this.time+this.duration}
+      `, '\n', `positions: ${this.position}`, '\n', `rotations: ${this.rotation}`)
+    }
+
+  }
+}
 
 // export class playerAnim {
 //   json: Json = {}
@@ -74,65 +125,3 @@ import { allBetween, logFunctionss } from './general.ts'
 //     }
 //   }
 // }
-
-
-export class playerAnim {
-  /**
-   * Class to help with animating the player and the notes together.
-   * @param time The time to start the animation.
-   * @param duration The duration of the animation.
-   * @param position Any position keyframes to add.
-   * @param rotation Any rotation keyframes to add.
-   * @param playerTrack (optional) The track to assign the player to. This must not be the same as noteTrack. Or if noteTrack is undefined, playerTrack must not be "playerAnimNote".
-   * @param noteTrack (optional) The track to assign the notes. This can be a pre-existing track that you have already assigned the notes.
-   * @author splashcard__ & Aurellis
-   */
-  constructor(public time: number, public duration: number, public position?: KeyframesVec3, public rotation?: KeyframesVec3, public playerTrack?: string, public noteTrack?: string) {
-    this.time = time;
-    this.duration = duration;
-    this.position = position;
-    this.rotation = rotation;
-    this.playerTrack = playerTrack;
-    this.noteTrack = noteTrack;
-  }
-  push() {
-    // Confirms that there is a track for the player
-    if(typeof(this.playerTrack) !== "string"){
-      this.playerTrack = "player";
-    }
-    // Confirms that there is a track for the notes
-    if(typeof(this.noteTrack) !== "string"){
-      this.noteTrack = "playerAnimNote";
-    }
-
-    new CustomEvent(this.time).assignPlayerToTrack(this.playerTrack).push();
-    new CustomEvent(this.time).assignTrackParent([this.noteTrack],this.playerTrack).push();
-
-    allBetween(this.time, this.time+this.duration, (note: Note) => {
-      // For some reason I have to do this again????
-      if(typeof(this.noteTrack) !== "string"){
-        this.noteTrack = "playerAnimNote";
-      }
-      // Incase the notes already have the track, it won't assign the track again.
-      if(!note.track.has(this.noteTrack)){
-        note.track.add(this.noteTrack)
-      }
-    });
-
-    const player = new CustomEvent(this.time).animateTrack(this.playerTrack, this.duration);
-    if(this.position){
-      player.animate.position = this.position;
-    }
-    if(this.rotation){
-      player.animate.rotation = this.rotation;
-    }
-    player.push();
-
-    if(logFunctionss) {
-      console.log(`
-      new player animation at ${this.time} and ending at ${this.time+this.duration}
-      `, '\n', `positions: ${this.position}`, '\n', `rotations: ${this.rotation}`)
-    }
-
-  }
-}
