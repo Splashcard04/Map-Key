@@ -9,5 +9,6 @@ export * from './utils/notePath.ts'
 export * from './utils/sceneGroup.ts'
 export * from './utils/shapeGenerator.ts'
 export * from './utils/filters.ts'
+export * from './utils/multiEnv.ts'
 
 export * from './misc/logMapData.ts'
