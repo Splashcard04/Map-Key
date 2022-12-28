@@ -1,6 +1,5 @@
-import { Environment, LOOKUP } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
-
-// TODO: add logfunctionss to both classes
+import { Environment, LOOKUP, RMLog } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { logFunctionss } from "./general.ts"
 
 export class despawner {
     public lookup?: LOOKUP = "Contains";
@@ -12,7 +11,10 @@ export class despawner {
      */
     constructor(lookup?: LOOKUP, public ids?: string[]) {
         this.lookup = lookup;
-        this.ids = ids
+        this.ids = ids;
+        if(logFunctionss){
+            RMLog("Despawner added...")
+        }
     }
     /**
      * After running despawn(), this can restore Environment objects back to [0,0,0] for later use.
@@ -25,7 +27,10 @@ export class despawner {
             const env = new Environment(id, this.lookup);
             env.position = [0,0,0]
             env.push()
-        })
+        });
+        if(logFunctionss){
+            RMLog(`Despawner restored ${ids.length} environments...`)
+        }
     }
     /**
      * Despawns objects using the `active` property.
@@ -36,7 +41,10 @@ export class despawner {
             const env = new Environment(id, this.lookup);
             env.active = false;
             env.push()
-        })
+        });
+        if(logFunctionss){
+            RMLog(`Despawner hard-despawned ${this.ids?.length} environments...`)
+        }
     }
     /**
      * Despawns objects using the `position` property.
@@ -46,7 +54,10 @@ export class despawner {
             const env = new Environment(id, this.lookup);
             env.position = [-69420,-69420,-69420];
             env.push()
-        })
+        });
+        if(logFunctionss){
+            RMLog(`Despawner removed ${this.ids?.length} environments...`)
+        }
     }
 }
 
@@ -62,6 +73,9 @@ export class advDespawner {
         if(ids){
             this.ids = ids
         }
+        if(logFunctionss){
+            RMLog("Advanced Despawner added...")
+        }
     }
     /**
      * Despawns objects using the `active` property.
@@ -72,7 +86,10 @@ export class advDespawner {
             const env = new Environment(id[0], id[1]);
             env.active = false;
             env.push()
-        })
+        });
+        if(logFunctionss){
+            RMLog(`Despawner hard-despawned ${this.ids?.length} environments...`)
+        }
     }
     /**
      * After running despawn(), this can restore Environment objects back to [0,0,0] for later use.
@@ -84,7 +101,10 @@ export class advDespawner {
             const env = new Environment(ex[0], ex[1]);
             env.position = [0, 0, 0];
             env.push()
-        })
+        });
+        if(logFunctionss){
+            RMLog(`Despawner restored ${ids.length} environments...`)
+        }
     }
     /**
      * Despawns objects using the `position` property.
@@ -94,6 +114,9 @@ export class advDespawner {
             const env = new Environment(id[0], id[1]);
             env.position = [-69420,-69420,-69420];
             env.push()
-        })
+        });
+        if(logFunctionss){
+            RMLog(`Despawner removed ${this.ids?.length} environments...`)
+        }
     }
 }
