@@ -11,11 +11,7 @@ export class multiEnv {
     constructor(public ids: [string, LOOKUP][], public forEach?: (x: Environment) => void){
         this.ids = ids;
         this.forEach = forEach;
-    }
-    /**
-     * Pushes the envs to the diff.
-     */
-    push(){
+
         this.ids.forEach(x =>{
             const env = new Environment(x[0],x[1]);
             if(this.forEach){
