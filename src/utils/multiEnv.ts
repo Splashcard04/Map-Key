@@ -1,5 +1,6 @@
 import { Environment, LOOKUP } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 
+// Ok, we can use this later
 // export class multiEnv {
 //     /**
 //      * A class to aid in the manipulation of multiple environment pieces at once.
@@ -26,6 +27,7 @@ import { Environment, LOOKUP } from "https://deno.land/x/remapper@3.1.1/src/mod.
 //     }
 // }
 
+// It's a function for now, so the push() statements need to be made in the forEach section.
 /**
  * Function to aid the manipulation of multiple environment pieces at once.
  * @param ids The ids and lookup for each environment piece.
