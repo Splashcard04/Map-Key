@@ -1,6 +1,5 @@
-import { Environment, LOOKUP } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-
-// TODO: logFunctions?
+import { Environment, LOOKUP, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { logFunctionss } from "./general.ts";
 
 export class multiEnv {
     /**
@@ -16,7 +15,7 @@ export class multiEnv {
     }
     /**
      * Pushes the envs to the diff.
-     * If you had a `push()` statement in the `forEach` section, your environments will be pushed twice.
+     * If you have a `push()` statement in the `forEach` section, your environments will be pushed twice.
      */
     push(){
         this.ids.forEach(x =>{
@@ -25,6 +24,9 @@ export class multiEnv {
                 this.forEach(env);
             }
             env.push();
-        })
+        });
+        if(logFunctionss){
+            RMLog(`Added a multi-environment with ${this.ids.length} ids...`)
+        }
     }
 }

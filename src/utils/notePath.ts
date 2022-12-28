@@ -1,4 +1,4 @@
-import { notesBetween, Note, Json } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { notesBetween, Note, Json, RMLog } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 import { logFunctionss } from "./general.ts" 
  /**
  * @param timeStart the time to start applying the custom data to the notes
@@ -20,7 +20,7 @@ export class noteSplit {
     this.json.time = time;
     this.json.timeEnd = timeEnd;
     if(logFunctionss) {
-      console.log(`new split note path at ${time} ending at ${timeEnd}`)
+      RMLog(`Added new split note path at ${time} ending at ${timeEnd}...`)
     }
   }
   left(forNoteL: (n: Note) => void) {

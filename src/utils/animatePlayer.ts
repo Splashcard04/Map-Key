@@ -1,4 +1,4 @@
-import { KeyframesVec3, CustomEvent, Note } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { KeyframesVec3, CustomEvent, Note, RMLog } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 import { allBetween, logFunctionss } from './general.ts' 
 
 export class playerAnim {
@@ -54,9 +54,7 @@ export class playerAnim {
     player.push();
 
     if(logFunctionss) {
-      console.log(`
-      new player animation at ${this.time} and ending at ${this.time+this.duration}
-      `, '\n', `positions: ${this.position}`, '\n', `rotations: ${this.rotation}`)
+      RMLog(`New player animation added at ${this.time}...\nending at: ${this.time+this.duration}`)
     }
 
   }

@@ -1,5 +1,6 @@
-import { Geometry, activeDiffGet, Environment } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { Geometry, activeDiffGet, Environment, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { GEO_FILTER_PROPS, ENV_FILTER_PROPS, position, rotation, scale } from "../constants.ts";
+import { logFunctionss } from "./general.ts";
 
 /**
  * Works like notesBetween. Except it searches for geometry, with a set value for any property on the object as the filter.
@@ -10,11 +11,13 @@ import { GEO_FILTER_PROPS, ENV_FILTER_PROPS, position, rotation, scale } from ".
  * @todo Enum property for easier use.
  */
 export function filterGeometry(property: GEO_FILTER_PROPS | position | rotation | scale, value: number[] | string | number, forEach: (x: Geometry) => void){
+    let count = 0
     activeDiffGet().geometry((arr: Geometry[]) =>{
       if(property === "track"){
         arr.forEach(x =>{
           if (x.track.has(value.toString())){
               forEach(x);
+              count++
           }
         })
       }
@@ -22,10 +25,14 @@ export function filterGeometry(property: GEO_FILTER_PROPS | position | rotation 
         arr.forEach((x) =>{
           if(eval(`x.${property}.toString()`) == value.toString()){
               forEach(x);
+              count++
           }
         })
       }
     })
+    if(logFunctionss){
+      RMLog(`Filtered ${activeDiffGet().geometry(arr =>{arr.length})} environments for objects with a ${property} of ${value}...\nobjects found: ${count}`)
+    }
   }
   
   /**
@@ -37,11 +44,13 @@ export function filterGeometry(property: GEO_FILTER_PROPS | position | rotation 
    * @todo Enum property for easier use.
    */
   export function filterEnvironments(property: ENV_FILTER_PROPS | position | rotation | scale, value: number[] | string | number, forEach: (x: Environment) => void){
+    let count = 0
     activeDiffGet().environment((arr: Environment[]) =>{
       if(property === "track"){
         arr.forEach(x =>{
           if (x.track.has(value.toString())){
               forEach(x);
+              count++
           }
         })
       }
@@ -49,8 +58,12 @@ export function filterGeometry(property: GEO_FILTER_PROPS | position | rotation 
         arr.forEach((x) =>{
           if(eval(`x.${property}.toString()`) == value.toString()){
               forEach(x);
+              count++
           }
         })
       }
     })
+    if(logFunctionss){
+      RMLog(`Filtered ${activeDiffGet().geometry(arr =>{arr.length})} environments for objects with a ${property} of ${value}...\nobjects found: ${count}`)
+    }
 }

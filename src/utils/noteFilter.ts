@@ -1,4 +1,4 @@
-import { notesBetween, Vec2, Note, Json } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { notesBetween, Vec2, Note, Json, RMLog } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
 import { logFunctionss } from "./general.ts" 
 /**
 * filters notes at certain positions
@@ -30,7 +30,7 @@ export class noteFilter {
       if (pass) forNote(n);
     });
     if(logFunctionss) {
-      console.log(`new Note Filter at ${timeStart} until ${timeEnd} \n positions: ${this.json.positions}`)
+      RMLog(`Added new Note Filter at ${timeStart} until ${timeEnd}...\nUsing positions: ${this.json.positions}`)
     }
   }
 }

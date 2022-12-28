@@ -1,4 +1,4 @@
-import { Geometry, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.0.0/src/mod.ts";
+import { Geometry, RMLog, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.0.0/src/mod.ts";
 import { logFunctionss } from './general.ts'
 export class shapeGenerator {
     /**
@@ -57,7 +57,7 @@ export class shapeGenerator {
                 cube.push();
                 
                 if(logFunctionss) {
-                    console.log(`new shape generated\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`)
+                    RMLog(`New shape generated...\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`)
                 }
             }
         }
