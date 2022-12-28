@@ -12,26 +12,28 @@ export class despawner {
      */
     constructor(lookup?: LOOKUP, public ids?: string[]) {
         this.lookup = lookup;
-        this.ids = ids;
+        this.ids = ids
     }
     /**
-     * After running despawn(), this can restore Environment objects back to [0,0,0] for later use. It cannot restore objects that were despawned using hardDespawn()
+     * After running despawn(), this can restore Environment objects back to [0,0,0] for later use.
+     * It cannot restore objects that were despawned using hardDespawn()
      * @param ids The ids of the objects to restore.
      */
     restore(ids: string[]) {
         // Setting objects as `active = true` after running hardDespawn doesn't work sadly.
         ids.forEach(id =>{
-            const env = new Environment(id,this.lookup)
+            const env = new Environment(id, this.lookup);
             env.position = [0,0,0]
             env.push()
         })
     }
     /**
      * Despawns objects using the `active` property.
+     * Useful for objects that don't respond to the `position` property.
      */
     hardDespawn(){
         this.ids?.forEach(id =>{
-            const env = new Environment(id,this.lookup)
+            const env = new Environment(id, this.lookup);
             env.active = false;
             env.push()
         })
@@ -41,50 +43,57 @@ export class despawner {
      */
     despawn(){
         this.ids?.forEach(id =>{
-            const env = new Environment(id,this.lookup)
-            env.position = [-69420,-69420,-69420]
+            const env = new Environment(id, this.lookup);
+            env.position = [-69420,-69420,-69420];
             env.push()
-        });
+        })
     }
 }
 
 export class advDespawner {
+    public ids: [string, LOOKUP][] = [];
     /**
      * A class to aid in the despawning of objects. Handles each object separately with per-object lookup.
      * @param ids The objects to despawn, and the lookup to use for each object.
-     * @example new advDespawner([["Environment","Contains"],["PlayersPlace$","Regex"]]);
+     * @example new advDespawner([["Environment","Contains"],["PlayersPlace$","Regex"]]).despawn();
      * @author splashcard__
      */
-    constructor(public ids: [string, LOOKUP][]) {
-        this.ids = ids;
-        ids.forEach(id => {
-            const env = new Environment(id[0], id[1])
-            env.position = [-69420, -69420, -69420];
-            env.push();
-        })
+    constructor(ids?: [string, LOOKUP][]) {
+        if(ids){
+            this.ids = ids
+        }
     }
     /**
-     * Sets the objects as `"_active": false` on top of changing their position.
-     * Useful for objects that don't respond to a position value.
+     * Despawns objects using the `active` property.
+     * Useful for objects that don't respond to the `position` property.
      */
     hardDespawn() {
         this.ids.forEach(id => {
-            const env = new Environment(id[0], id[1])
-            env.active = false
-            env.push();
+            const env = new Environment(id[0], id[1]);
+            env.active = false;
+            env.push()
         })
     }
     /**
-     * The ids to exclude from despawning. Sets their position to [0,0,0] and active to true.
-     * If hardDespawn is used, this will need to be executed after, or it won't work.
-     * @param excludes The ids to exclude. Uses the same format as when the class is initialized.
+     * After running despawn(), this can restore Environment objects back to [0,0,0] for later use.
+     * It cannot restore objects that were despawned using hardDespawn()
+     * @param ids The ids of the objects to restore.
      */
-    exclude(excludes: [string,LOOKUP][]) {
-        excludes.forEach(ex => {
-            const env = new Environment(ex[0], ex[1])
-            env.active = true
-            env.position = [0, 0, 0]
-            env.push();
+    restore(ids: [string, LOOKUP][]) {
+        ids.forEach(ex => {
+            const env = new Environment(ex[0], ex[1]);
+            env.position = [0, 0, 0];
+            env.push()
+        })
+    }
+    /**
+     * Despawns objects using the `position` property.
+     */
+    despawn(){
+        this.ids.forEach(id =>{
+            const env = new Environment(id[0], id[1]);
+            env.position = [-69420,-69420,-69420];
+            env.push()
         })
     }
 }
