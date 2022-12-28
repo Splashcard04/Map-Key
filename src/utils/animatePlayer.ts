@@ -83,8 +83,9 @@ export class playerAnim {
    * @param duration The duration of the animation.
    * @param position Any position keyframes to add.
    * @param rotation Any rotation keyframes to add.
-   * @param playerTrack (optional) The track to assign the player to
+   * @param playerTrack (optional) The track to assign the player to. This must not be the same as noteTrack. Or if noteTrack is undefined, playerTrack must not be "playerAnimNote".
    * @param noteTrack (optional) The track to assign the notes. This can be a pre-existing track that you have already assigned the notes.
+   * @author splashcard__ & Aurellis
    */
   constructor(public time: number, public duration: number, public position?: KeyframesVec3, public rotation?: KeyframesVec3, public playerTrack?: string, public noteTrack?: string) {
     this.time = time;
