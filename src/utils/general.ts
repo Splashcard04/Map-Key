@@ -3,7 +3,10 @@ import { ColorType, DIFFS, FILENAME, info, Note, RMLog } from "https://deno.land
 
 export let logFunctionss = false
 
-export function logFunctions() {
+/**
+ * Put this at the top of your script to console log functions as they are executed.
+ */
+export function logFunctions(): void {
   logFunctionss = true;
 }
 

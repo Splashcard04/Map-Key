@@ -27,7 +27,8 @@ export class lightGroup {
     sceneName(name: ModelScene) {
         const scene = new ModelScene(new Geometry())
         if(name === undefined) {
-            let name = scene
+            // deno-lint-ignore no-unused-vars
+            const name = scene
         }
         this.json.name = name
     }
