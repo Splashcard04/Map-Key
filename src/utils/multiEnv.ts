@@ -1,5 +1,7 @@
 import { Environment, LOOKUP } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 
+// TODO: logFunctions?
+
 export class multiEnv {
     /**
      * A class to aid in the manipulation of multiple environment pieces at once.
