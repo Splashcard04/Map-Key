@@ -26,17 +26,3 @@ export class multiEnv {
         })
     }
 }
-
-// /**
-//  * Function to aid the manipulation of multiple environment pieces at once.
-//  * @param ids The ids and lookup for each environment piece.
-//  * @param forEach The code to execute for each environment piece.
-//  * @example multiEnv([["Sun","Contains"],["Clouds$","Regex"]], (env) => { env.active = false; env.push()})
-//  * @author Aurellis
-//  */
-// export function multiEnv(ids: [string, LOOKUP][], forEach: (x: Environment) => void){
-//     ids.forEach(x =>{
-//         const env = new Environment(x[0],x[1]);
-//         forEach(env);
-//     });
-// }
