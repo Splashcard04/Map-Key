@@ -1,41 +1,50 @@
-import { Environment, LOOKUP, Json } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { Environment, LOOKUP } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+
+// TODO: add logfunctionss to both classes
 
 export class despawner {
-    json: Json = {}
-
-    import(json: Json) {
-        this.json = json
-        return this
+    public lookup?: LOOKUP = "Contains";
+    /**
+     * A class to aid in the despawning of environment pieces.
+     * @param lookup The lookup method to use.
+     * @param ids The ids of the pieces to despawn.
+     * @author splashcard__
+     */
+    constructor(lookup?: LOOKUP, public ids?: string[]) {
+        this.lookup = lookup;
+        this.ids = ids;
     }
-    constructor(lookup?: LOOKUP, ids?: string[]) {
-        if(lookup == undefined) { this.json.lookup = "Contains" } else { this.json.lookup = lookup}
-        if(ids !== undefined) {
-            this.json.ids = ids
-            ids.forEach(id => {
-                const env = new Environment(id, this.json.lookup)
-                env.position = [-9999, -9999, -9999]
-                env.push();
-            })
-        } else {
-            const env = new Environment("Environment", this.json.lookup)
-            env.position = [-9999, -9999, -9999]
-            env.push();
-        }
-
-    }
-    excludes(ids: string[]) {
-        ids.forEach(id => {
-            const env = new Environment(id, this.json.lookup)
-            env.position = [0, 0, 0]
-            env.push();
+    /**
+     * After running despawn(), this can restore Environment objects back to [0,0,0] for later use. It cannot restore objects that were despawned using hardDespawn()
+     * @param ids The ids of the objects to restore.
+     */
+    restore(ids: string[]) {
+        // Setting objects as `active = true` after running hardDespawn doesn't work sadly.
+        ids.forEach(id =>{
+            const env = new Environment(id,this.lookup)
+            env.position = [0,0,0]
+            env.push()
         })
     }
-    hardDespawn() {
-        this.json.ids.forEach((id: string) => {
-            const env = new Environment(id, this.json.lookup)
-            env.active = false
-            env.push();
+    /**
+     * Despawns objects using the `active` property.
+     */
+    hardDespawn(){
+        this.ids?.forEach(id =>{
+            const env = new Environment(id,this.lookup)
+            env.active = false;
+            env.push()
         })
+    }
+    /**
+     * Despawns objects using the `position` property.
+     */
+    despawn(){
+        this.ids?.forEach(id =>{
+            const env = new Environment(id,this.lookup)
+            env.position = [-69420,-69420,-69420]
+            env.push()
+        });
     }
 }
 
