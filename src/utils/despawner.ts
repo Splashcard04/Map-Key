@@ -44,12 +44,13 @@ export class advDespawner {
      * A class to aid in the despawning of objects. Handles each object separately with per-object lookup.
      * @param ids The objects to despawn, and the lookup to use for each object.
      * @example new advDespawner([["Environment","Contains"],["PlayersPlace$","Regex"]]);
+     * @author splashcard__
      */
     constructor(public ids: [string, LOOKUP][]) {
         this.ids = ids;
         ids.forEach(id => {
             const env = new Environment(id[0], id[1])
-            env.position = [-9999, -9999, -9999];
+            env.position = [-69420, -69420, -69420];
             env.push();
         })
     }
