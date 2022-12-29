@@ -6,7 +6,7 @@ Map Key is a typescript library designed to extend [ReMapper](https://github.com
 # Installation
 To use Map Key in your script, you will need to import it. This works in the same way as ReMapper.
 
-You can either import all items (not reccomended as you will have to prefix everything with `mk.`
+You can either import all items (not recommended as you will have to prefix everything with `mk.`).
 ```ts
 import * as mk from "https://deno.land/x/mapkey@0.0.3/src/exports.ts"
 ```
