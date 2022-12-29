@@ -22,4 +22,4 @@ to get started with map key, head over to the [Wiki](https://github.com/Splashca
 
 # HeckLib?
 
-For those of you who use [HeckLib](https://github.com/Heck-Library/HeckLib), most of the features of MapKey will not work for you. However, a port of MapKey is being *slowly* developed. So, hang tight, you have not been forgotten.
+For those of you who use [HeckLib](https://github.com/Heck-Library/HeckLib), most of the features of MapKey will not work for you. However, a port of MapKey is being *slowly* developed. So, hang tight, you have not been forgotten.  There is a **very** small veta version of a port which you can find [here](https://github.com/Splashcard04/MapKey-HL), in the future there will be a deno file cloning system just like the one for ReMapper so that you dont have to manually download.
