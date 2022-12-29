@@ -1,7 +1,11 @@
 ![image](https://user-images.githubusercontent.com/111317032/207435249-e15b8624-bde4-4cd7-b96a-0713ceaac681.png)
 
 # Map Key
-May Key is a typescript library designed to extend [ReMapper](https://github.com/Swifter1243/ReMapper) which allows you to do tedious things much faster and more efficiently.
+Map Key is a typescript library designed to extend [ReMapper](https://github.com/Swifter1243/ReMapper) which allows you to do tedious things much faster and more efficiently.
+
+**HeckLib Users!**
+
+For those of you who use [HeckLib](https://github.com/Heck-Library/HeckLib), most of the features of MapKey will not work for you. However, a port of MapKey is being *slowly* developed. So, hang tight, you have not been forgotten.
 
 # Installation
 To use Map Key in your script, you will need to import it. This works in the same way as ReMapper.
