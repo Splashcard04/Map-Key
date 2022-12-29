@@ -68,6 +68,20 @@ export const Env = {
     }
 }
 
+export enum lightTypes {
+    backLasers = 0,
+    ringLights = 1,
+    leftLasers = 2,
+    rightLasers = 3,
+    centerLasers = 4,
+    extraLeft = 6,
+    extraRight = 7,
+    billieLeft = 10,
+    billieRight = 11,
+    gagaLeft = 18,
+    gagaRight = 19
+}
+
 export const colors = {
     rgb: {
         pink : [255, 51, 255, 1] as ColorType,
