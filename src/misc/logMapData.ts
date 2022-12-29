@@ -1,4 +1,4 @@
-import { activeDiff } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { activeDiff } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 
 export function logMapData(objects?: boolean, environment?: boolean, fakeArray?: boolean) {
     const map = activeDiff

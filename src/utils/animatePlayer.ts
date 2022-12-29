@@ -1,4 +1,4 @@
-import { KeyframesVec3, CustomEvent, Note, RMLog } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { KeyframesVec3, CustomEvent, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { allBetween, logFunctionss } from './general.ts' 
 
 export class playerAnim {
@@ -33,14 +33,14 @@ export class playerAnim {
     new CustomEvent(this.time).assignPlayerToTrack(this.playerTrack).push();
     new CustomEvent(this.time).assignTrackParent([this.noteTrack],this.playerTrack).push();
 
-    allBetween(this.time, this.time+this.duration, (note: Note) => {
+    allBetween(this.time, this.time+this.duration, (n) => {
       // For some reason I have to do this again????
       if(typeof(this.noteTrack) !== "string"){
         this.noteTrack = "playerAnimNote";
       }
       // Incase the notes already have the track, it won't assign the track again.
-      if(!note.track.has(this.noteTrack)){
-        note.track.add(this.noteTrack)
+      if(!n.track.has(this.noteTrack)){
+        n.track.add(this.noteTrack)
       }
     });
 

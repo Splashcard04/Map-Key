@@ -1,4 +1,4 @@
-import { notesBetween, Vec2, Note, Json, RMLog } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { notesBetween, Vec2, Note, Json, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { logFunctionss } from "./general.ts" 
 /**
 * filters notes at certain positions

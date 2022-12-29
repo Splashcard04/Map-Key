@@ -1,4 +1,4 @@
-import { ColorType } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { ColorType } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 
 //Property presets for BlenderFrameMath
 export type BFM_PROPS = 

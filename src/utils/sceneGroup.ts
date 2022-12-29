@@ -1,4 +1,4 @@
-import { Environment, Geometry, GroupObjectTypes, Json, ModelScene, RMLog } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { Environment, Geometry, GroupObjectTypes, Json, ModelScene, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { logFunctionss } from "./general.ts" 
 /**
  * @param object geometry or environment object for your group

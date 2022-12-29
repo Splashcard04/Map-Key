@@ -1,4 +1,4 @@
-import { activeDiff, GeometryMaterial, Geometry, GEO_TYPE, Vec3, Json, RMLog } from "https://deno.land/x/remapper@3.0.0/src/mod.ts" 
+import { activeDiff, Geometry, GEO_TYPE, Vec3, Json, RMLog, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.1/src/mod.ts" 
 import { logFunctionss } from './general.ts'
 type addGroupSettings = {
     // deno-lint-ignore no-explicit-any
@@ -17,7 +17,7 @@ export class geoMaterial {
         return this
     }
 
-    constructor(name: string, material: GeometryMaterial) {
+    constructor(name: string, material: RawGeometryMaterial) {
         const map = activeDiff
         
         map.geoMaterials[name+"Material"] = material

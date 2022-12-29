@@ -1,5 +1,6 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { ColorType, DIFFS, FILENAME, info, Note, RMLog } from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
+import { arcsBetween, chainsBetween, ColorType, DIFFS, FILENAME, info, Note, notesBetween, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { BFM_PROPS } from "../constants.ts"
 
 export let logFunctionss = false
 
@@ -32,9 +33,6 @@ export function rgb(value: ColorType, colorMultiplier?: number) {
     return [val1, val2, val3, value[3]] as ColorType
   }
 }
-
-import { notesBetween, arcsBetween, chainsBetween} from "https://deno.land/x/remapper@3.0.0/src/mod.ts"
-import { BFM_PROPS } from "../constants.ts";
 
 export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => void) {
   notesBetween(time, timeEnd, forAll)
