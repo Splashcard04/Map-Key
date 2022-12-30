@@ -1,13 +1,7 @@
 import { logFunctionss } from "./general.ts"
-import { Environment, LOOKUP, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { Environment, LOOKUP } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 
 export class despawner {
-    json: Json = {}
-
-    import(json: Json) {
-        this.json = json
-        return this
-    }
 
     constructor(public lookup: LOOKUP, public ids: string[], public restore?: string[], public hardDespawn?: string[]) {
         this.lookup = lookup
@@ -35,4 +29,10 @@ export class despawner {
         })
         if(logFunctionss) { console.log(`new despawner using ${this.lookup}`)}
     }
+}
+
+// A slightly different advDespawner, that doesnt have to have a LOOKUP written from every id
+
+export class advDespawner {
+
 }
