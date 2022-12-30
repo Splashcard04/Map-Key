@@ -1,8 +1,9 @@
-import { activeDiff, Geometry, GEO_TYPE, Vec3, Json, RMLog, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.1/src/mod.ts" 
+import { activeDiff, Geometry, GEO_TYPE, Vec3, Json, RMLog, RawGeometryMaterial, ModelScene } from "https://deno.land/x/remapper@3.1.1/src/mod.ts" 
 import { logFunctionss } from './general.ts'
+
 type addGroupSettings = {
-    // deno-lint-ignore no-explicit-any
-    sceneName: any
+    addGroup: boolean,
+    sceneName: ModelScene
     blenderMatName: string,
     geoType: GEO_TYPE,
     scale?: Vec3
@@ -17,25 +18,30 @@ export class geoMaterial {
         return this
     }
 
-    constructor(name: string, material: RawGeometryMaterial) {
-        const map = activeDiff
-        
-        map.geoMaterials[name+"Material"] = material
+    constructor(public name: string, public material: RawGeometryMaterial, public addGroup?: addGroupSettings) {
+        this.name = name
+        this.material = material
+        this.addGroup = addGroup
 
         if(logFunctionss) {
             RMLog(`Added new GeoMaterial...\nname: ${name}\nmaterial: ${material}`)
         }
-    }
-  
-    addGroup(addGroup: addGroupSettings) {
-        if(addGroup.scale == undefined) { this.json.scale = [1, 1, 1]} else { this.json.scale = addGroup.scale}
-        addGroup.sceneName.addPrimaryGroups(
-            addGroup.blenderMatName,
-            new Geometry(addGroup.geoType, geoMaterial.name+"Material"),
-            this.json.scale
-        )
+
+
     }
 
+    push() {
+        const map = activeDiff
 
+        map.geoMaterials[this.name+"Material"] = this.material
 
+        if(this.addGroup) {
+            if(this.addGroup.scale === undefined) { this.json.scale = [1, 1, 1] } else { this.json.scale = this.addGroup.scale } 
+            this.addGroup.sceneName.addPrimaryGroups(
+                this.addGroup.blenderMatName,
+                new Geometry(this.addGroup.geoType, geoMaterial.name+"Material"),
+                this.json.scale
+            )
+        }
+    }
 }
