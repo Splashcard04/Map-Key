@@ -1,5 +1,5 @@
 import { playerAnim } from '../utils/playerAnim.ts'
-import { KeyframesVec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { KeyframesVec3, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { logFunctionss } from '../utils/general.ts'
 
 export type playerAnimSettings = {
@@ -12,6 +12,12 @@ export type playerAnimSettings = {
 }
 
 export class playerAnimBuilder {
+    json: Json = {}
+
+    import(json: Json) {
+        this.json = json
+        return this;
+    }
     constructor (settings: playerAnimSettings) {
         /**
      * @param {number} time the time to start the animation
@@ -23,8 +29,17 @@ export class playerAnimBuilder {
      * @author splashcard
      */
 
-    new playerAnim(settings.time, settings.timeEnd, settings.position, settings.rotation, settings.playerTrack, settings.noteTrack).push()
+        this.json.time = settings.time
+        this.json.timeEnd = settings.timeEnd
+        this.json.position = settings.position
+        this.json.rotation = settings.rotation
+        this.json.playerTrack = settings.playerTrack
+        this.json.noteTrack = settings.noteTrack
 
-    if(logFunctionss) { console.log(`new player animation at ${settings.time} until ${settings.timeEnd}`) }
+    }
+    push() {
+        new playerAnim(this.json.time, this.json.timeEnd, this.json.position, this.json.rotation, this.json.playerTrack, this.json.noteTrack).push()
+
+        if(logFunctionss) { console.log(`new player animation at ${this.json.time} until ${this.jsons.timeEnd}`) }
     }
 }
