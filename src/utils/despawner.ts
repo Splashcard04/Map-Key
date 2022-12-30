@@ -39,7 +39,7 @@ export class advDespawner {
      * @param ids The ids and lookups to use. Written as [["lookup", ["id", "id"]], ["lookup", ["id", "id"]] etc...]
      * @param hardDespawn If true, despawns the object using the `active` property rather than `position`, restore will not work if this is used.
      * @param restore Any ids to restore after despawning, this will not work if hardDespawn is used. Ids are again written as [["lookup", ["id", "id"]]etc...]
-     * @author Aurellis and splashcard
+     * @author Aurellis
      */
     constructor(public ids: [string[], LOOKUP][] = [], public hardDespawn: boolean = false, public restore: [string[], LOOKUP][] | undefined = undefined) {} // Empty constructor wooooo!
 
@@ -79,5 +79,6 @@ export class advDespawner {
                 })
             })
         }
+        if(logFunctionss) { console.log(`new advanced despawner with ${this.ids[2]} lookup`)}
     }
 }
