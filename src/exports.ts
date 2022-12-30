@@ -12,3 +12,5 @@ export * from './utils/filters.ts'
 export * from './utils/multiEnv.ts'
 
 export * from './misc/logMapData.ts'
+
+export * from './builders/despawnerBuillder.ts'
