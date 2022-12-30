@@ -39,14 +39,14 @@ export class advDespawner {
      * @param ids The ids and lookups to use. Written as [["lookup", ["id", "id"]], ["lookup", ["id", "id"]] etc...]
      * @param hardDespawn If true, despawns the object using the `active` property rather than `position`, restore will not work if this is used.
      * @param restore Any ids to restore after despawning, this will not work if hardDespawn is used. Ids are again written as [["lookup", ["id", "id"]]etc...]
-     * @author Aurellis
+     * @author Aurellis and splashcard
      */
-    constructor(public ids: [LOOKUP,string[]][] = [], public hardDespawn: boolean = false, public restore: [LOOKUP,string[]][] | undefined = undefined) {} // Empty constructor wooooo!
+    constructor(public ids: [string[], LOOKUP][] = [], public hardDespawn: boolean = false, public restore: [string[], LOOKUP][] | undefined = undefined) {} // Empty constructor wooooo!
 
     push() {
         this.ids.forEach(lookupgroups => {
-            // lookupgroups = ["lookup", ["id", "id"]]
-            const env = new Environment("",lookupgroups[0])
+            // lookupgroups = [[id, id], lookup]
+            const env = new Environment("",lookupgroups[1])
             lookupgroups.forEach(id =>{
                 // id = "lookup" || ["id", "id"]
                 if(typeof(id) !== "string"){
@@ -66,7 +66,7 @@ export class advDespawner {
         })
         if(this.restore){
             this.restore.forEach(lookupgroups => {
-                const env = new Environment("",lookupgroups[0])
+                const env = new Environment("",lookupgroups[1])
                 lookupgroups.forEach(id =>{
                     if(typeof(id) !== "string"){
                         id.forEach(x =>{
