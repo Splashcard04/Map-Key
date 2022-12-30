@@ -39,3 +39,28 @@ export class despawnerBuilder {
         if(logFunctionss) { console.log(`new despawner built using ${this.json.lookup}`)}
     }
 }
+
+import { advDespawner } from '../utils/despawner.ts'
+
+export type advDespawnSettings = {
+    ids: [string[], LOOKUP][], hardDespawn: boolean, restore: [string[], LOOKUP][]
+}
+
+export class advDespawnerBuilder {
+    json: Json = {}
+
+    import(json: Json) {
+        this.json = json
+        return this;
+    }
+
+    constructor(settings: advDespawnSettings) 
+    {
+        this.json.ids = settings.ids
+        this.json.hardDespawn = settings.hardDespawn
+        this.json.restore = settings.restore
+    }
+    push() {
+        new advDespawner(this.json.ids, this.json.hardDespawn, this.json.restore).push()
+    }
+}
