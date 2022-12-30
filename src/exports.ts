@@ -14,3 +14,7 @@ export * from './utils/multiEnv.ts'
 export * from './misc/logMapData.ts'
 
 export * from './builders/despawnerBuillder.ts'
+export * from './builders/noteFilterBuilder.ts '
+export * from './builders/notePathBuilder.ts'
+export * from './builders/playerAnimBuilder.ts'
+export * from './builders/shapeBuilder.ts'
