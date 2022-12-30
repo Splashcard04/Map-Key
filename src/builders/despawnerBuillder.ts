@@ -1,41 +1,23 @@
+import { despawner } from '../utils/despawner.ts'
 import { LOOKUP } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-import { advDespawner, despawner } from "../exports.ts"
+import { logFunctionss } from '../utils/general.ts'
 
 export type despawnerSettings = {
-    lookupMethod: LOOKUP,
+    lookup: LOOKUP,
     ids: string[],
-    despawnMethod: "RegularDespawn" | "HardDespawn",
+    hardDespawn?: string[],
     restore?: string[]
 }
 
-export function despawn(settings: despawnerSettings){
-    const ds = new despawner(settings.lookupMethod,settings.ids);
-    if(settings.despawnMethod == "RegularDespawn"){
-        ds.despawn()
-    }
-    if(settings.despawnMethod == "HardDespawn"){
-        ds.hardDespawn()
-    }
-    if(settings.restore){
-        ds.restore(settings.restore)
-    }
-}
+export function despawnerBuilder(settings: despawnerSettings) {
+    /**
+     * @param {LOOKUP} lookup the lookup method of despawned and restored environment pieces
+     * @param {string[]} ids the array of environment ids to despawn
+     * @param { string[] } hardDespawn environment pieces to set to active = false
+     * @param {string[]} restore environment peices to restore from being despawned
+     * @author splashcard
+     */
+    const x = new despawner(settings.lookup, settings.ids, settings.hardDespawn, settings.restore).push();
 
-export type advDespawnerSettings = {
-    ids: [string,LOOKUP][],
-    despawnMethod: "RegularDespawn" | "HardDespawn",
-    restore?: [string,LOOKUP][]
-}
-
-export function multiDespawn(settings: advDespawnerSettings){
-    const ds = new advDespawner(settings.ids);
-    if(settings.despawnMethod == "RegularDespawn"){
-        ds.despawn()
-    }
-    if(settings.despawnMethod == "HardDespawn"){
-        ds.hardDespawn()
-    }
-    if(settings.restore){
-        ds.restore(settings.restore)
-    }
+    if(logFunctionss) { console.log(`new despawner built using ${settings.lookup}`)}
 }
