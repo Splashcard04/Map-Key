@@ -31,8 +31,53 @@ export class despawner {
     }
 }
 
-// A slightly different advDespawner, that doesnt have to have a LOOKUP written from every id
+// Goofy af despawner that has a cursed id syntax rn
 
 export class advDespawner {
+    /**
+     * A class to aid in the despawning of multiple objects using differnt lookup methods.
+     * @param ids The ids and lookups to use. Written as [["lookup", ["id", "id"]], ["lookup", ["id", "id"]] etc...]
+     * @param hardDespawn If true, despawns the object using the `active` property rather than `position`, restore will not work if this is used.
+     * @param restore Any ids to restore after despawning, this will not work if hardDespawn is used. Ids are again written as [["lookup", ["id", "id"]]etc...]
+     * @author Aurellis
+     */
+    constructor(public ids: [LOOKUP,string[]][] = [], public hardDespawn: boolean = false, public restore: [LOOKUP,string[]][] | undefined = undefined) {} // Empty constructor wooooo!
 
+    push() {
+        this.ids.forEach(lookupgroups => {
+            // lookupgroups = ["lookup", ["id", "id"]]
+            const env = new Environment("",lookupgroups[0])
+            lookupgroups.forEach(id =>{
+                // id = "lookup" || ["id", "id"]
+                if(typeof(id) !== "string"){
+                    id.forEach(x =>{
+                        // x = "id"
+                        env.id = x;
+                        if(this.hardDespawn){
+                            env.active = false
+                        }
+                        else{
+                            env.position = [-9999, -9999, -9999]
+                        }
+                        env.push();
+                    })
+                }
+            })
+        })
+        if(this.restore){
+            this.restore.forEach(lookupgroups => {
+                const env = new Environment("",lookupgroups[0])
+                lookupgroups.forEach(id =>{
+                    if(typeof(id) !== "string"){
+                        id.forEach(x =>{
+                            env.id = x;
+                            env.position = [0,0,0];
+                            env.active = true;
+                            env.push()
+                        })
+                    }
+                })
+            })
+        }
+    }
 }
