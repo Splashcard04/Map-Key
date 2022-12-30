@@ -1,4 +1,4 @@
-import { KeyframesVec3, CustomEvent, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { KeyframesVec3, CustomEvent, RMLog, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { allBetween, logFunctionss } from './general.ts' 
 
 
@@ -51,9 +51,12 @@ export class playerAnim {
 
         new CustomEvent(this.json.time).assignTrackParent([`${this.json.noteTrack}`], `${this.json.playerTrack}`)
 
-        notesBetween(this.json.time, this.json.timeEnd, x => {
+        allBetween(this.json.time, this.json.timeEnd, x => {
             x.customData.track = `${this.json.noteTrack}`
-        })
+        });
+        if(logFunctionss){
+            RMLog(`Added new player animation at beat ${this.json.time} until beat ${this.json.timeEnd}...`)
+        }
     }
 
 }
