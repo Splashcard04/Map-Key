@@ -16,25 +16,26 @@ export class noteSplit {
       this.json = json
       return this
   }
-  constructor(time: number, timeEnd: number) {
+  constructor(time: number, timeEnd: number, fornoteLeft: (n: Note) => void, forNoteRight: (n: Note) => void) {
     this.json.time = time;
     this.json.timeEnd = timeEnd;
+    this.json.forL = fornoteLeft
+    this.json.forR = forNoteRight
+  }
+  push() {
+    notesBetween(this.json.time, this.json.timeEnd, n => {
+        let pass = false;
+        if(n.type === 0) { pass = true } else { pass = false }
+        if (pass) this.json.forL(n);
+    });
+    notesBetween(this.json.time, this.json.timeEnd, n => {
+        let pass = false;
+        if(n.type === 1) { pass = true } else { pass = false }
+        if (pass) this.json.forR(n);
+      });
+
     if(logFunctionss) {
-      RMLog(`Added new split note path at ${time} ending at ${timeEnd}...`)
+        RMLog(`Added new split note path at ${this.json.time} ending at ${this.json.timeEnd}...`)
+      }
     }
-  }
-  left(forNoteL: (n: Note) => void) {
-    notesBetween(this.json.time, this.json.timeEnd, n => {
-      let pass = false;
-      if(n.type === 0) { pass = true } else { pass = false }
-      if (pass) forNoteL(n);
-    });
-  }
-  right(forNoteR: (n: Note) => void) {
-    notesBetween(this.json.time, this.json.timeEnd, n => {
-      let pass = false;
-      if(n.type === 1) { pass = true } else { pass = false }
-      if (pass) forNoteR(n);
-    });
-  }
 }
