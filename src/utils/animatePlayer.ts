@@ -13,19 +13,29 @@ export class playerAnim {
      * @param noteTrack The track to assign to the notes (defaults to "notes" if left empty).
      * @author splashcard__ & Aurellis
      */
-   constructor(public time: number = 0, public timeEnd: number = 0, public position: KeyframesVec3 | undefined = undefined, public rotation: KeyframesVec3 | undefined = undefined, public playerTrack: string = "player", public noteTrack: string = "notes") {}
+   constructor(public time: number = 0, public timeEnd: number = 0, public position: KeyframesVec3 | undefined = undefined, public rotation: KeyframesVec3 | undefined = undefined, public playerTrack: string = "player", public noteTrack: string = "notes") {} // Empty constructor lol
+   /**
+    * Pushes the player animation to the active diff.
+    */
    push() {
        const duration = this.timeEnd - this.time
+
        new CustomEvent(this.time).assignPlayerToTrack(this.playerTrack).push();
 
        const track = new CustomEvent(this.time).animateTrack(this.playerTrack, duration)
+       // Adds position animation if there is any.
        if(this.position){
         track.animate.position = this.position
        }
+       // Adds rotation animation if there is any.
        if(this.rotation){
         track.animate.rotation = this.rotation
        }
-       track.push();
+       // Only pushes the animate track if it has any animation data
+       // That way playerAnim can also be used just to assign all the tracks and parents and stuff, and can then be animated externally.
+       if(this.rotation || this.position){
+        track.push();
+       }
 
        new CustomEvent(this.time).assignTrackParent([this.noteTrack], this.playerTrack).push();
 
