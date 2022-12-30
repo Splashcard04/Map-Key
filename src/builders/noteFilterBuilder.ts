@@ -1,4 +1,4 @@
-import { Note } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { Note, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { noteFilter } from '../utils/noteFilter.ts'
 import { logFunctionss } from '../utils/general.ts'
 
@@ -10,6 +10,13 @@ export type noteFilterbuilderSettings = {
 }
 
 export class noteFilterBuilder {
+
+    json: Json = {}
+
+    import(json: Json) {
+        this.json = json
+        return this
+    }
     constructor(settings: noteFilterbuilderSettings) {
         /**
         * filters notes at certain positions
@@ -19,7 +26,15 @@ export class noteFilterBuilder {
         * @author splashcard__ 
         */
 
-    new noteFilter(settings.timeStart, settings.timeEnd, settings.forNote)
-    if(logFunctionss) { console.log(`new note filter built at ${settings.timeStart} to ${settings.timeEnd}`)}
+    this.json.positions = settings.positions
+    this.json.timeStart = settings.timeStart
+    this.json.timeEnd = settings.timeEnd
+    this.json.forNote = settings.forNote
+
+    
+    }
+    push() {
+        new noteFilter(this.json.timeStart, this.json.timeEnd, this.json.forNote)
+        if(logFunctionss) { console.log(`new note filter built at ${this.json.timeStart} to ${this.json.timeEnd}`)}
     }
 }
