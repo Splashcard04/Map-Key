@@ -33,6 +33,6 @@ export class despawner {
             env.active = true
             env.push();
         })
-        if(logFunctionss) { console.log(`new despawner using ${this.lookup}`)
+        if(logFunctionss) { console.log(`new despawner using ${this.lookup}`)}
     }
 }
