@@ -5,7 +5,7 @@ import { logFunctionss } from "./general.ts"
 * @param timeStart the time your track will start
 * @param timeEnd the duration of your track
 * @param positions the position to select
-* @author splashcard__ <-- bro that guy is like famous
+* @author splashcard
 */
 
 
@@ -18,10 +18,8 @@ export class noteFilter {
         return this
     }
 
-  positions(positions: Vec2) {
+  constructor(timeStart: number, timeEnd: number, positions: Vec2[], forNote: (n: Note) => void) {
     this.json.positions = positions
-  }
-  constructor(timeStart: number, timeEnd: number, forNote: (n: Note) => void) {
     notesBetween(timeStart, timeEnd, n => {
       let pass = false;
       this.json.positions.forEach((p: [number, number]) => {
