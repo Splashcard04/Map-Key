@@ -1,4 +1,4 @@
-import { Environment, Geometry, GroupObjectTypes, Json, ModelScene, RMLog, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { GroupObjectTypes, ModelScene, RMLog, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { logFunctionss } from "./general.ts" 
 /**
  * @param object geometry or environment object for your group
@@ -44,6 +44,6 @@ export class laserGroup {
                 this.addGroup.transForm
             )
         }
-        if(logFunctionss) { console.log(`new light group with object ${this.object}`)}
+        if(logFunctionss) { RMLog(`new light group with object ${this.object}`)}
     }
 }

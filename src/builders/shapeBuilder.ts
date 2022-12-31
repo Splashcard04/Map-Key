@@ -23,7 +23,7 @@ export class shapeBuilder {
     }
 
     constructor(settings: shapeBuilderSettings) {
-        /**
+    /**
      * @param {string} material the material of the shape
      * @param {number} sides the ammount of sides on the shape
      * @param {number} radius the radius of the shape
@@ -33,9 +33,8 @@ export class shapeBuilder {
      * @param {boolean} innercorners the inner corners of the shape
      * @param {string} track the track to assign the shape to
      * @param {boolean} iterateTrack iterate the track of the shape?
-     * @author Aurelis
+     * @author Aurellis
      */
-
     this.json.material = settings.material
     this.json.sides = settings.sides
     this.json.radius = settings.radius
