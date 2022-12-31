@@ -34,7 +34,7 @@ export class noteFilterBuilder {
     
     }
     push() {
-        new noteFilter(this.json.timeStart, this.json.timeEnd, this.json.forNote)
+        new noteFilter(this.json.timeStart, this.json.timeEnd, this.json.positions, this.json.forNote)
         if(logFunctionss) { console.log(`new note filter built at ${this.json.timeStart} to ${this.json.timeEnd}`)}
     }
 }
