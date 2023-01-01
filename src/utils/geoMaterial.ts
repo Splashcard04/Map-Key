@@ -5,8 +5,7 @@ type addGroupSettings = {
     addGroup: boolean,
     sceneName: ModelScene
     blenderMatName: string,
-    geoType: GEO_TYPE,
-    scale?: Vec3
+    geoType: GEO_TYPE
 }
 
 export class geoMaterial {
