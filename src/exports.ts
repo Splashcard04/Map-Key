@@ -12,6 +12,7 @@ export * from './utils/filters.ts'
 export * from './utils/multiEnv.ts'
 
 export * from './misc/logMapData.ts'
+export * from './misc/randomArray.ts'
 
 export * from './builders/despawnerBuilder.ts'
 export * from './builders/noteFilterBuilder.ts '
