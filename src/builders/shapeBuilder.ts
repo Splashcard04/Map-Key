@@ -1,4 +1,4 @@
-import { Vec3, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { Vec3, Json, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { shapeGenerator } from '../utils/shapeGenerator.ts'
 import { logFunctionss } from '../utils/general.ts'
 
@@ -49,6 +49,6 @@ export class shapeBuilder {
     push() {
         new shapeGenerator(this.json.material, this.json.sides, this.json.radius, this.json.position, this.json.scale, this.json.rotation, this.json.innercorners, this.json.track, this.json.iterateTrack).push();
 
-        if(logFunctionss) { console.log(`new shape generated with ${this.json.material} with ${this.json.sides} sides`)}
+        if(logFunctionss) { RMLog(`new shape generated with ${this.json.material} with ${this.json.sides} sides`)}
     }
 }
