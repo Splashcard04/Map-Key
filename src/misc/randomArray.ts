@@ -37,15 +37,13 @@ export class randArray {
         }
         return res;
     }
-    //Check to see how many buffer runs were taken.
-    private debugbuffer = false;
-
     /**
      * Ensures that no consecutive numbers are identical.
      * @param buffer The number of times to try for a unique number (prevents infinite repeats under certain circumstances).
      * @returns An array of random values.
      */
-    runUniqueConsecutive(buffer = 20){
+    runUniqueConsecutive(buffer = 20, debugBuffer = false, countSingleRuns = false){
+        const bufferruns = []
         const _prngs = PRNGs
         const res: number[] = [];
         const number = new Seed("", eval(`_prngs.${this.algorithm}`));
@@ -60,14 +58,22 @@ export class randArray {
                 else {
                     gen = setDecimals(number.randomFloat(this.range[0],this.range[1]),this.decimals)
                 }
-                if(gen !== res[-1]) {
+                if(gen !== res[i-1]) {
                     unique = true;
                 }
             }
-            if(j !== 1 && this.debugbuffer){
-                console.log(j)
+            if(debugBuffer){
+                if(countSingleRuns){
+                    bufferruns.push(j)
+                }
+                else if(j !== 1){
+                    bufferruns.push(j)
+                }
             }
             res.push(gen)
+        }
+        if(debugBuffer){
+            console.log(bufferruns)
         }
         return res;
     }
@@ -76,7 +82,8 @@ export class randArray {
      * @param buffer The number of times to try for a unique number (prevents infinite repeats under certain circumstances).
      * @returns An array of random values.
      */
-    runUnique(buffer = 20){
+    runUnique(buffer = 20, debugBuffer = false, countSingleRuns = false){
+        const bufferruns = []
         const _prngs = PRNGs
         const res: number[] = [];
         const number = new Seed("", eval(`_prngs.${this.algorithm}`));
@@ -98,10 +105,18 @@ export class randArray {
                     }
                 })
             }
-            if(j != 1 && this.debugbuffer){
-                console.log(j)
+            if(debugBuffer){
+                if(countSingleRuns){
+                    bufferruns.push(j)
+                }
+                else if(j !== 1){
+                    bufferruns.push(j)
+                }
             }
             res.push(gen);
+        }
+        if(debugBuffer){
+            console.log(bufferruns)
         }
         return res;
     }
