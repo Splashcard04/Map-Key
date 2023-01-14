@@ -1,4 +1,4 @@
-import { activeDiff, Geometry, GEO_TYPE, Vec3, Json, RMLog, RawGeometryMaterial, ModelScene } from "https://deno.land/x/remapper@3.1.1/src/mod.ts" 
+import { activeDiff, Geometry, GEO_TYPE, Json, RMLog, RawGeometryMaterial, ModelScene } from "https://deno.land/x/remapper@3.1.1/src/mod.ts" 
 import { logFunctionss } from './general.ts'
 
 type addGroupSettings = {
@@ -35,11 +35,11 @@ export class geoMaterial {
         map.geoMaterials[this.name+"Material"] = this.material
 
         if(this.addGroup) {
-            if(this.addGroup.scale === undefined) { this.json.scale = [1, 1, 1] } else { this.json.scale = this.addGroup.scale } 
+            // if(this.addGroup.scale === undefined) { this.json.scale = [1, 1, 1] } else { this.json.scale = this.addGroup.scale } 
             this.addGroup.sceneName.addPrimaryGroups(
                 this.addGroup.blenderMatName,
                 new Geometry(this.addGroup.geoType, geoMaterial.name+"Material"),
-                this.json.scale
+                // this.json.scale
             )
         }
     }
