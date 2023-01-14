@@ -43,7 +43,7 @@ export class shapeGenerator {
                 const pos = rotatePoint([-Math.sin(angle)*this.radius,-Math.cos(angle)*this.radius,0],this.rotation);
 
                 // Apply the offset position to the rotated position
-                cube.position = [pos[0]+this.position[0],pos[1]+this.position[1],pos[2]+this.position[2]];//dumb arrAdd
+                cube.position = [pos[0]+this.position[0],pos[1]+this.position[1],pos[2]+this.position[2]]; // dumb arrAdd
 
                 /*
                 So that I remember how this math works - Aurellis
