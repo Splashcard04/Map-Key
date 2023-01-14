@@ -19,3 +19,5 @@ export * from './builders/noteFilterBuilder.ts '
 export * from './builders/notePathBuilder.ts'
 export * from './builders/playerAnimBuilder.ts'
 export * from './builders/shapeBuilder.ts'
+
+export * from './presets/notePresets.ts'
