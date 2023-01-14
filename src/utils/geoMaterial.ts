@@ -1,5 +1,5 @@
-import { activeDiff, Geometry, GEO_TYPE, Json, RMLog, RawGeometryMaterial, ModelScene } from "https://deno.land/x/remapper@3.1.1/src/mod.ts" 
-import { logFunctionss } from './general.ts'
+import { activeDiff, Geometry, GEO_TYPE, Json, RawGeometryMaterial, ModelScene } from "https://deno.land/x/remapper@3.1.1/src/mod.ts" 
+import { logFunctionss, MKLog } from './general.ts'
 
 export type addGroupSettings = {
     addGroup: boolean,
@@ -23,7 +23,7 @@ export class geoMaterial {
         this.addGroup = addGroup
 
         if(logFunctionss) {
-            RMLog(`Added new GeoMaterial...\nname: ${name}\nmaterial: ${material}`)
+            MKLog(`Added new GeoMaterial...\nname: ${name}\nmaterial: ${material}`)
         }
 
 

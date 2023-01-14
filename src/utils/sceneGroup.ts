@@ -1,5 +1,5 @@
-import { GroupObjectTypes, ModelScene, RMLog, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-import { logFunctionss } from "./general.ts" 
+import { GroupObjectTypes, ModelScene, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { logFunctionss, MKLog } from "./general.ts" 
 /**
  * @param object geometry or environment object for your group
  * @param ammount the ammount of the stated object
@@ -44,6 +44,6 @@ export class laserGroup {
                 this.addGroup.transForm
             )
         }
-        if(logFunctionss) { RMLog(`new light group with object ${this.object}`)}
+        if(logFunctionss) { MKLog(`new light group with object ${this.object}`)}
     }
 }

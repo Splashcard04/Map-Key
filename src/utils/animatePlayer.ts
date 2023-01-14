@@ -1,5 +1,5 @@
-import { KeyframesVec3, CustomEvent, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-import { allBetween, logFunctionss } from './general.ts' 
+import { KeyframesVec3, CustomEvent } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { allBetween, logFunctionss, MKLog } from './general.ts' 
 
 
 export class playerAnim {
@@ -45,7 +45,7 @@ export class playerAnim {
         }
        });
        if(logFunctionss){
-        RMLog(`Added new player animation at beat ${this.time} until beat ${this.timeEnd}...`)
+        MKLog(`Added new player animation at beat ${this.time} until beat ${this.timeEnd}...`)
        }
    }
 

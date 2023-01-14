@@ -1,6 +1,6 @@
-import { Geometry, activeDiffGet, Environment, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { Geometry, activeDiffGet, Environment } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { GEO_FILTER_PROPS, ENV_FILTER_PROPS, position, rotation, scale } from "../constants.ts";
-import { logFunctionss } from "./general.ts";
+import { logFunctionss, MKLog } from "./general.ts";
 
 /**
  * Works like notesBetween. Except it searches for geometry, with a set value for any property on the object as the filter.
@@ -31,7 +31,7 @@ export function filterGeometry(property: GEO_FILTER_PROPS | position | rotation 
       }
     })
     if(logFunctionss){
-      RMLog(`Filtered ${activeDiffGet().geometry(arr =>{arr.length})} environments for objects with a ${property} of ${value}...\nobjects found: ${count}`)
+      MKLog(`Filtered ${activeDiffGet().geometry(arr =>{arr.length})} environments for objects with a ${property} of ${value}...\nobjects found: ${count}`)
     }
   }
   
@@ -64,6 +64,6 @@ export function filterGeometry(property: GEO_FILTER_PROPS | position | rotation 
       }
     })
     if(logFunctionss){
-      RMLog(`Filtered ${activeDiffGet().geometry(arr =>{arr.length})} environments for objects with a ${property} of ${value}...\nobjects found: ${count}`)
+      MKLog(`Filtered ${activeDiffGet().geometry(arr =>{arr.length})} environments for objects with a ${property} of ${value}...\nobjects found: ${count}`)
     }
 }

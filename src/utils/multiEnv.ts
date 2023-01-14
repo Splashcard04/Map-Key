@@ -1,5 +1,5 @@
-import { Environment, LOOKUP, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-import { logFunctionss } from "./general.ts";
+import { Environment, LOOKUP } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { logFunctionss, MKLog } from "./general.ts";
 
 export class multiEnv {
     /**
@@ -26,7 +26,7 @@ export class multiEnv {
             env.push();
         });
         if(logFunctionss){
-            RMLog(`Added a multi-environment with ${this.ids.length} ids...`)
+            MKLog(`Added a multi-environment with ${this.ids.length} ids...`)
         }
     }
 }

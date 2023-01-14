@@ -1,5 +1,5 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { arcsBetween, chainsBetween, Color, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { arcsBetween, chainsBetween, Color, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { BFM_PROPS } from "../constants.ts"
 
 export let logFunctionss = false
@@ -107,7 +107,7 @@ if(info.json._coverImageFilename !== undefined) Deno.copyFile(info.json._coverIm
 otherFiles?.forEach((file) => {
     Deno.copyFile(`${file}`, `${todir}\\${file}`);
 });
-RMLog(`Copied map to ${todir}`)
+MKLog(`Copied map to ${todir}`)
 }
 
 export class hueCycle {

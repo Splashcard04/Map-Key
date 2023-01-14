@@ -1,4 +1,4 @@
-import { logFunctionss } from "./general.ts"
+import { logFunctionss, MKLog } from "./general.ts"
 import { Environment, LOOKUP } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 
 export class despawner {
@@ -27,7 +27,7 @@ export class despawner {
             env.active = true
             env.push();
         })
-        if(logFunctionss) { console.log(`New despawner using ${this.lookup} created.\nDespawning ${this.ids.length} environments...`)}
+        if(logFunctionss) { MKLog(`New despawner using ${this.lookup} created.\nDespawning ${this.ids.length} environments...`)}
     }
 }
 
@@ -79,6 +79,6 @@ export class advDespawner {
                 })
             })
         }
-        if(logFunctionss) { console.log(`new advanced despawner with ${this.ids[2]} lookup`)}
+        if(logFunctionss) { MKLog(`New advanced despawner with ${this.ids[2]} lookup added...`)}
     }
 }
