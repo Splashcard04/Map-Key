@@ -1,34 +1,31 @@
-import { CustomEvent, notesBetween } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { CustomEvent, Note, notesBetween } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 
 export class noteMod {
     /**
      * A class to aid in adding quick noteMod effects.
      * @param startTime The starting time of the notes, including notes on this time.
      * @param endTime The ending time of the notes, excluding notes on this time.
+     * @param extraData Anything extra to add to the notes on top of the notemods.
      */
     constructor(
         public startTime = 0,
-        public endTime = 0
+        public endTime = 0,
+        public extraData?: (x: Note) => void
     ){}
     /**
      * Makes the notes fly in as a line then jump to their proper position.
      * @param position The lineIndex (number 0 - 3), and linelayer (number 0 - 2) that the line will be on.
      * @param jumpTime The point in the note's lifetime that it will jump up to the proper position, [startOfJump, endOfJump] (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns).
-     * @param NJSOffset The optional noteJump offset to apply to the notes.
-     * @param NJS Optional NJS change for the notes.
      * @author Aurellis
      */
-    noteLine(position: [number, number], jumpTime: [number, number] = [0.35,0.45], NJSOffset?: number, NJS?: number) {
+    noteLine(position: [number, number], jumpTime: [number, number] = [0.35,0.45]) {
         notesBetween(this.startTime,this.endTime, note => {
             note.noteGravity = false;
             if(!note.animation.offsetPosition){
                 note.animation.offsetPosition = [[position[0]-note.x,position[1]-note.y,0,0],[position[0]-note.x,position[1]-note.y,0,jumpTime[0]],[0,0,0,jumpTime[1],"easeOutCubic"]];
             }
-            if(NJS){
-                note.NJS = NJS
-            }
-            if(NJSOffset){
-                note.offset = NJSOffset
+            if(this.extraData){
+                this.extraData(note)
             }
         })
     }
@@ -48,6 +45,10 @@ export class noteMod {
             const animtrack = new CustomEvent(note.time - 1).animateTrack(track,2);
             animtrack.animate.time = [[0,0],[0.1,0.3],[1,1,"easeInQuad"]];
             animtrack.push();
+
+            if(this.extraData){
+                this.extraData(note)
+            }
         })
     }
     /**
@@ -66,6 +67,10 @@ export class noteMod {
                 animtrack.animate.add("scale",[[pulseSize,pulseSize,pulseSize,i],[1,1,1,i+1]])
             }
             animtrack.push();
+            
+            if(this.extraData){
+                this.extraData(note)
+            }
         })
     }
     /**
@@ -82,6 +87,9 @@ export class noteMod {
             }
             else{
                 note.animation.offsetPosition = [[spawnDistance*(Math.abs(note.x-1.5)/(note.x-1.5)),0,0,0],[0,0,0,animationEnd,"easeOutQuad"]];
+            }
+            if(this.extraData){
+                this.extraData(note)
             }
         })
     }
