@@ -53,6 +53,7 @@ export class noteMod {
     /**
      * Makes the notes pulse in size on each beat.
      * @param pulseSize The amount to pulse (1 is nothing, 2 makes them twice the size, and 0.5 makes them half the size etc.)
+     * @author Aurellis
      */
     noteBeatPulse(pulseSize = 1.5){
         notesBetween(this.startTime,this.endTime, note => {
@@ -65,6 +66,23 @@ export class noteMod {
                 animtrack.animate.add("scale",[[pulseSize,pulseSize,pulseSize,i],[1,1,1,i+1]])
             }
             animtrack.push();
+        })
+    }
+    /**
+     * Makes the notes fly in from the side.
+     * @param spawnDistance How far away to spawn them on the left and right.
+     * @param splitBy Whether to split the notes based on their color or their position. Bombs will always use position.
+     * @param animationEnd When in the note's lifetime to end the animation (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns).
+     * @author Aurellis
+     */
+    noteFlyInLR(spawnDistance = 50, splitBy: "type" | "position" = "position", animationEnd = 0.4){
+        notesBetween(this.startTime,this.endTime, note => {
+            if(splitBy == "type"){
+                note.animation.offsetPosition = [[spawnDistance*2*(note.type-0.5),0,0,0],[0,0,0,animationEnd,"easeOutQuad"]];
+            }
+            else{
+                note.animation.offsetPosition = [[spawnDistance*(Math.abs(note.x-1.5)/(note.x-1.5)),0,0,0],[0,0,0,animationEnd,"easeOutQuad"]];
+            }
         })
     }
 }
