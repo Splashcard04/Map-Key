@@ -4,7 +4,7 @@ import { setDecimals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 export class randArray {
     /**
     * Creates an array of random numbers with a seed for repeatable use.
-    * @param seed The seed for prng generation.
+    * @param seed The seed for prng generation, leave blank to keep random.
     * @param range The min/max that the numbers in the array can be.
     * @param length The length of the array (how many numbers to generate).
     * @param decimals The precision of the result (0 for integers).
@@ -12,7 +12,7 @@ export class randArray {
     * @author Aurellis
     */
     constructor(
-        public seed: number | string = 1,
+        public seed: number | string = Date.now(),
         public range: [number, number] = [0,1],
         public length: number = 2, 
         public decimals = 5,
@@ -40,6 +40,8 @@ export class randArray {
     /**
      * Ensures that no consecutive numbers are identical.
      * @param buffer The number of times to try for a unique number (prevents infinite repeats under certain circumstances).
+     * @param debugBuffer Whether or not to log the number of runs needed for each array entry.
+     * @param countSingleRuns Whether or not to count successful runs (runs that generated a unique number on the first try) in the buffer log.
      * @returns An array of random values.
      */
     runUniqueConsecutive(buffer = 20, debugBuffer = false, countSingleRuns = false){
@@ -80,6 +82,8 @@ export class randArray {
     /**
      * Ensures that no two numbers in the array are identical. This is the slowest method on this class. Please only use it if you must.
      * @param buffer The number of times to try for a unique number (prevents infinite repeats under certain circumstances).
+     * @param debugBuffer Whether or not to log the number of runs needed for each array entry.
+     * @param countSingleRuns Whether or not to count successful runs (runs that generated a unique number on the first try) in the buffer log.
      * @returns An array of random values.
      */
     runUnique(buffer = 20, debugBuffer = false, countSingleRuns = false){
