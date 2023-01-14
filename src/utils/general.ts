@@ -1,5 +1,5 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { arcsBetween, chainsBetween, Color, ColorType, DIFFS, FILENAME, info, Note, notesBetween, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { arcsBetween, chainsBetween, Color, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween, RMLog } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { BFM_PROPS } from "../constants.ts"
 
 export let logFunctionss = false
@@ -133,4 +133,12 @@ export class hueCycle {
             return new Color([(this.startingColor[0]+(index/this.loopPoint))%1,this.startingColor[1],this.startingColor[2],1], "HSV").export()
         }
     }
+}
+
+/**
+ * Kid: "Can we use RMLog?". Mother: "Honey, we have RMLog a home". The RMLog at home...
+ * @param message Message to log.
+ */
+export function MKLog(message: string){
+  console.log(`[MapKey: ${getSeconds()}s] ` + message)
 }

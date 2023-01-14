@@ -1,6 +1,5 @@
 import { Note, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { noteFilter } from '../utils/noteFilter.ts'
-import { logFunctionss } from '../utils/general.ts'
 
 export type noteFilterbuilderSettings = {
     positions: [number, number][],
@@ -35,6 +34,5 @@ export class noteFilterBuilder {
     }
     push() {
         new noteFilter(this.json.timeStart, this.json.timeEnd, this.json.positions, this.json.forNote)
-        if(logFunctionss) { console.log(`new note filter built at ${this.json.timeStart} to ${this.json.timeEnd}`)}
     }
 }

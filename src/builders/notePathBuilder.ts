@@ -1,6 +1,5 @@
 import { Note } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { noteSplit } from '../utils/notePath.ts'
-import { logFunctionss } from '../utils/general.ts'
 
 export type notePathSettings = {
     time: number,
@@ -20,7 +19,5 @@ export class notePathBuilder{
      */
 
     new noteSplit(settings.time, settings.timeEnd, settings.left, settings.right)
-
-    if(logFunctionss) { console.log(`new note split path at ${settings.time} until ${settings.timeEnd}`)}
     }
 }

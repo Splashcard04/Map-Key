@@ -1,6 +1,5 @@
 import { playerAnim } from '../utils/animatePlayer.ts'
 import { KeyframesVec3, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-import { logFunctionss } from '../utils/general.ts'
 
 export type playerAnimSettings = {
     time: number,
@@ -39,7 +38,5 @@ export class playerAnimBuilder {
     }
     push() {
         new playerAnim(this.json.time, this.json.timeEnd, this.json.position, this.json.rotation, this.json.playerTrack, this.json.noteTrack).push()
-
-        if(logFunctionss) { console.log(`new player animation at ${this.json.time} until ${this.json.timeEnd}`) }
     }
 }

@@ -1,6 +1,5 @@
-import { geoMaterial, addGroupSettings, Json } from '../utils/geoMaterial.ts'
-import { logFunctionss } from '../utils/general.ts'
-import { RawGeometryMaterial, ModelScene, GEO_TYPE } from 'https://deno.land/x/remapper@3.1.1/src/mod.ts'
+import { addGroupSettings, geoMaterial } from '../utils/geoMaterial.ts'
+import { Json, RawGeometryMaterial } from 'https://deno.land/x/remapper@3.1.1/src/mod.ts'
 
 export type matBuilderSettings = {
     name: string,
@@ -24,9 +23,5 @@ export class geoMatBuilder {
 
     push() {
         new geoMaterial(this.json.name, this.json.mat, this.json.addGroup).push()
-
-        if(logFunctionss) {
-            console.log(`new geometry material called ${this.json.name}`)
-        }
     }
 }

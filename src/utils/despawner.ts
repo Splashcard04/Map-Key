@@ -27,7 +27,7 @@ export class despawner {
             env.active = true
             env.push();
         })
-        if(logFunctionss) { console.log(`new despawner using ${this.lookup}`)}
+        if(logFunctionss) { console.log(`New despawner using ${this.lookup} created.\nDespawning ${this.ids.length} environments...`)}
     }
 }
 

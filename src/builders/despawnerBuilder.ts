@@ -1,6 +1,5 @@
 import { despawner } from '../utils/despawner.ts'
 import { LOOKUP, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-import { logFunctionss } from '../utils/general.ts'
 
 export type despawnerSettings = {
     lookup: LOOKUP,
@@ -35,8 +34,6 @@ export class despawnerBuilder {
     }
     push() {
         new despawner(this.json.lookup, this.json.ids, this.json.hardDespawn, this.json.restore).push();
-
-        if(logFunctionss) { console.log(`new despawner built using ${this.json.lookup}`)}
     }
 }
 

@@ -1,7 +1,7 @@
 import { activeDiff, Geometry, GEO_TYPE, Json, RMLog, RawGeometryMaterial, ModelScene } from "https://deno.land/x/remapper@3.1.1/src/mod.ts" 
 import { logFunctionss } from './general.ts'
 
-type addGroupSettings = {
+export type addGroupSettings = {
     addGroup: boolean,
     sceneName: ModelScene
     blenderMatName: string,
