@@ -2,7 +2,7 @@ import { CustomEvent, notesBetween } from "https://deno.land/x/remapper@3.1.1/sr
 
 export class noteMod {
     /**
-     * A class to aid in adding quick noteMod effects. (currently only has one effect)
+     * A class to aid in adding quick noteMod effects.
      * @param startTime The starting time of the notes, including notes on this time.
      * @param endTime The ending time of the notes, excluding notes on this time.
      */
@@ -47,6 +47,23 @@ export class noteMod {
 
             const animtrack = new CustomEvent(note.time - 1).animateTrack(track,2);
             animtrack.animate.time = [[0,0],[0.1,0.3],[1,1,"easeInQuad"]];
+            animtrack.push();
+        })
+    }
+    /**
+     * Makes the notes pulse in size on each beat.
+     * @param pulseSize The amount to pulse (1 is nothing, 2 makes them twice the size, and 0.5 makes them half the size etc.)
+     */
+    noteBeatPulse(pulseSize = 1.5){
+        notesBetween(this.startTime,this.endTime, note => {
+            const duration = this.endTime-this.startTime
+            note.track.add("pulseNotes");
+
+            const animtrack = new CustomEvent(this.startTime).animateTrack("pulseNotes",duration);
+            animtrack.animate.length = duration;
+            for(let i = 0; i < duration; i++){
+                animtrack.animate.add("scale",[[pulseSize,pulseSize,pulseSize,i],[1,1,1,i+1]])
+            }
             animtrack.push();
         })
     }
