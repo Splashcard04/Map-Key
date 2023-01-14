@@ -76,7 +76,7 @@ export class noteMod {
     /**
      * Makes the notes fly in from the side.
      * @param spawnDistance How far away to spawn them on the left and right.
-     * @param splitBy Whether to split the notes based on their color or their position. Bombs will always use position.
+     * @param splitBy Whether to split the notes based on their color or their position.
      * @param animationEnd When in the note's lifetime to end the animation (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns).
      * @author Aurellis
      */
