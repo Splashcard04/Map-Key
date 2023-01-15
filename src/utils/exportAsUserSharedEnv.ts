@@ -1,4 +1,5 @@
 import { activeDiffGet, copy, info, Json, jsonPrune, LightEvent } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { MKLog } from "./general.ts"
 
 export type userSharedEnvSettings = {
     name?: string,
@@ -89,4 +90,5 @@ export async function exportShareableEnv(settings: userSharedEnvSettings){
     } catch(error) {
         console.log(error);
     }
+    MKLog(`Exported ${envlength} environments to "${settings.name}.dat"...`)
 }
