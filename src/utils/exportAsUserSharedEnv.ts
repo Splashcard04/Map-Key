@@ -18,7 +18,10 @@ export type userSharedEnvSettings = {
  * Takes the environments from the map and converts them into a user shared environment. This function changes the map data, so make sure you run it after your map.save() line.
  * @param settings The settings for the environment file.
  */
-export async function exportShareableEnv(settings: userSharedEnvSettings){
+export async function exportShareableEnv(settings?: userSharedEnvSettings){
+    if(!settings){
+        settings = {}
+    }
 
     // Optimise this section later
     if(!settings.name){
