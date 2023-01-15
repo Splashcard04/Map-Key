@@ -1,4 +1,4 @@
-import { activeDiffGet, copy, info, Json, jsonPrune, LightEvent } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { activeDiffGet, info, Json, jsonPrune, LightEvent } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { MKLog } from "./general.ts"
 
 export type userSharedEnvSettings = {
@@ -71,20 +71,8 @@ export async function exportShareableEnv(settings?: userSharedEnvSettings){
         environmentName: info.environment,
         description: settings.description,
         features: settings.features,
-        environment: activeDiffGet().customData.environment,
+        environment: activeDiffGet().customData.environment.map((x: Json) =>{return x.json}),
         materials: activeDiffGet().geoMaterials
-    }
-
-    // There has got to be a better way to do this...
-    const envlength = outData.environment.length;
-    outData.environment.forEach((obj: Json) =>{
-        const objectJson: Json = copy(obj.json);
-        delete obj.json;
-        outData.environment.push(objectJson);
-
-    });
-    for(let i = 0; i < envlength; i++){
-        outData.environment.shift()
     }
 
     //Create the file
@@ -93,5 +81,5 @@ export async function exportShareableEnv(settings?: userSharedEnvSettings){
     } catch(error) {
         console.log(error);
     }
-    MKLog(`Exported ${envlength} environments to "${settings.name}.dat"...`)
+    MKLog(`Exported ${outData.environment.length} environments to "${settings.name}.dat"...`)
 }
