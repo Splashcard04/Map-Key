@@ -74,9 +74,9 @@ export async function exportShareableEnv(settings: userSharedEnvSettings){
     // There has got to be a better way to do this...
     const envlength = outData.environment.length;
     outData.environment.forEach((obj: Json) =>{
-        const son: Json = copy(obj.json);
+        const objectJson: Json = copy(obj.json);
         delete obj.json;
-        outData.environment.push(son);
+        outData.environment.push(objectJson);
 
     });
     for(let i = 0; i < envlength; i++){
