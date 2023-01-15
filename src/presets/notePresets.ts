@@ -14,7 +14,7 @@ export class noteMod {
     ){}
     /**
      * Makes the notes fly in as a line then jump to their proper position.
-     * @param position The lineIndex (number 0 - 3), and linelayer (number 0 - 2) that the line will be on.
+     * @param position The lineIndex, and linelayer that the line will be on.
      * @param jumpTime The point in the note's lifetime that it will jump up to the proper position, [startOfJump, endOfJump] (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns).
      * @author Aurellis
      */
