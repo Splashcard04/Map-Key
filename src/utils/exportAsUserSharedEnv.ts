@@ -1,4 +1,4 @@
-import { activeDiffGet, info, Json, jsonPrune, LightEvent } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { activeDiffGet, copy, info, Json, jsonPrune, LightEvent } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { MKLog } from "./general.ts"
 
 export type userSharedEnvSettings = {
@@ -15,7 +15,7 @@ export type userSharedEnvSettings = {
 
 
 /**
- * Takes the environments from the map and converts them into a user shared environment. This function changes the map data, so make sure you run it after your map.save() line.
+ * Takes the environments from the map and converts them into a user shared environment.
  * @param settings The settings for the environment file.
  */
 export async function exportShareableEnv(settings?: userSharedEnvSettings){
@@ -39,26 +39,30 @@ export async function exportShareableEnv(settings?: userSharedEnvSettings){
     if(!settings.features){
         settings.features = {}
     }
-
+    const envArray: Json[] = []
     // Convert the type and material to their underscored counterparts and remove tracks
     activeDiffGet().geometry(arr =>{
         arr.forEach(geo =>{
-            geo.json.geometry = {
+            const nu = copy(geo)
+            nu.json.geometry = {
                 _type: geo.type,
                 _material: geo.material
             }
-            if(geo.json.track){
-                delete geo.json.track
+            if(nu.json.track){
+                delete nu.json.track
             }
-            jsonPrune(geo)
+            jsonPrune(nu)
+            envArray.push(nu)
         })
     })
     activeDiffGet().environment(arr =>{
         arr.forEach(env =>{
-            if(env.json.track){
-                delete env.json.track
+            const nu = copy(env)
+            if(nu.json.track){
+                delete nu.json.track
             }
-            jsonPrune(env)
+            jsonPrune(nu)
+            envArray.push(nu)
         })
     })
 
@@ -71,7 +75,7 @@ export async function exportShareableEnv(settings?: userSharedEnvSettings){
         environmentName: info.environment,
         description: settings.description,
         features: settings.features,
-        environment: activeDiffGet().customData.environment.map((x: Json) =>{return x.json}),
+        environment: envArray.map((x: Json) => {return x.json}),
         materials: activeDiffGet().geoMaterials
     }
 
