@@ -39,8 +39,8 @@ export async function exportShareableEnv(settings?: userSharedEnvSettings){
     if(!settings.features){
         settings.features = {}
     }
-    const envArray: Json[] = []
     // Convert the type and material to their underscored counterparts and remove tracks
+    const envArray: Json[] = []
     activeDiffGet().geometry(arr =>{
         arr.forEach(geo =>{
             const nu = copy(geo)
