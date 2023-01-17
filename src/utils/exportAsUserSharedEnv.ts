@@ -9,7 +9,7 @@ export type userSharedEnvSettings = {
     features?: {
         forceEffectsFilter?: "AllEffects" | "StrobeFilter" | "NoEffects"
         useChromaEvents?: true,
-        basicBeatMapEvents?: LightEvent
+        basicBeatMapEvents?: LightEvent[]
     }
 }
 
