@@ -6,10 +6,11 @@ export type userSharedEnvSettings = {
     author?: string,
     environmentVersion?: string,
     description?: string,
+    copyLightEvents?: "All Events" | "Events At Beat 0",
     features?: {
-        forceEffectsFilter?: "AllEffects" | "StrobeFilter" | "NoEffects"
+        forceEffectsFilter?: "AllEffects" | "StrobeFilter" | "NoEffects",
         useChromaEvents?: true,
-        // basicBeatMapEvents? // Idk how to set this up properly yet
+        basicBeatMapEvents?: Json[]
     }
 }
 
@@ -38,6 +39,25 @@ export async function exportShareableEnv(settings?: userSharedEnvSettings){
     }
     if(!settings.features){
         settings.features = {}
+    }
+    // Add light events
+    const eventArray: Json[] = []
+    if(settings.copyLightEvents){
+        if(settings.copyLightEvents == "All Events"){
+            activeDiffGet().events.forEach(ev =>{
+                eventArray.push(ev)
+            })
+        }
+        else if(settings.copyLightEvents == "Events At Beat 0"){
+            activeDiffGet().events.forEach(ev =>{
+                if(ev.time == 0){
+                    eventArray.push(ev)
+                }
+            })
+        }
+    }
+    if(eventArray.length !== 0){
+        settings.features.basicBeatMapEvents = eventArray.map((x: Json) =>{return x.json})
     }
     // Convert the type and material to their underscored counterparts and remove tracks
     const envArray: Json[] = []
@@ -78,7 +98,6 @@ export async function exportShareableEnv(settings?: userSharedEnvSettings){
         environment: envArray.map((x: Json) => {return x.json}),
         materials: activeDiffGet().geoMaterials
     }
-
     //Create the file
     try {
         await Deno.writeTextFile(`${settings.name}.dat`, JSON.stringify(outData));
