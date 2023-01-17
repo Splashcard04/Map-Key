@@ -151,7 +151,11 @@ export class noise {
    */
   constructor(
     public seed: number = Date.now()
-  ){}
+  ){
+    if(logFunctionss){
+      MKLog(`Initialised new noise with seed ${seed}...`)
+    }
+  }
   /**
    * Get the value at a 2d point in the noise.
    * @param coord The point to get the value from.
