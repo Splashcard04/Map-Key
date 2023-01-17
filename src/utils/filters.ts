@@ -8,7 +8,6 @@ import { logFunctionss, MKLog } from "./general.ts";
  * @param value The value that the property must be to pass.
  * @param forEach What to execute for each object that passes.
  * @author Aurellis
- * @todo Enum property for easier use.
  */
 export function filterGeometry(property: GEO_FILTER_PROPS | position | rotation | scale, value: number[] | string | number, forEach: (x: Geometry) => void){
     let count = 0
@@ -41,7 +40,6 @@ export function filterGeometry(property: GEO_FILTER_PROPS | position | rotation 
    * @param value The value that the property must be to pass.
    * @param forEach What to execute for each object that passes.
    * @author Aurellis
-   * @todo Enum property for easier use.
    */
   export function filterEnvironments(property: ENV_FILTER_PROPS | position | rotation | scale, value: number[] | string | number, forEach: (x: Environment) => void){
     let count = 0

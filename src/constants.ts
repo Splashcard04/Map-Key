@@ -30,7 +30,16 @@ export type ENV_FILTER_PROPS =
     "rotation" |
     "scale" |
     "id" |
-    "lookupMethod"
+    "lookupMethod" |
+    "position[0]" |
+    "position[1]" |
+    "position[2]" |
+    "rotation[0]" |
+    "rotation[1]" |
+    "rotation[2]" |
+    "scale[0]" |
+    "scale[1]" |
+    "scale[2]"
 
 export type NOTE_FILTER_PROPS = 
     "time" |
@@ -42,8 +51,18 @@ export type NOTE_FILTER_PROPS =
     "fake" |
     "interactable" |
     "color" |
+    "color[0]" |
+    "color[1]" |
+    "color[2]" |
+    "color[3]" |
     "rotation" |
+    "rotation[0]" |
+    "rotation[1]" |
+    "rotation[2]" |
     "localRotation" |
+    "localRotation[0]" |
+    "localRotation[1]" |
+    "localRotation[2]" |
     "offset" |
     "NJS"
 
@@ -58,6 +77,12 @@ export enum rotation {
   pitch = "rotation[0]",
   yaw = "rotation[1]",
   roll = "rotation[2]",
+}
+
+export enum localRotation {
+    pitch = "localRotation[0]",
+    yaw = "localRotation[1]",
+    roll = "localRotation[2]"
 }
 
 export enum scale {
