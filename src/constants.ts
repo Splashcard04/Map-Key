@@ -13,7 +13,16 @@ export type BFM_PROPS =
     "rotation" |
     "scale" |
     "type" |
-    "material"
+    "material" |
+    "position[0]" |
+    "position[1]" |
+    "position[2]" |
+    "rotation[0]" |
+    "rotation[1]" |
+    "rotation[2]" |
+    "scale[0]" |
+    "scale[1]" |
+    "scale[2]"
 
 export type ENV_FILTER_PROPS = 
     "track" |
@@ -22,6 +31,21 @@ export type ENV_FILTER_PROPS =
     "scale" |
     "id" |
     "lookupMethod"
+
+export type NOTE_FILTER_PROPS = 
+    "time" |
+    "type" |
+    "track" |
+    "x" |
+    "y" |
+    "direction" |
+    "fake" |
+    "interactable" |
+    "color" |
+    "rotation" |
+    "localRotation" |
+    "offset" |
+    "NJS"
 
 // to use with params in the filter functions
 export enum position {
