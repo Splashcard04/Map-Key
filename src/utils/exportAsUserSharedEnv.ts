@@ -1,4 +1,4 @@
-import { activeDiffGet, copy, info, Json, jsonPrune, LightEvent } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { activeDiffGet, copy, info, Json, jsonPrune } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { MKLog } from "./general.ts"
 
 export type userSharedEnvSettings = {
@@ -9,7 +9,7 @@ export type userSharedEnvSettings = {
     features?: {
         forceEffectsFilter?: "AllEffects" | "StrobeFilter" | "NoEffects"
         useChromaEvents?: true,
-        basicBeatMapEvents?: LightEvent[]
+        // basicBeatMapEvents? // Idk how to set this up properly yet
     }
 }
 
