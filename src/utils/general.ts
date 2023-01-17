@@ -146,7 +146,7 @@ export function MKLog(message: string){
 
 export class noise {
   /**
-   * Creates a 2d noise map.
+   * Creates a 2d noise map with a seed.
    * @param seed The seed for the noise (leave blank for random)
    */
   constructor(
