@@ -144,9 +144,9 @@ export function MKLog(message: string){
   console.log(`[MapKey: ${getSeconds()}s] ` + message)
 }
 
-export class noise {
+export class noise2d {
   /**
-   * Creates a 2d noise map with a seed.
+   * Creates a 2d noise map with a seed. Noise values range from roughly -0.9 to 0.9.
    * @param seed The seed for the noise (leave blank for random)
    */
   constructor(
