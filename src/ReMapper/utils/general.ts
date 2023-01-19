@@ -173,11 +173,11 @@ export function vectorUnit(vector: Vec3){
  * @author Aurellis
  */
 export function pointLook(point1: Vec3, point2: Vec3, defaultAngle?: Vec3){
-  const unitvector = vectorUnit(arrSubtract(point2,point1))
+  const vector = arrSubtract(point2,point1)
   if(defaultAngle){
-    return arrSubtract([-180*Math.atan(unitvector[1]/unitvector[2])/Math.PI,180*Math.atan(unitvector[0]/unitvector[2])/Math.PI,0],defaultAngle)
+    return arrSubtract([-180*Math.atan(vector[1]/vector[2])/Math.PI,180*Math.atan2(vector[0],vector[2])/Math.PI,0],defaultAngle)
   }
   else{
-    return [-180*Math.atan(unitvector[1]/unitvector[2])/Math.PI,180*Math.atan(unitvector[0]/unitvector[2])/Math.PI,0]
+    return [-180*Math.atan2(vector[1],Math.sqrt(Math.pow(vector[0],1)+Math.pow(vector[2],2)))/Math.PI,180*Math.atan2(vector[0],vector[2])/Math.PI,0]
   }
 }
