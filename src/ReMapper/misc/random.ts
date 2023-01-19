@@ -5,7 +5,7 @@ import { logFunctionss, MKLog } from "../exports.ts";
 
 export class randArray {
     /**
-    * Creates an array of random numbers with a seed for repeatable use.
+    * Creates an array of random numbers with a seed for reproducible results.
     * @param seed The seed for prng generation, leave blank to keep random.
     * @param range The min/max that the numbers in the array can be.
     * @param length The length of the array (how many numbers to generate).
@@ -132,6 +132,7 @@ export class noise {
     /**
      * Creates a 2d noise map with a seed. Noise values range from roughly -0.9 to 0.9.
      * @param seed The seed for the noise (leave blank for random).
+     * @author Aurellis
      */
     constructor(
         public seed: number = Date.now()
@@ -170,11 +171,12 @@ export class noise {
   }
 
 /**
- * Random number generator with optional seed for reproducable results.
+ * Random number generator with optional seed for reproducible results.
  * @param min The minimun possible number to generate (inclusive).
  * @param max The maximum possible number to generate (exclusive).
  * @param seed The optional seed to apply to the generator (leave blank for random).
  * @returns Random number.
+ * @author Aurellis
  */
 export function seedRNG(min: number, max: number, seed?: number | string){
     const number = new Seed("", PRNGs.mulberry32);
