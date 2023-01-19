@@ -136,11 +136,20 @@ export class hueCycle {
 }
 
 /**
- * Kid: "Can we use RMLog?". Mother: "Honey, we have RMLog a home". The RMLog at home...
- * @param message Message to log.
+ * log any message labeled as a MapKey lint proscess
+ * @param message the message to log with Map Key label
+ * @param error is the message stating an error?
  */
-export function MKLog(message: string){
-  console.log(`[MapKey: ${getSeconds()}s] ` + message)
+
+export function mkLog(messgae: string, error?: boolean) {
+  let err = false
+  if(!error) { err = false } else { err = error }
+
+  if(err === true) {
+    console.log(`\x1b[1m \x1b[31m[Error In MapKey: ${getSeconds()}]` + `\x1b[32m ${messgae}`)
+  } else{
+    console.log(`\x1b[1m \x1b[32m [MapKey: ${getSeconds()}]` + `\x1b[32m ${messgae}}`)
+  }
 }
 
 /**
