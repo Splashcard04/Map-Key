@@ -127,9 +127,9 @@ export class randArray {
     }
 }
 
-export class noise {
+export class Noise {
     /**
-     * Creates a 2d noise map with a seed. Noise values range from roughly -0.9 to 0.9.
+     * Creates a noise map with a seed. Noise values range from roughly -0.9 to 0.9.
      * @param seed The seed for the noise (leave blank for random).
      * @author Aurellis
      */
@@ -163,7 +163,7 @@ export class noise {
         const init = makeNoise4D(this.seed)
         return init(coord[0],coord[1],coord[2],coord[3])
     }
-  }
+}
 
 /**
  * Random number generator with optional seed for reproducible results.
