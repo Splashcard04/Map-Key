@@ -1,7 +1,6 @@
 import { PRNGs, Seed } from "https://deno.land/x/seed@1.0.0/index.ts";
 import { setDecimals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 import { makeNoise2D, makeNoise3D, makeNoise4D } from "https://deno.land/x/open_simplex_noise@v2.5.0/mod.ts";
-import { logFunctionss, MKLog } from "../exports.ts";
 
 export class randArray {
     /**
@@ -136,11 +135,7 @@ export class noise {
      */
     constructor(
         public seed: number = Date.now()
-    ){
-        if(logFunctionss){
-            MKLog(`Initialised new noise with seed ${seed}...`)
-        }
-    }
+    ){}
     /**
      * Get the value at a 2D point in the noise.
      * @param coord The point to get the value from.
