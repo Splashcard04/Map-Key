@@ -1,7 +1,6 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
 import { arcsBetween, chainsBetween, Color, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { BFM_PROPS } from "../constants.ts"
-import { makeNoise2D } from "https://deno.land/x/open_simplex_noise@v2.5.0/mod.ts";
 
 export let logFunctionss = false
 
@@ -142,27 +141,4 @@ export class hueCycle {
  */
 export function MKLog(message: string){
   console.log(`[MapKey: ${getSeconds()}s] ` + message)
-}
-
-export class noise2d {
-  /**
-   * Creates a 2d noise map with a seed. Noise values range from roughly -0.9 to 0.9.
-   * @param seed The seed for the noise (leave blank for random)
-   */
-  constructor(
-    public seed: number = Date.now()
-  ){
-    if(logFunctionss){
-      MKLog(`Initialised new noise with seed ${seed}...`)
-    }
-  }
-  /**
-   * Get the value at a 2d point in the noise.
-   * @param coord The point to get the value from.
-   * @returns The value at the point.
-   */
-  point(coord: [number, number]){
-    const init = makeNoise2D(this.seed)
-    return init(coord[0],coord[1])
-  }
 }

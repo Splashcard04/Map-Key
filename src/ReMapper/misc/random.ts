@@ -1,5 +1,7 @@
 import { PRNGs, Seed } from "https://deno.land/x/seed@1.0.0/index.ts";
 import { setDecimals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { makeNoise2D } from "https://deno.land/x/open_simplex_noise@v2.5.0/2d.ts";
+import { logFunctionss, MKLog } from "../exports.ts";
 
 export class randArray {
     /**
@@ -124,4 +126,46 @@ export class randArray {
         }
         return res;
     }
+}
+
+export class noise2d {
+    /**
+     * Creates a 2d noise map with a seed. Noise values range from roughly -0.9 to 0.9.
+     * @param seed The seed for the noise (leave blank for random)
+     */
+    constructor(
+      public seed: number = Date.now()
+    ){
+      if(logFunctionss){
+        MKLog(`Initialised new noise with seed ${seed}...`)
+      }
+    }
+    /**
+     * Get the value at a 2d point in the noise.
+     * @param coord The point to get the value from.
+     * @returns The value at the point.
+     */
+    point(coord: [number, number]){
+      const init = makeNoise2D(this.seed)
+      return init(coord[0],coord[1])
+    }
+  }
+
+
+/**
+ * Random number generator with optional seed for reproducable results.
+ * @param min The minimun possible number to generate (inclusive).
+ * @param max The maximum possible number to generate (exclusive).
+ * @param seed The optional seed to apply to the generator (leave blank for random).
+ * @returns Random number.
+ */
+export function seedRNG(min: number, max: number, seed?: number | string){
+    const number = new Seed("", PRNGs.mulberry32);
+    if(seed){
+        number.seed = seed.toString();
+    }
+    else{
+        number.seed = Date.now().toString()
+    }
+    return number.randomFloat(min,max)
 }
