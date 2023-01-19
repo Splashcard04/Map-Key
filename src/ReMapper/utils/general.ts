@@ -146,7 +146,7 @@ export function MKLog(message: string){
 /**
  * Finds the magnitude of a vector.
  * @param vector The vector to find the magnitude of.
- * @returns number - the magnitude of the vector.
+ * @returns The magnitude of the vector.
  */
 export function vectorMagnitude(vector: Vec3){
   return Math.sqrt(Math.pow(vector[0],2)+Math.pow(vector[1],2)+Math.pow(vector[2],2))
@@ -155,7 +155,7 @@ export function vectorMagnitude(vector: Vec3){
 /**
  * Finds the unit vector in the same direction as another vector.
  * @param vector The vector to find the unit of.
- * @returns Vec3 - The unit vector in the direction of the input vector.
+ * @returns The unit vector in the direction of the input vector.
  */
 export function vectorUnit(vector: Vec3){
   const mag = vectorMagnitude(vector);
@@ -166,7 +166,7 @@ export function vectorUnit(vector: Vec3){
  * Finds the rotation of an object at point1 so that it faces point2.
  * @param point1 The position of the object.
  * @param point2 Where the object should be facing.
- * @param defaultAngle The angle that determines where "forwards" is for the object. (i.e., player - [0,0,0], notes - [0,180,0], upwards facing lasers - [90,0,0] etc.)
+ * @param defaultAngle The angle that determines where "forwards" is for the object, defaults to the +z axis. (i.e., player - [0,0,0], notes - [0,180,0], upwards facing lasers - [-90,0,0] etc.)
  * @returns The rotation for the object at point1.
  * @author Aurellis
  */
