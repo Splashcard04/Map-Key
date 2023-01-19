@@ -1,5 +1,5 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { arcsBetween, arrSubtract, chainsBetween, Color, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { arcsBetween, arrSubtract, chainsBetween, Color, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { BFM_PROPS } from "../constants.ts"
 
 export let logFunctionss = false
@@ -162,8 +162,6 @@ export function vectorUnit(vector: Vec3){
   return [vector[0]/mag,vector[1]/mag,vector[2]/mag]
 }
 
-
-// This probably doesn't work. I haven't tested it yet, but the math should be ok.
 /**
  * Finds the rotation of an object at point1 so that it faces point2.
  * @param point1 The position of the object.
@@ -172,12 +170,15 @@ export function vectorUnit(vector: Vec3){
  * @returns The rotation for the object at point1.
  * @author Aurellis
  */
-export function pointLook(point1: Vec3, point2: Vec3, defaultAngle?: Vec3){
-  const vector = arrSubtract(point2,point1)
+export function pointRotation(point1: Vec3, point2: Vec3, defaultAngle?: Vec3){
+  const vector = arrSubtract(point2,point1);
+  const angle = [0,180*Math.atan2(vector[0],vector[2])/Math.PI,0];
+  const pitchPoint = rotatePoint(vector,[0,-angle[1],0]);
+  angle[0] = -180*Math.atan2(pitchPoint[1],pitchPoint[2])/Math.PI;
   if(defaultAngle){
-    return arrSubtract([-180*Math.atan(vector[1]/vector[2])/Math.PI,180*Math.atan2(vector[0],vector[2])/Math.PI,0],defaultAngle)
+      return arrSubtract(angle,defaultAngle)
   }
   else{
-    return [-180*Math.atan2(vector[1],Math.sqrt(Math.pow(vector[0],1)+Math.pow(vector[2],2)))/Math.PI,180*Math.atan2(vector[0],vector[2])/Math.PI,0]
+      return angle
   }
 }
