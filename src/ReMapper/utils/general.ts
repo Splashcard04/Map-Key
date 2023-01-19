@@ -139,16 +139,23 @@ export class hueCycle {
  * log any message labeled as a MapKey lint proscess
  * @param message the message to log with Map Key label
  * @param error is the message stating an error?
+ * @param warning is the message logging a warning?
  */
 
-export function mkLog(messgae: string, error?: boolean) {
-  let err = false
-  if(!error) { err = false } else { err = error }
+export function mkLog(msg: string, err?: boolean, warning?: boolean) {
+  let error = false
+  if(!err) { error = false } else { error = true }
+  let warn = false
+  if(!warning) { warn = false } else { warn = warning }
 
-  if(err === true) {
-    console.log(`\x1b[1m \x1b[31m[Error In MapKey: ${getSeconds()}]` + `\x1b[32m ${messgae}`)
-  } else{
-    console.log(`\x1b[1m \x1b[32m [MapKey: ${getSeconds()}]` + `\x1b[32m ${messgae}}`)
+  if(error === false && warn === false) {
+      console.log(`\x1b[32m [MapKey]:` + `\x1b[1m \x1b[37m ${msg}`)
+  }
+  if(warn === false && error === true) {
+      console.log(`\x1b[1m \x1b[31m [Error In MapKey]:` + `\x1b[1m \x1b[37m ${msg}`)
+  }
+  if(warn === true && error === false) {
+      console.log(`\x1b[1m \x1b[33m [Warning In MapKey]` + `\x1b[1m \x1b[37m ${msg}`)
   }
 }
 
