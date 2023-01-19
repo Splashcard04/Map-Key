@@ -1,6 +1,6 @@
 import { PRNGs, Seed } from "https://deno.land/x/seed@1.0.0/index.ts";
 import { setDecimals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
-import { makeNoise2D } from "https://deno.land/x/open_simplex_noise@v2.5.0/2d.ts";
+import { makeNoise2D, makeNoise3D, makeNoise4D } from "https://deno.land/x/open_simplex_noise@v2.5.0/mod.ts";
 import { logFunctionss, MKLog } from "../exports.ts";
 
 export class randArray {
@@ -128,29 +128,46 @@ export class randArray {
     }
 }
 
-export class noise2d {
+export class noise {
     /**
      * Creates a 2d noise map with a seed. Noise values range from roughly -0.9 to 0.9.
-     * @param seed The seed for the noise (leave blank for random)
+     * @param seed The seed for the noise (leave blank for random).
      */
     constructor(
-      public seed: number = Date.now()
+        public seed: number = Date.now()
     ){
-      if(logFunctionss){
-        MKLog(`Initialised new noise with seed ${seed}...`)
-      }
+        if(logFunctionss){
+            MKLog(`Initialised new noise with seed ${seed}...`)
+        }
     }
     /**
-     * Get the value at a 2d point in the noise.
+     * Get the value at a 2D point in the noise.
      * @param coord The point to get the value from.
      * @returns The value at the point.
      */
-    point(coord: [number, number]){
-      const init = makeNoise2D(this.seed)
-      return init(coord[0],coord[1])
+    point2D(coord: [number, number]){
+        const init = makeNoise2D(this.seed)
+        return init(coord[0],coord[1])
+    }
+    /**
+     * Get the value at a 3D point in the noise.
+     * @param coord The point to get the value from.
+     * @returns The value at the point.
+     */
+    point3D(coord: [number, number, number]){
+        const init = makeNoise3D(this.seed)
+        return init(coord[0],coord[1],coord[2])
+    }
+    /**
+     * Get the value at a 4D point in the noise.
+     * @param coord The point to get the value from.
+     * @returns The value at the point.
+     */
+    point4D(coord: [number, number, number, number]){
+        const init = makeNoise4D(this.seed)
+        return init(coord[0],coord[1],coord[2],coord[3])
     }
   }
-
 
 /**
  * Random number generator with optional seed for reproducable results.
