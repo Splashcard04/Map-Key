@@ -1,5 +1,5 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { arcsBetween, chainsBetween, Color, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { arcsBetween, arrSubtract, chainsBetween, Color, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { BFM_PROPS } from "../constants.ts"
 
 export let logFunctionss = false
@@ -141,4 +141,43 @@ export class hueCycle {
  */
 export function MKLog(message: string){
   console.log(`[MapKey: ${getSeconds()}s] ` + message)
+}
+
+/**
+ * Finds the magnitude of a vector.
+ * @param vector The vector to find the magnitude of.
+ * @returns number - the magnitude of the vector.
+ */
+export function vectorMagnitude(vector: Vec3){
+  return Math.sqrt(Math.pow(vector[0],2)+Math.pow(vector[1],2)+Math.pow(vector[2],2))
+}
+
+/**
+ * Finds the unit vector in the same direction as another vector.
+ * @param vector The vector to find the unit of.
+ * @returns Vec3 - The unit vector in the direction of the input vector.
+ */
+export function vectorUnit(vector: Vec3){
+  const mag = vectorMagnitude(vector);
+  return [vector[0]/mag,vector[1]/mag,vector[2]/mag]
+}
+
+
+// This probably doesn't work. I haven't tested it yet, but the math should be ok.
+/**
+ * Finds the rotation of an object at point1 so that it faces point2.
+ * @param point1 The position of the object.
+ * @param point2 Where the object should be facing.
+ * @param defaultAngle The angle that determines where "forwards" is for the object. (i.e., player - [0,0,0], notes - [0,180,0], upwards facing lasers - [90,0,0] etc.)
+ * @returns The rotation for the object at point1.
+ * @author Aurellis
+ */
+export function pointLook(point1: Vec3, point2: Vec3, defaultAngle?: Vec3){
+  const unitvector = vectorUnit(arrSubtract(point2,point1))
+  if(defaultAngle){
+    return arrSubtract([-180*Math.atan(unitvector[1]/unitvector[2])/Math.PI,180*Math.atan(unitvector[0]/unitvector[2])/Math.PI,0],defaultAngle)
+  }
+  else{
+    return [-180*Math.atan(unitvector[1]/unitvector[2])/Math.PI,180*Math.atan(unitvector[0]/unitvector[2])/Math.PI,0]
+  }
 }
