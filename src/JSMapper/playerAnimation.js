@@ -1,4 +1,5 @@
 const {  animateTrack, assignTrackParent, assignPlayerToTrack, notesBetween } = require(`splashcard_jsmapper`)
+const { MKlog } = require(`./general.js`) 
 
 class playerAnimation {
 
@@ -10,11 +11,22 @@ class playerAnimation {
      * @param { Vec3 animation } rotation the rotation to animate the player
      * @author @Splashcard04
      */
-    constructor(settings = { time: 0, duration: 10, position: [0, 0, 0, 0], rotation: [0, 0, 0]}) {
+    constructor(settings = { time: 0, 
+        duration: 10, 
+        position: [0, 0, 0, 0], 
+        rotation: [0, 0, 0], 
+        playerTrack: "bruh", 
+        noteTrack: "idk"}) 
+        {
         this.time = settings.time
         this.duration = settings.duration
-        if(settings.position) { this.position = settings.position } else { this.position = [0, 0, 0] }
+        if(settings.position) { this.position = settings.position } else { 
+            this.position = [0, 0, 0]
+            MKLog("parameter `position` was undefined, value has been reverted to 0, 0, 0", false, true)
+        }
         if(settings.rotation) { this.rotation = settings.rotation } else { this.rotation = [0, 0, 0] }
+        this.playerTrack = settings.playerTrack
+        this.noteTrack = settings.noteTrack
     }
 
     push() {
@@ -33,14 +45,35 @@ class playerAnimation {
             parentTrack: "player"
         }).push()
 
-        new assignPlayerToTrack({
-            time: this.time,
-            track: "player"
-        }).push()
+        if(!this.playerTrack || this.playerTrack === undefined) {
+            new assignPlayerToTrack({
+                time: this.time,
+                track: "player"
+            }).push()
+        } else {
+            new assignPlayerToTrack({
+                time: this.time,
+                track: "player"
+            }).push()
 
-        notesBetween(this.time, timeEnd, {
-            "_track": "player"
-        })
+            new assignPlayerToTrack({
+                time: this.time,
+                track: this.playerTrack
+            })
+        }
+
+        if(!this.noteTrack || this.noteTrack === undefined) {
+            notesBetween(this.time, timeEnd, {
+                "_track": "notes"
+            })
+        } else {
+            notesBetween(this.time, timeEnd, {
+                "_track": [
+                    notes,
+                    this.noteTrack
+                ]
+            })
+        }
     }
 }
 

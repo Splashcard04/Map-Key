@@ -31,8 +31,8 @@ export function filterGeometry(property: GEO_FILTER_PROPS | position | rotation 
     })
     if(logFunctionss){
       MKLog(`Filtered ${activeDiffGet().geometry(arr =>{arr.length})} environments for objects with a ${property} of ${value}...\nobjects found: ${count}`)
-    }
   }
+}
   
   /**
    * Works like notesBetween. Except it searches for environments, with a set value for any property on the object as the filter.
