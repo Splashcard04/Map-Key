@@ -25,7 +25,12 @@ module.exports.logFunctionss = let logFunctions = false
 
 module.exports.logFunctions = function logFunctions() {
     /**
-     * Put this at the beginning of your script to log properties of called functions and classes
+     * Put this at the beginning of your script to console log properties of called functions and classes
      */
     logFunctionss = true
+}
+
+module.exports = {
+    logFunctions: logFunctions,
+    logFunctionss: logFunctionss
 }
