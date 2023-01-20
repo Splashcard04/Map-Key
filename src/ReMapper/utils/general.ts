@@ -136,26 +136,21 @@ export class hueCycle {
 }
 
 /**
- * log any message labeled as a MapKey lint proscess
- * @param message the message to log with Map Key label
- * @param error is the message stating an error?
- * @param warning is the message logging a warning?
+ * log any message labeled as a MapKey lint process.
+ * @param message The message to log with Map Key label.
+ * @param errorLevel Whether to log the message as a warning or an error (or leave blank for regular log)
  */
 
-export function mkLog(msg: string, err?: boolean, warning?: boolean) {
-  let error = false
-  if(!err) { error = false } else { error = true }
-  let warn = false
-  if(!warning) { warn = false } else { warn = warning }
-
-  if(error === false && warn === false) {
-      console.log(`\x1b[32m [MapKey]:` + `\x1b[1m \x1b[37m ${msg}`)
+// deno-lint-ignore no-explicit-any
+export function MKLog(message: any, errorLevel?: "Warning" | "Error") {
+  if(!errorLevel) {
+      console.log(`\x1b[32m [MapKey: ${getSeconds()}]` + `\x1b[1m \x1b[37m ${message}`)
   }
-  if(warn === false && error === true) {
-      console.log(`\x1b[1m \x1b[31m [Error In MapKey]:` + `\x1b[1m \x1b[37m ${msg}`)
+  if(errorLevel == "Error") {
+      console.log(`\x1b[1m \x1b[31m [Error In MapKey: ${getSeconds()}]` + `\x1b[1m \x1b[37m ${message}`)
   }
-  if(warn === true && error === false) {
-      console.log(`\x1b[1m \x1b[33m [Warning In MapKey]` + `\x1b[1m \x1b[37m ${msg}`)
+  if(errorLevel == "Warning") {
+      console.log(`\x1b[1m \x1b[33m [Warning In MapKey: ${getSeconds()}]` + `\x1b[1m \x1b[37m ${message}`)
   }
 }
 

@@ -8,11 +8,11 @@ To use Map Key in your script, you will need to import it. This works in the sam
 
 You can either import all items (not recommended as you will have to prefix everything with `mk.`).
 ```ts
-import * as mk from "https://deno.land/x/mapkey@0.0.3/src/exports.ts"
+import * as mk from "https://deno.land/x/mapkey@0.1.0/src/exports.ts"
 ```
 Or specify the individual items you need.
 ```ts
-import { PlayerAnim, shapeGenerator } from "https://deno.land/x/mapkey@0.0.3/src/exports.ts"
+import { PlayerAnim, shapeGenerator } from "https://deno.land/x/mapkey@0.1.0/src/exports.ts"
 ```
 **Important!**
 
@@ -20,6 +20,8 @@ When you add your import it will likely show an error, hover over the link, clic
 
 to get started with map key, head over to the [Wiki](https://github.com/Splashcard04/Map-Key/wiki).
 
-# HeckLib?
+# Other mapping tools?
 
-For those of you who use [HeckLib](https://github.com/Heck-Library/HeckLib), most of the features of MapKey will not work for you. However, a port of MapKey is being *slowly* developed. So, hang tight, you have not been forgotten.  There is a **very** small beta version of a port which you can find [here](https://github.com/Splashcard04/MapKey-HL), in the future there will be a deno file cloning system just like the one for ReMapper so that you dont have to manually download.
+For those of you who use [HeckLib](https://github.com/Heck-Library/HeckLib), most of the features of MapKey will not work for you. However, a port of MapKey is being *slowly* developed. So, hang tight, you have not been forgotten.  There is a **very** small beta version of a port which you can find [here](https://github.com/Splashcard04/Map-Key/tree/main/src/HeckLib), in the future there will be a deno file cloning system just like the one for ReMapper so that you dont have to manually download.
+
+For those of you who use [JSMapper](https://github.com/Splashcard04/JSMapper), MapKey will not work for you. Like HeckLib, a port of MapKey is being developed and will be available in the near future (most likely the next release of MapKey). When this happens, the importing system will change, so be prepared for that in the update. You can check the current state of JSM's MapKey [here](https://github.com/Splashcard04/Map-Key/tree/main/src/JSMapper).

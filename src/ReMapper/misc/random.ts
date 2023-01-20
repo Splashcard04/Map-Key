@@ -1,6 +1,7 @@
 import { PRNGs, Seed } from "https://deno.land/x/seed@1.0.0/index.ts";
 import { setDecimals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 import { makeNoise2D, makeNoise3D, makeNoise4D } from "https://deno.land/x/open_simplex_noise@v2.5.0/mod.ts";
+import { MKLog } from "../utils/general.ts";
 
 export class randArray {
     /**
@@ -73,10 +74,13 @@ export class randArray {
                     bufferruns.push(j)
                 }
             }
+            if(j !< buffer){
+                MKLog(`Failed to find unique number, using ${gen} instead...`,"Error")
+            }
             res.push(gen)
         }
         if(debugBuffer){
-            console.log(bufferruns)
+            MKLog(bufferruns)
         }
         return res;
     }
@@ -118,10 +122,13 @@ export class randArray {
                     bufferruns.push(j)
                 }
             }
+            if(j !< buffer){
+                MKLog(`Failed to find unique number, using ${gen} instead...`, "Error")
+            }
             res.push(gen);
         }
         if(debugBuffer){
-            console.log(bufferruns)
+            MKLog(bufferruns)
         }
         return res;
     }
