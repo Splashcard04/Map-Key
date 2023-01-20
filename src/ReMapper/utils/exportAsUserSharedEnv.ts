@@ -102,7 +102,7 @@ export async function exportShareableEnv(settings?: userSharedEnvSettings){
     try {
         await Deno.writeTextFile(`${settings.name}.dat`, JSON.stringify(outData));
     } catch(error) {
-        console.log(error);
+        MKLog(error, "Error");
     }
     MKLog(`Exported ${outData.environment.length} environments to "${settings.name}.dat"...`)
 }
