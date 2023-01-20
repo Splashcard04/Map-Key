@@ -1,4 +1,4 @@
-import { Environment } from './src/main.ts'
+import { Environment } from './HeckLib/main.ts'
 import { mkLog } from '../ReMapper/utils/general.ts'
 import { lookup, Json } from './constants.ts'
 
