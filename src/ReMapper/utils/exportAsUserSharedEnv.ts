@@ -17,14 +17,20 @@ export type userSharedEnvSettings = {
 
 /**
  * Takes the environments from the map and converts them into a user shared environment.
- * @param settings The settings for the environment file.
+ * @param settings.name The settings for the environment and file.
+ * @param settings.author The author of the environment (probably you).
+ * @param settings.environmentVersion The version of your environment.
+ * @param settings.description The description of your environment. This feature is currently unused by chroma.
+ * @param settings.copyLightEvents Optional to copy lighting events from the map to your env.
+ * @param settings.features.forceEffectsFilter Suggests the effectsFilter to be used with the env.
+ * @param settings.features.useChromaEvents Suggests the chromaEvents setting to be used with the env.
+ * @param settings.features.basicBeatMapEvents The raw json of basic lighting events to be loaded with the env.
  */
 export async function exportShareableEnv(settings?: userSharedEnvSettings){
     if(!settings){
         settings = {}
     }
-
-    // Optimise this section later
+    // Default values
     if(!settings.name){
         settings.name = `${info.name} environment`
     }
