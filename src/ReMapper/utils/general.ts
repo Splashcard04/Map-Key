@@ -142,20 +142,15 @@ export class hueCycle {
  * @param warning is the message logging a warning?
  */
 
-export function mkLog(msg: string, err?: boolean, warning?: boolean) {
-  let error = false
-  if(!err) { error = false } else { error = true }
-  let warn = false
-  if(!warning) { warn = false } else { warn = warning }
-
-  if(error === false && warn === false) {
-      console.log(`\x1b[32m [MapKey]:` + `\x1b[1m \x1b[37m ${msg}`)
+export function MKLog(msg: string, errorLevel?: "Warning" | "Error") {
+  if(!errorLevel) {
+      console.log(`\x1b[32m [MapKey: ${getSeconds()}]` + `\x1b[1m \x1b[37m ${msg}`)
   }
-  if(warn === false && error === true) {
-      console.log(`\x1b[1m \x1b[31m [Error In MapKey]:` + `\x1b[1m \x1b[37m ${msg}`)
+  if(errorLevel == "Error") {
+      console.log(`\x1b[1m \x1b[31m [Error In MapKey: ${getSeconds()}]` + `\x1b[1m \x1b[37m ${msg}`)
   }
-  if(warn === true && error === false) {
-      console.log(`\x1b[1m \x1b[33m [Warning In MapKey]` + `\x1b[1m \x1b[37m ${msg}`)
+  if(errorLevel == "Warning") {
+      console.log(`\x1b[1m \x1b[33m [Warning In MapKey: ${getSeconds()}]` + `\x1b[1m \x1b[37m ${msg}`)
   }
 }
 
