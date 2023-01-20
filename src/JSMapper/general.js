@@ -21,3 +21,11 @@ module.exports.MKLog = function MKLog(msg = "bro this logging function is so coo
         console.log(`\x1b[1m \x1b[33m [Warning In MapKey]` + `\x1b[1m \x1b[37m ${msg}`)
     }
 }
+module.exports.logFunctionss = let logFunctions = false
+
+module.exports.logFunctions = function logFunctions() {
+    /**
+     * Put this at the beginning of your script to log properties of called functions and classes
+     */
+    logFunctionss = true
+}
