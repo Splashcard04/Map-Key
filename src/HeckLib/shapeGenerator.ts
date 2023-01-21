@@ -1,5 +1,6 @@
-import { Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
-import { logFunctionss, MKLog } from './general.ts'
+import { Environment } from "./HeckLib/environment.ts";
+import { mat, vec3 } from "./HeckLib/types.ts";
+import { rotatePoint } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 export class shapeGenerator {
     /**
      * Creates a 2d shape defaulting along the xy plane.
@@ -15,25 +16,25 @@ export class shapeGenerator {
      * @author Aurellis
      */
     constructor(
-        public material: GeometryMaterial | string = {shader: "Standard"},
+        public material: mat | string = {_shader: "Standard", _color: [0,0,0]},
         public sides: number  = 4,
         public radius: number = 10,
-        public position: Vec3 = [0,0,0],
-        public scale: Vec3 = [1,1,1],
-        public rotation: Vec3 = [0,0,0],
+        public position: vec3 = [0,0,0],
+        public scale: vec3 = [1,1,1],
+        public rotation: vec3 = [0,0,0],
         public innercorners: boolean = false,
         public track: string | undefined = undefined,
         public iterateTrack: boolean = true
         ){}
         push(){
-            const cube = new Geometry("Cube", this.material);
+            const cube = new Environment().geometry().shape("Cube").material(this.material);
             for(let side = 0; side < this.sides; side++){
                 // Track assignment
                 if(this.track && this.iterateTrack){
-                    cube.track.value = `${this.track}_${side}`;
+                    cube.track(`${this.track}_${side}`)
                 }
                 else if(this.track && !this.iterateTrack){
-                    cube.track.value = this.track;
+                    cube.track(this.track)
                 }
 
                 // Determine that angle of the side (could have used rotatePoint here, but this was a bit easier)
@@ -43,7 +44,7 @@ export class shapeGenerator {
                 const pos = rotatePoint([-Math.sin(angle)*this.radius,-Math.cos(angle)*this.radius,0],this.rotation);
 
                 // Apply the offset position to the rotated position
-                cube.position = [pos[0]+this.position[0],pos[1]+this.position[1],pos[2]+this.position[2]]; // dumb arrAdd
+                cube.pos([pos[0]+this.position[0],pos[1]+this.position[1],pos[2]+this.position[2]]); // dumb arrAdd
 
                 /*
                 So that I remember how this math works - Aurellis
@@ -63,18 +64,14 @@ export class shapeGenerator {
                 or radius+scale for the outermost corners to touch.
                 */
                 if(this.innercorners){
-                    cube.scale = [(this.radius-this.scale[1]/2)*Math.tan(Math.PI/this.sides)*2, this.scale[1], this.scale[2]];
+                    cube.scale([(this.radius-this.scale[1]/2)*Math.tan(Math.PI/this.sides)*2, this.scale[1], this.scale[2]]);
                 }
                 else{
-                    cube.scale = [(this.radius+this.scale[1]/2)*Math.tan(Math.PI/this.sides)*2, this.scale[1], this.scale[2]];
+                    cube.scale([(this.radius+this.scale[1]/2)*Math.tan(Math.PI/this.sides)*2, this.scale[1], this.scale[2]]);
                 }
 
-                cube.rotation = [this.rotation[0],this.rotation[1],this.rotation[2]-180*angle/Math.PI];
+                cube.rot([this.rotation[0],this.rotation[1],this.rotation[2]-180*angle/Math.PI]);
                 cube.push();
-                
-                if(logFunctionss) {
-                    MKLog(`New shape generated...\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`)
-                }
             }
         }
 }
