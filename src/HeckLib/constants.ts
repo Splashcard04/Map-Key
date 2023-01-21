@@ -3,4 +3,5 @@ export type lookup =
     "Contains" |
     "Exact"
 
+// deno-lint-ignore no-explicit-any
 export type Json = Record<string, any>
