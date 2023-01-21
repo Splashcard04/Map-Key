@@ -1,52 +1,53 @@
-import { KeyframesVec3, CustomEvent } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-import { allBetween, logFunctionss, MKLog } from './general.ts' 
-
-
 export class playerAnim {
+    json: Json = {}
+
+    import(json: Json) {
+        this.json = json
+        return this
+    }
     /**
-     * A class to help with animating the player and the notes together.
-     * @param time The time to start the animation (defaults to 0 if left empty).
-     * @param timeEnd The time to end the animation.
-     * @param position The position keyframes for the player animation.
-     * @param rotation The rotation keyframes for the player animation.
-     * @param playerTrack The track to assign the player (defaults to "player" if left empty).
-     * @param noteTrack The track to assign to the notes (defaults to "notes" if left empty).
-     * @author splashcard__ & Aurellis
+     * a class to animate notes and the player at once
+     * @param time the time to start animating the player
+     * @param timeEnd the time to stop animating the player
+     * @param forTrack assign data to the track to assign player / notes to
+     * @author @Splashcard @Aurelis
      */
-   constructor(public time: number = 0, public timeEnd: number = 0, public position: KeyframesVec3 | undefined = undefined, public rotation: KeyframesVec3 | undefined = undefined, public playerTrack: string = "player", public noteTrack: string = "notes") {} // Empty constructor lol
-   /**
-    * Pushes the player animation to the active diff.
-    */
-   push() {
-       const duration = this.timeEnd - this.time
+    constructor(time: number, timeEnd: number, forTrack: (x: CustomEventInternals.AnimateTrack) => void) {
+        this.json.time = time
+        this.json.timeEnd = timeEnd
+        this.json.forTrack = forTrack
+    }
 
-       new CustomEvent(this.time).assignPlayerToTrack(this.playerTrack).push();
+    get playerTrack() { return this.json.playerTrack }
+    set playerTrack(track: string) { this.json.playerTrack = track }
 
-       const track = new CustomEvent(this.time).animateTrack(this.playerTrack, duration)
-       // Adds position animation if there is any.
-       if(this.position){
-        track.animate.position = this.position
-       }
-       // Adds rotation animation if there is any.
-       if(this.rotation){
-        track.animate.rotation = this.rotation
-       }
-       // Only pushes the animate track if it has any animation data
-       // That way playerAnim can also be used just to assign all the tracks and parents and stuff, and can then be animated externally.
-       if(this.rotation || this.position){
-        track.push();
-       }
+    get noteTrack() { return this.json.noteTrack }
+    set noteTrack(track: string) { this.json.noteTrack = track }
+    
 
-       new CustomEvent(this.time).assignTrackParent([this.noteTrack], this.playerTrack).push();
+    push() {
 
-       allBetween(this.time, this.timeEnd, x => {
-        if(!x.track.has(this.noteTrack)){
-            x.track.add(this.noteTrack)
+        const anim = new CustomEvent(this.json.time).animateTrack("player", this.json.timeEnd - this.json.time);
+        this.json.forTrack(anim);
+        anim.push();
+
+        if(!this.json.playerTrack || this.json.playerTrack === undefined) {
+            this.json.playerTrack = "player"
         }
-       });
-       if(logFunctionss){
-        MKLog(`Added new player animation at beat ${this.time} until beat ${this.timeEnd}...`)
-       }
-   }
+        if(!this.json.noteTrack || this.json.noteTrack === undefined) { 
+            this.json.noteTrack = ["notes"]
+        } else {
+            this.json.noteTrack = ["notes", this.json.noteTrack]
+        }
+        new CustomEvent(this.json.time).assignPlayerToTrack(this.json.playerTrack).push()
+        new CustomEvent(this.json.time).assignTrackParent(this.json.noteTrack, this.json.playerTrack).push()
+        allBetween(this.json.time, this.json.timeEnd, n => {
+            n.customData.track = this.json.noteTrack //i think track arrays work lol
+        })
 
+        if(logFunctionss){
+            MKLog(`Added new player animation at beat ${this.time} until beat ${this.timeEnd}...`)
+        }
+    }
 }
+
