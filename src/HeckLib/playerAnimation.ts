@@ -1,1 +1,1 @@
-import { filter, animateTrack } from './HeckLib/'
+import { filter, AnimateTrack } from './HeckLib/main.ts'

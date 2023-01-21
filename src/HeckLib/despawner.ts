@@ -1,5 +1,5 @@
 import { Environment } from './HeckLib/main.ts'
-import { mkLog } from '../ReMapper/utils/general.ts'
+import { MKLog } from '../ReMapper/utils/general.ts'
 import { lookup, Json } from './constants.ts'
 
 export class despawner {
@@ -25,80 +25,80 @@ export class despawner {
     push() {
 
         if(this.json.ids === undefined) {
-            mkLog("parameter `ids` was undefined, ids were infered from general usage", false, true)
+            MKLog("parameter `ids` was undefined, ids were infered from general usage", "Warning")
             this.json.ids = ["Environment"]
         }
 
-        if(this.json.hardDespawn === undefined) { this.json.hardDespawn = ["this"]}; if(this.json.restore === undefined) { this.json.restore = ["idk"]}
+        if(this.json.hardDespawn === undefined) { this.json.hardDespawn = ["this"]} if(this.json.restore === undefined) { this.json.restore = ["idk"]}
 
         if(this.json.lookup === "Contains") {
-            this.json.ids.forEach(id => {
+            this.json.ids.forEach((id: string) => {
                 new Environment()
                     .contains(id)
-                    .position([-9999, -9999, -9999])
+                    .pos([-9999, -9999, -9999])
                     .push()
             })
 
-            this.json.hardDespawn.forEach(id => {
+            this.json.hardDespawn.forEach((id: string) => {
                 new Environment()
                     .contains(id)
                     .active(false)
                     .push()
             })
 
-            this.json.restore.forEach(id => {
+            this.json.restore.forEach((id: string) => {
                 new Environment()
                     .contains(id)
                     .active(true)
-                    .position([0, 0, 0])
+                    .pos([0, 0, 0])
                     .push()
             })
         }
 
-        if(this.json.lookup = "Regex") {
-            this.json.ids.forEach(id => {
+        if(this.json.lookup == "Regex") {
+            this.json.ids.forEach((id: string) => {
                 new Environment()
                     .regex(id)
-                    .position([-9999, -9999, -9999])
+                    .pos([-9999, -9999, -9999])
                     .push()
             })
 
-            this.json.hardDespawn.forEach(id => {
+            this.json.hardDespawn.forEach((id: string) => {
                 new Environment()
                     .regex(id)
                     .active(false)
                     .push()
             })
 
-            this.json.restore.forEach(id => {
+            this.json.restore.forEach((id: string) => {
                 new Environment()
                     .regex(id)
                     .active(true)
-                    .position([0, 0, 0])
+                    .pos([0, 0, 0])
                     .push()
             })
         }
 
-        if(this.json.lookup === "Exact") {
-            this.json.ids.forEach(id => {
+        if(this.json.lookup == "Exact") {
+            this.json.ids.forEach((id: string) => {
                 new Environment()
                     .exact(id)
-                    .position([-9999, -9999, -9999])
+                    .pos([-9999, -9999, -9999])
                     .push()
             })
 
-            this.json.hardDespawn.forEach(id => {
+            this.json.hardDespawn.forEach((id: string) => {
                 new Environment()
                     .exact(id)
                     .active(false)
                     .push()
             })
 
-            this.json.restore.forEach(id => {
+            this.json.restore.forEach((id: string) => {
                 new Environment()
                     .exact(id)
                     .active(true)
-                    .position([0, 0, 0])
+                    .pos([0, 0, 0])
                     .push()
             })
         }
