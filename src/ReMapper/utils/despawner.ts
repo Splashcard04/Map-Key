@@ -2,7 +2,13 @@ import { logFunctionss, MKLog } from "./general.ts"
 import { Environment, LOOKUP } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 
 export class despawner {
-
+    /**
+     * A class to aid in despawning multiple environment objects.
+     * @param lookup The lookup method to use.
+     * @param ids The ids to be despawned. This will use the position property on the objects, some object don't respond to the position property.
+     * @param restore Will return objects to [0,0,0], does not work if hardDespawn is used.
+     * @param hardDespawn The ids to be hard-despawned. This will sue the active property on the objects, all object respond to the active property. Objects will not be usable later if they are hard-despawned.
+     */
     constructor(public lookup: LOOKUP, public ids: string[], public restore?: string[], public hardDespawn?: string[]) {
         this.lookup = lookup
         this.ids = ids
@@ -36,7 +42,7 @@ export class despawner {
 export class advDespawner {
     /**
      * A class to aid in the despawning of multiple objects using differnt lookup methods.
-     * @param ids The ids and lookups to use. Written as [["lookup", ["id", "id"]], ["lookup", ["id", "id"]] etc...]
+     * @param ids The ids and lookups to use. Written as [[["id", "id"], lookup], [["id", "id"], lookup] etc...]
      * @param hardDespawn If true, despawns the object using the `active` property rather than `position`, restore will not work if this is used.
      * @param restore Any ids to restore after despawning, this will not work if hardDespawn is used. Ids are again written as [["lookup", ["id", "id"]]etc...]
      * @author Aurellis

@@ -113,7 +113,7 @@ MKLog(`Copied map to ${todir}`)
 export class hueCycle {
     /**
      * A class to ease in the creation of HSV hue-cycling.
-     * @param startingColor The color to start from.
+     * @param startingColor The color to start from. (HSV)
      * @param loopPoint The number of repeats before returning to the starting color.
      */
     constructor(
