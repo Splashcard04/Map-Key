@@ -4,7 +4,7 @@ import { allBetween, logFunctionss, MKLog } from "./general.ts";
 export class playerAnim {
 
     /**
-     * a class to animate notes and the player at once
+     * A class to animate notes and the player at once
      * @param time the time to start animating the player
      * @param timeEnd the time to stop animating the player
      * @param forTrack assign data to the track to assign player / notes to
@@ -20,7 +20,7 @@ export class playerAnim {
     
 
     push() {
-
+        // Figure out how to check if a push() statement was included. Then MKLog a warning.
         if(!this.playerTrack) {
             this.playerTrack = "player"
         }
@@ -45,4 +45,3 @@ export class playerAnim {
         }
     }
 }
-
