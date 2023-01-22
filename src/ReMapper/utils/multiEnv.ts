@@ -1,42 +1,58 @@
-import { Json, Environment } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-import { MKlog, logFunctionss } from '../constants.ts'
+import { Environment } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { MKLog, logFunctionss } from './general.ts'
  
 export class multiEnv {
-    json: Json = {}
+    // I commented out the sections incase we need to integrate them later and save the code.
+    // json: Json = {}
 
-    import(json: Json) {
-        this.json = json
-        return this
-    }
+    // import(json: Json) {
+    //     this.json = json
+    //     return this
+    // }
 
-    get contains() { return this.json.contains }
-    set contains(ids: string[]) { this.json.contains = ids }
+    constructor(
+        public contains: string[] = [],
+        public regex: string[] = [],
+        public endswith: string[] = [],
+        public exact: string[] = []
+    ){}
 
-    get regex() { return this.json.regex } 
-    set regex(ids: string[]) { this.json.regex = ids }
+    // get contains() { return this.json.contains }
+    // set contains(ids: string[]) { this.json.contains = ids }
 
-    get exact() { return this.json.exact }
-    set exact(ids: string[]) { this.json.exact = ids }
+    // get regex() { return this.json.regex } 
+    // set regex(ids: string[]) { this.json.regex = ids }
+
+    // get exact() { return this.json.exact }
+    // set exact(ids: string[]) { this.json.exact = ids }
 
     push(forEnv: (x: Environment) => void) {
-        this.json.contains.forEach((id: string) => {
+        this.contains.forEach((id: string) => {
             const env = new Environment(id, "Contains")
             forEnv(env)
             env.push()
         })
 
-        this.json.regex.forEach((id: string) => {
+        this.regex.forEach((id: string) => {
             const env = new Environment(id, "Regex")
             forEnv(env)
             env.push()
         })
 
-        this.json.exact.forEach((id: string) => {
+        this.endswith.forEach((id: string) => {
+            const env = new Environment(id, "EndsWith")
+            forEnv(env)
+            env.push();
+        })
+
+        this.exact.forEach((id: string) => {
             const env = new Environment(id, "Regex")
             forEnv(env)
             env.push()
         })
 
-        if(logFunctionss) { MKlog("new multi env created")}
+        if(logFunctionss) { MKLog("new multi env created")}
     }
 }
+
+new multiEnv().contains
