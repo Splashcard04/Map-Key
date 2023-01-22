@@ -1,3 +1,6 @@
+import { CustomEvent, CustomEventInternals, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { allBetween, logFunctionss, MKLog } from "./general.ts";
+
 export class playerAnim {
     json: Json = {}
 
@@ -10,7 +13,7 @@ export class playerAnim {
      * @param time the time to start animating the player
      * @param timeEnd the time to stop animating the player
      * @param forTrack assign data to the track to assign player / notes to
-     * @author @Splashcard @Aurelis
+     * @author @Splashcard @Aurellis
      */
     constructor(time: number, timeEnd: number, forTrack: (x: CustomEventInternals.AnimateTrack) => void) {
         this.json.time = time
@@ -31,22 +34,20 @@ export class playerAnim {
         this.json.forTrack(anim);
         anim.push();
 
-        if(!this.json.playerTrack || this.json.playerTrack === undefined) {
+        if(!this.json.playerTrack) {
             this.json.playerTrack = "player"
         }
-        if(!this.json.noteTrack || this.json.noteTrack === undefined) { 
-            this.json.noteTrack = ["notes"]
-        } else {
-            this.json.noteTrack = ["notes", this.json.noteTrack]
+        if(!this.json.noteTrack) { 
+            this.json.noteTrack = "notes"
         }
         new CustomEvent(this.json.time).assignPlayerToTrack(this.json.playerTrack).push()
         new CustomEvent(this.json.time).assignTrackParent(this.json.noteTrack, this.json.playerTrack).push()
         allBetween(this.json.time, this.json.timeEnd, n => {
-            n.customData.track = this.json.noteTrack //i think track arrays work lol
+            n.track.add(this.noteTrack)
         })
 
         if(logFunctionss){
-            MKLog(`Added new player animation at beat ${this.time} until beat ${this.timeEnd}...`)
+            MKLog(`Added new player animation at beat ${this.json.time} until beat ${this.json.timeEnd}...`)
         }
     }
 }
