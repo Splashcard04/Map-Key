@@ -10,8 +10,7 @@ export class playerAnim {
      * @param forTrack assign data to the track to assign player / notes to
      * @author @Splashcard @Aurellis
      */
-    constructor(public time: number = 0, public timeEnd: number = 0, public forTrack?: (x: CustomEventInternals.AnimateTrack) => void) {
-    }
+    constructor(public time: number = 0, public timeEnd: number = 0, public forTrack?: (x: CustomEventInternals.AnimateTrack) => void) {}
 
     get playerTrack() { return this.playerTrack }
     set playerTrack(track: string) { this.playerTrack = track }
