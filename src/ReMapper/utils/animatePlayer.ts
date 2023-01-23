@@ -7,10 +7,10 @@ export class playerAnim {
      * A class to animate notes and the player at once
      * @param time the time to start animating the player
      * @param timeEnd the time to stop animating the player
-     * @param forTrack assign data to the track to assign player / notes to
+     * @param animation assign data to the track to assign player / notes to
      * @author @Splashcard @Aurellis
      */
-    constructor(public time: number = 0, public timeEnd: number = 0, public forTrack?: (x: CustomEventInternals.AnimateTrack) => void) {}
+    constructor(public time: number = 0, public timeEnd: number = 0, public animation?: (x: CustomEventInternals.AnimateTrack) => void) {}
 
     get playerTrack() { return this.playerTrack }
     set playerTrack(track: string) { this.playerTrack = track }
@@ -25,9 +25,9 @@ export class playerAnim {
             this.playerTrack = "player"
         }
 
-        if(this.forTrack){
+        if(this.animation){
             const anim = new CustomEvent(this.time).animateTrack(this.playerTrack, this.timeEnd - this.time);
-            this.forTrack(anim);
+            this.animation(anim);
             anim.push();
         }
 
