@@ -1,4 +1,4 @@
-import { CustomEvent, Note, notesBetween } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { activeDiffGet, CustomEvent, Note, notesBetween, rand } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 
 export class noteMod {
     /**
@@ -92,5 +92,33 @@ export class noteMod {
                 this.extraData(note)
             }
         })
+    }
+    noteDropStream(streamY = 8, density = 2, jumpTime = [0.2,0.4]){
+        const nu = new Note();
+        nu.animate.position = [0,streamY,0];
+        nu.noteGravity = false
+        for(let i = 0 ; i < (this.endTime-this.startTime) * density; i++){
+            nu.time = i/density;
+            for(let j = 0; j < 4; j++){
+                nu.x = j;
+                nu.type = Math.floor(rand(0,2));
+                nu.direction = Math.floor(rand(0,9));
+                nu.interactable = false
+                let push = true
+                activeDiffGet().notes.forEach(x =>{
+                    if(x.time == nu.time && x.x == nu.x){push = false}
+                })
+                if(push){
+                    nu.push(true);
+                }
+            }
+            notesBetween(this.startTime, this.endTime, note => {
+                note.animation.offsetPosition = [[0,streamY-note.y,0,0],[0,streamY-note.y,0,jumpTime[0]],[0,0,0,jumpTime[1],"easeOutQuad"]];
+                note.noteGravity = false
+                if(this.extraData){
+                    this.extraData(note)
+                }
+            })
+        }
     }
 }
