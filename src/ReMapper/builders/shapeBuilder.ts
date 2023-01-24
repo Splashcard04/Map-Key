@@ -1,5 +1,5 @@
 import { Vec3, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-import { shapeGenerator } from '../utils/ShapeGenerator.ts'
+import { shapeGenerator } from '../utils/shapeGenerator.ts'
 
 export type shapeBuilderSettings = {
     material: string,
