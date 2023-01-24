@@ -1,4 +1,4 @@
-import { playerAnim } from '../utils/animatePlayer.ts'
+import { playerAnim } from '../utils/AnimatePlayer.ts'
 import { CustomEventInternals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 
 export type playerAnimSettings = {

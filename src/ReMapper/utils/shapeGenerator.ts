@@ -1,5 +1,5 @@
 import { Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
-import { logFunctionss, MKLog } from './general.ts'
+import { logFunctionss, MKLog } from './General.ts'
 export class shapeGenerator {
     /**
      * Creates a 2d shape defaulting along the xy plane.

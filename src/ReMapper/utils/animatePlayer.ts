@@ -1,5 +1,5 @@
 import { CustomEvent, CustomEventInternals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
-import { allBetween, logFunctionss, MKLog } from "./general.ts";
+import { allBetween, logFunctionss, MKLog } from "./General.ts";
 
 export class playerAnim {
 

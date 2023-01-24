@@ -1,4 +1,4 @@
-import { despawner } from '../utils/despawner.ts'
+import { despawner } from '../utils/Despawner.ts'
 import { LOOKUP, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 
 export type despawnerSettings = {

@@ -1,4 +1,4 @@
-import { addGroupSettings, geoMaterial } from '../utils/geoMaterial.ts'
+import { addGroupSettings, geoMaterial } from '../utils/GeoMaterial.ts'
 import { Json, RawGeometryMaterial } from 'https://deno.land/x/remapper@3.1.1/src/mod.ts'
 
 export type matBuilderSettings = {
