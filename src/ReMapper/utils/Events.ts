@@ -3,21 +3,21 @@ import { ColorType, EASE, Event } from "https://deno.land/x/remapper@3.1.1/src/m
 export class gradient {
     constructor(public time = 0, public duration = 1, public type = 0, public colors: ColorType[], public lerpType?: "HSV" | "RGB", public easing?: EASE){}
     push() {
-        const startE = new Event(this.time).backLasers().on(this.colors[0])
-        startE.type = this.type;
-        startE.push()
+        const ev = new Event(this.time).backLasers().on(this.colors[0])
+        ev.type = this.type;
+        ev.push()
         let i = 0;
         this.colors.forEach(color =>{
             if(i !== 0){
-                const inE = new Event(i*this.duration/(this.colors.length-1)).backLasers().in(color)
-                inE.type = this.type;
+                const ev = new Event(i*this.duration/(this.colors.length-1)).backLasers().in(color)
+                ev.type = this.type;
                 if(this.easing){
-                    inE.easing = this.easing
+                    ev.easing = this.easing
                 }
                 if(this.lerpType){
-                    inE.lerpType = this.lerpType
+                    ev.lerpType = this.lerpType
                 }
-                inE.push()
+                ev.push()
             }
             i++
         })
