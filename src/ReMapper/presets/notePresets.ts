@@ -100,6 +100,7 @@ export class noteMod {
      * @param density How many notes should be in the stream each beat. Randomises between [min, max] for each beat. Default - [1,3].
      * @param jumpTime The point in the notes' lifetime to start dropping down, and finish dropping down. Default - [0.2,0.4].
      * @param easing The easing to use on the notes'. Default - "easeOutQuad".
+     * @author Aurellis
      */
     noteDropStream(streamY = 8, density = [1,3], jumpTime = [0.2,0.4], easing: EASE = "easeOutQuad"){
         const nu = new Note();
@@ -137,6 +138,7 @@ export class noteMod {
      * @param rotateFrom Whether to rotate the notes at the top, or the bottom. Default - "Top".
      * @param moveDistance How far to move the notes left and right when swaying. Default - 1.
      * @param rotateAngle How much to rotate the notes as they sway. Default - 30.
+     * @author Aurellis
      */
     noteSway(rotateFrom: "Top" | "Bottom" = "Top", moveDistance = 1, rotateAngle = 30){
         notesBetween(this.startTime,this.endTime,note =>{
