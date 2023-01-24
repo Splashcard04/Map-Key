@@ -91,7 +91,9 @@ export async function exportShareableEnv(settings?: userSharedEnvSettings){
             envArray.push(nu)
         })
     })
-
+    if(envArray.length == 0){
+        MKLog("Map doesn't contain eny environments! Shareable env will be empty...", "Warning")
+    }
     // Create the json object
     const outData = {
         version: "1.0.0",
