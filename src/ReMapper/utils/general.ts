@@ -14,7 +14,7 @@ export function logFunctions(): void {
 /**
  * convert rgb values easily
  * @param value input your array of rgb 255-255!
- * @param colorMultiplier? the multilier for your colors (esentially effects brightness)
+ * @param colorMultiplier? the multilier for your colors (esentially affects brightness)
  * @returns beat saber compatible rgb values
  * @author splashcard__ x scuffedItalian
  */
