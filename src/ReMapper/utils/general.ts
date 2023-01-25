@@ -96,18 +96,18 @@ export class blenderFrameMath {
 * @author Aurellis
 */
 export async function copytodir(diffs: FILENAME<DIFFS>[] = [], todir: string, otherFiles?: Array<string>){
-await ensureDir(todir);
-Deno.copyFile("Info.dat", `${todir}\\Info.dat`);
-diffs.forEach((file) => {
+  await ensureDir(todir);
+  Deno.copyFile("Info.dat", `${todir}\\Info.dat`);
+  diffs.forEach((file) => {
     Deno.copyFile(`${file}.dat`, `${todir}\\${file}.dat`);
-});
-const song = info.json._songFilename
-Deno.copyFile(song,`${todir}\\${song}`);
-if(info.json._coverImageFilename !== undefined) Deno.copyFile(info.json._coverImageFilename,`${todir}\\${info.json._coverImageFilename}`);
-otherFiles?.forEach((file) => {
+  });
+  const song = info.json._songFilename
+  Deno.copyFile(song,`${todir}\\${song}`);
+  if(info.json._coverImageFilename !== undefined) Deno.copyFile(info.json._coverImageFilename,`${todir}\\${info.json._coverImageFilename}`);
+  otherFiles?.forEach((file) => {
     Deno.copyFile(`${file}`, `${todir}\\${file}`);
-});
-MKLog(`Copied map to ${todir}`)
+  });
+  MKLog(`Copied map to ${todir}`)
 }
 
 /**
