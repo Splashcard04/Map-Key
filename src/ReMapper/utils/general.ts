@@ -1,5 +1,5 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { arcsBetween, arrSubtract, chainsBetween, Color, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { arcsBetween, arrSubtract, chainsBetween, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { BFM_PROPS } from "../constants.ts"
 
 export let logFunctionss = false
@@ -108,31 +108,6 @@ otherFiles?.forEach((file) => {
     Deno.copyFile(`${file}`, `${todir}\\${file}`);
 });
 MKLog(`Copied map to ${todir}`)
-}
-
-export class hueCycle {
-    /**
-     * A class to ease in the creation of HSV hue-cycling.
-     * @param startingColor The color to start from. (HSV)
-     * @param loopPoint The number of repeats before returning to the starting color.
-     */
-    constructor(
-        public startingColor: ColorType = [0,1,1,1],
-        public loopPoint: number = 10
-    ){}
-    /**
-     * Returns the color at a certain position.
-     * @param index The position to check for. (TIP: if index == loopPoint, startingColor will be returned)
-     * @returns Color.
-     */
-    export(index: number, precision = 2) {
-        if(this.startingColor[3]){
-          return new Color([(this.startingColor[0]+(index/this.loopPoint))%1,this.startingColor[1],this.startingColor[2],this.startingColor[3]], "HSV").export().map(x =>{return setDecimals(x,precision)})
-        }
-        else{
-          return new Color([(this.startingColor[0]+(index/this.loopPoint))%1,this.startingColor[1],this.startingColor[2],1], "HSV").export().map(x =>{return setDecimals(x,precision)})
-        }
-    }
 }
 
 /**
