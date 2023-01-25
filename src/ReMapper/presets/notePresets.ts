@@ -1,5 +1,5 @@
 import { activeDiffGet, CustomEvent, EASE, Note, notesBetween, rand } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-import { allBetween } from "../utils/general.ts";
+import { allBetween, MKLog } from "../utils/general.ts";
 
 export class noteMod {
     /**
@@ -33,7 +33,7 @@ export class noteMod {
     /**
      * Slows the notes down then speeds them back up as the reach the player.
      * @param resumePoint The point in the notes' lifetime to speed back up. (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns). Default - 0.3.
-     * @param slowingForce The amount that the notes will be slowed, values less than 1 speed the notes up. Default - 3.
+     * @param slowingForce The amount that the notes will be slowed, values less than 1 speed the notes up. Default - 3. (note, when resumePoint/slowingForce > 1, weird results may occur)
      * @author Aurellis
      */
     noteTimeSlow(resumePoint = 0.3, slowingForce = 3){
@@ -52,6 +52,9 @@ export class noteMod {
                 this.extraData(note)
             }
         })
+        if(resumePoint/slowingForce > 1){
+            MKLog("Note time greater than 1, weird results may occur...","Warning")
+        }
     }
     /**
      * Makes the notes pulse in size on each beat.
@@ -74,6 +77,9 @@ export class noteMod {
                 this.extraData(note)
             }
         })
+        if(pulseSize < 0){
+            MKLog("Objects with negaitve scale have unusual behaviour, set pulseSize to a positive number...","Warning")
+        }
     }
     /**
      * Makes the notes fly in from the side.
