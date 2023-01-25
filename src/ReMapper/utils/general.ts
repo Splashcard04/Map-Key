@@ -18,8 +18,6 @@ export function logFunctions(): void {
  * @returns beat saber compatible rgb values
  * @author splashcard__ x scuffedItalian
  */
-
-
 export function rgb(value: ColorType, colorMultiplier?: number) {
   if(colorMultiplier === undefined) {
     const val1 = value[0] / 255

@@ -9,7 +9,7 @@ export type userSharedEnvSettings = {
     copyLightEvents?: "All Events" | "Events At Beat 0",
     features?: {
         forceEffectsFilter?: "AllEffects" | "StrobeFilter" | "NoEffects",
-        useChromaEvents?: true,
+        useChromaEvents?: boolean,
         basicBeatMapEvents?: Json[]
     }
 }
@@ -17,7 +17,7 @@ export type userSharedEnvSettings = {
 
 /**
  * Takes the environments from the map and converts them into a user shared environment.
- * @param settings.name The settings for the environment and file.
+ * @param settings.name The name for the environment and environment file.
  * @param settings.author The author of the environment (probably you).
  * @param settings.environmentVersion The version of your environment.
  * @param settings.description The description of your environment. This feature is currently unused by chroma.

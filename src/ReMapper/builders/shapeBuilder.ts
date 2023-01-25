@@ -1,8 +1,8 @@
-import { Vec3, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { Vec3, Json, GeometryMaterial } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { shapeGenerator } from '../utils/shapeGenerator.ts'
 
 export type shapeBuilderSettings = {
-    material: string,
+    material: GeometryMaterial,
     sides: number,
     radius: number,
     position: Vec3,

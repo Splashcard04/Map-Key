@@ -15,7 +15,7 @@ export class shapeGenerator {
      * @author Aurellis
      */
     constructor(
-        public material: GeometryMaterial | string = {shader: "Standard"},
+        public material: GeometryMaterial = {shader: "Standard"},
         public sides: number  = 4,
         public radius: number = 10,
         public position: Vec3 = [0,0,0],
