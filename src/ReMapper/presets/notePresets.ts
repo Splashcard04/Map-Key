@@ -1,4 +1,5 @@
 import { activeDiffGet, CustomEvent, EASE, Note, notesBetween, rand } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { allBetween } from "../utils/general.ts";
 
 export class noteMod {
     /**
@@ -19,7 +20,7 @@ export class noteMod {
      * @author Aurellis
      */
     noteLine(position: [number, number] = [1.5, 0], jumpTime: [number, number] = [0.35,0.45]) {
-        notesBetween(this.startTime,this.endTime, note => {
+        allBetween(this.startTime,this.endTime, note => {
             note.noteGravity = false;
             if(!note.animation.offsetPosition){
                 note.animation.offsetPosition = [[position[0]-note.x,position[1]-note.y,0,0],[position[0]-note.x,position[1]-note.y,0,jumpTime[0]],[0,0,0,jumpTime[1],"easeOutCubic"]];
@@ -36,7 +37,7 @@ export class noteMod {
      * @author Aurellis
      */
     noteTimeSlow(resumePoint = 0.3, slowingForce = 3){
-        notesBetween(this.startTime,this.endTime, note =>{
+        allBetween(this.startTime,this.endTime, note =>{
             const track = `timeNote_${note.time}_${note.x}_${note.y}`;
             note.noteGravity = false;
             note.track.add(track)
@@ -58,7 +59,7 @@ export class noteMod {
      * @author Aurellis
      */
     noteBeatPulse(pulseSize = 1.5){
-        notesBetween(this.startTime,this.endTime, note => {
+        allBetween(this.startTime,this.endTime, note => {
             const duration = this.endTime-this.startTime
             note.track.add("pulseNotes");
 
@@ -82,7 +83,7 @@ export class noteMod {
      * @author Aurellis
      */
     noteFlyInLR(spawnDistance = 10, splitBy: "type" | "position" = "position", animationEnd = 0.4){
-        notesBetween(this.startTime,this.endTime, note => {
+        allBetween(this.startTime,this.endTime, note => {
             if(splitBy == "type"){
                 note.animation.offsetPosition = [[spawnDistance*2*(note.type-0.5),0,0,0],[0,0,0,animationEnd,"easeOutQuad"]];
             }
@@ -95,7 +96,7 @@ export class noteMod {
         })
     }
     /**
-     * Makes the notes drop down from a "stream" of notes above the player.
+     * Makes the notes drop down from a "stream" of notes above the player. (doesn't work for arcs and chains)
      * @param streamY How far up to place the stream. Default - 8.
      * @param density How many notes should be in the stream each beat. Randomises between [min, max] for each beat. Default - [1,3].
      * @param jumpTime The point in the notes' lifetime to start dropping down, and finish dropping down. Default - [0.2,0.4].
@@ -141,7 +142,7 @@ export class noteMod {
      * @author Aurellis
      */
     noteSway(rotateFrom: "Top" | "Bottom" = "Top", moveDistance = 1, rotateAngle = 30){
-        notesBetween(this.startTime,this.endTime,note =>{
+        allBetween(this.startTime,this.endTime,note =>{
             note.track.add("SwayNotes")
             if(this.extraData){
                 this.extraData(note)
