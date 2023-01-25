@@ -8,11 +8,11 @@ To use Map Key in your script, you will need to import it. This works in the sam
 
 You can either import all items (not recommended as you will have to prefix everything with `mk.`).
 ```ts
-import * as mk from "https://deno.land/x/mapkey@0.1.0/src/exports.ts"
+import * as mk from "https://deno.land/x/mapkey@1.2.0/src/ReMapper/mod.ts"
 ```
 Or specify the individual items you need.
 ```ts
-import { PlayerAnim, shapeGenerator } from "https://deno.land/x/mapkey@0.1.0/src/exports.ts"
+import { PlayerAnim, shapeGenerator } from "https://deno.land/x/mapkey@1.2.0/src/ReMapper/mod.ts"
 ```
 **Important!**
 When you add your import it will likely show an error, hover over the link, click quick fix => cache dependancy.
