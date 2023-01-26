@@ -38,5 +38,3 @@ export class multiEnv {
         if(logFunctionss) { MKLog("new multi env created")}
     }
 }
-
-new multiEnv().contains
