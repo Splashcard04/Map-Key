@@ -29,7 +29,7 @@ For those of you who use [JSMapper](https://github.com/Splashcard04/JSMapper), M
 If you didn't already know, map key is an extension for remapper which is composed of mostly utils, if you would like to PR your own function, constant or preset, follow this guide.
 
 ## Functions / Utils
-To PR a function make sure that it includes js doc formatted as all others are, if you would like to discuss yout pull request or just *life* join the [map key discord](https://discord.gg/jSNFFTxACe).
+To PR a function make sure that it includes js doc formatted as all others are, if you would like to discuss your pull request or just *life* join the [map key discord](https://discord.gg/jSNFFTxACe).
 Make sure to include parameters and do your best to keep the format similar to everything else as the functionality should be reletivaly similar for user advantage. If you do PR something that looks like a good idea but could use some more execution of some sort, changes will likely be made, but please dont be offended by this, it's just to ensure that your function is the best it can be for MapKey.
 
 ## Constants
