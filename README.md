@@ -25,15 +25,15 @@ For those of you who use [HeckLib](https://github.com/Heck-Library/HeckLib), mos
 For those of you who use [JSMapper](https://github.com/Splashcard04/JSMapper), MapKey will not work for you. Like HeckLib, a port of MapKey is being developed and will be available in the near future (most likely the next release of MapKey). When this happens, the importing system will change, so be prepared for that in the update. You can check the current state of JSM's MapKey [here](https://github.com/Splashcard04/Map-Key/tree/main/src/JSMapper).  Note that JSM will not use a deno link and will instead be an npm module, you can find out more on the wiki
 
 # Pull Request Guide
-
+ 
 If you didn't already know, map key is an extension for remapper which is composed of mostly utils, if you would like to PR your own function, constant or preset, follow this guide.
 
 ## Functions / Utils
-To PR a function make sure that it includes js doc formatted as all others are, if you would like to discuss your pull request or just *life* join the [map key discord](https://discord.gg/jSNFFTxACe).
+To PR a function make sure that it includes js doc formatted as all others are, if you would like to discuss your pull request or just *life* join the [map key discord](https://discord.gg/NSmpcYDS)
 Make sure to include parameters and do your best to keep the format similar to everything else as the functionality should be reletivaly similar for user advantage. If you do PR something that looks like a good idea but could use some more execution of some sort, changes will likely be made, but please dont be offended by this, it's just to ensure that your function is the best it can be for MapKey.
 
 ## Constants
 To pr a constant, make sure you edit the constants.ts file and keep consistent formatting with the other constants, new constant categories are allowed of course, as well as additional environment IDs or something of the sort.
 
 ## conclusion
-All PRs are very welcome, and will be merged 99% of the time. If they need to be modified, then that will be done. Once again, if you have any concerns, or would like to disscuss anything relating to PRs or MapKey in general, the [discord](https://discord.gg/jSNFFTxACe) is the best place to start.
+All PRs are very welcome, and will be merged 99% of the time. If they need to be modified, then that will be done. Once again, if you have any concerns, or would like to disscuss anything relating to PRs or MapKey in general, the [discord](https://discord.gg/NSmpcYDS) is the best place to start.
