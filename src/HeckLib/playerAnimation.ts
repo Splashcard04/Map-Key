@@ -1,5 +1,4 @@
 import { AnimateTrack, AssignPlayerToTrack, AssignTrackParent } from './HeckLib/main.ts'
-import { MKLog, logFunctionss } from '../ReMapper/mod.ts';
 import { allBetween } from "./general.ts";
 
 export class playerAnim {
@@ -43,9 +42,5 @@ export class playerAnim {
         allBetween(this.time, this.timeEnd, n => {
             n.data.track = this.noteTrack
         })
-
-        if(logFunctionss){
-            MKLog(`Added new player animation at beat ${this.time} until beat ${this.timeEnd}...`)
-        }
     }
 }
