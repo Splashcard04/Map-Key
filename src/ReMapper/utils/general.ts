@@ -113,13 +113,13 @@ export async function copytodir(diffs: FILENAME<DIFFS>[] = [], todir: string, ot
 // deno-lint-ignore no-explicit-any
 export function MKLog(message: any, errorLevel?: "Warning" | "Error") {
   if(!errorLevel) {
-      console.log(`\x1b[32m [MapKey: ${getSeconds()}]` + `\x1b[1m \x1b[37m ${message}`)
+    console.log(`[MapKey:   ${getSeconds()}s] ${message}`)
   }
   if(errorLevel == "Error") {
-      console.log(`\x1b[1m \x1b[31m [Error In MapKey: ${getSeconds()}]` + `\x1b[1m \x1b[37m ${message}`)
+    console.log(`\x1b[1m\x1b[31m[Error In MapKey: ${getSeconds()}s] \x1b[31m${message}\x1b[1m\x1b[37m`)
   }
   if(errorLevel == "Warning") {
-      console.log(`\x1b[1m \x1b[33m [Warning In MapKey: ${getSeconds()}]` + `\x1b[1m \x1b[37m ${message}`)
+    console.log(`\x1b[1m\x1b[33m[Warning In MapKey: ${getSeconds()}s] \x1b[1m\x1b[33m${message}\x1b[1m\x1b[37m`)
   }
 }
 
