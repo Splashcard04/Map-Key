@@ -67,37 +67,62 @@ export function filterGeometry(property: GEO_FILTER_PROPS | position | rotation 
 }
 
 /**
- * Works like notesBetween. Except it searches for notes based on a specific note property.
- * @param property The property to check for on each note. This can either be an auto-fill property like "position", or it can be one of the available enums (like rotation.x).
- * @param value The value that the property must be to pass.
+ * Works like notesBetween, except you can filter by multiple properties and values.
+ * @param filter The [[property, value], [property, value]] etc. that the notes must have to pass. 
  * @param forEach What to execute for each note that passes.
  * @author Aurellis
  */
-export function filterNotes(property: NOTE_FILTER_PROPS | rotation | localRotation, value: number[] | string | number | boolean, forEach: (x: Note) => void){
-  let count = 0;
-  if(property == "fake" && value == true){
+export function filterNotes(filter: [NOTE_FILTER_PROPS | rotation | localRotation, number[] | string | number | boolean][], forEach: (x: Note) => void){
+  let fake = false
+  let count = 0
+  filter.forEach(fill =>{
+    if(fill[0] == "fake" && fill[1] == true){
+      fake = true
+    }
+  })
+  if(fake){
     activeDiffGet().fakeNotes.forEach((n: Note) =>{
-      forEach(n);
-      count++
-    })
-  }
-  if(property == "track"){
-    activeDiffGet().notes.forEach((n: Note) =>{
-      if(n.track.has(value.toString())){
-        forEach(n)
+      let pass = true;
+      filter.forEach(fill =>{
+        if(fill[0] == "track"){
+          if(!n.track.has(fill[1].toString())){
+            pass = false;
+          }
+        }
+        else{
+          if(eval(`n.${fill[0]}.toString()`) !== fill[1].toString()){
+            pass = false
+          }
+        }
+      })
+      if(pass){
+        forEach(n);
         count++
       }
     })
   }
   else {
     activeDiffGet().notes.forEach((n: Note) =>{
-      if(eval(`n.${property}.toString()`) == value.toString()){
-        forEach(n)
+      let pass = true;
+      filter.forEach(fill =>{
+        if(fill[0] == "track"){
+          if(!n.track.has(fill[1].toString())){
+            pass = false;
+          }
+        }
+        else{
+          if(eval(`n.${fill[0]}.toString()`) !== fill[1].toString()){
+            pass = false
+          }
+        }
+      })
+      if(pass){
+        forEach(n);
         count++
       }
     })
   }
   if(logFunctionss){
-    MKLog(`Filtered ${activeDiffGet().fakeNotes.length+activeDiffGet().notes.length} notes for any with a ${property} property of ${value}...\nobjects found: ${count}`)
+    MKLog(`Filtered ${activeDiffGet().fakeNotes.length+activeDiffGet().notes.length} notes... Notes found: ${count}...`)
   }
 }
