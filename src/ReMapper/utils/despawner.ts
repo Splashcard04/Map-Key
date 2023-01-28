@@ -50,6 +50,7 @@ export class advDespawner {
     constructor(public ids: [string[], LOOKUP][] = [], public hardDespawn: boolean = false, public restore: [string[], LOOKUP][] | undefined = undefined) {} // Empty constructor wooooo!
 
     push() {
+        let count = 0;
         this.ids.forEach(lookupgroups => {
             // lookupgroups = [[id, id], lookup]
             const env = new Environment("",lookupgroups[1])
@@ -66,6 +67,7 @@ export class advDespawner {
                             env.position = [-9999, -9999, -9999]
                         }
                         env.push();
+                        count++
                     })
                 }
             })
@@ -80,11 +82,12 @@ export class advDespawner {
                             env.position = [0,0,0];
                             env.active = true;
                             env.push()
+                            count++
                         })
                     }
                 })
             })
         }
-        if(logFunctionss) { MKLog(`New advanced despawner with ${this.ids[2]} lookup added...`)}
+        if(logFunctionss) { MKLog(`New advanced despawner created.\nDespawning ${count} environments...`)}
     }
 }
