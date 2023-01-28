@@ -146,29 +146,32 @@ export class Noise {
     /**
      * Get the value at a 2D point in the noise.
      * @param coord The point to get the value from.
+     * @param range The optional min and max to generate noise values.
      * @returns The value at the point.
      */
-    point2D(coord: [number, number]){
+    point2D(coord: [number, number], range?: [number, number]){
         const init = makeNoise2D(this.seed)
-        return init(coord[0],coord[1])
+        return range?  ((init(coord[0],coord[1])+0.9)*(range[1] - range[0])/1.8)+range[0]: init(coord[0],coord[1])
     }
     /**
      * Get the value at a 3D point in the noise.
      * @param coord The point to get the value from.
+     * @param range The optional min and max to generate noise values.
      * @returns The value at the point.
      */
-    point3D(coord: [number, number, number]){
+    point3D(coord: [number, number, number], range?: [number, number]){
         const init = makeNoise3D(this.seed)
-        return init(coord[0],coord[1],coord[2])
+        return range?  ((init(coord[0],coord[1],coord[2])+0.9)*(range[1]-range[0])/1.8)+range[0]: init(coord[0],coord[1],coord[2])
     }
     /**
      * Get the value at a 4D point in the noise.
      * @param coord The point to get the value from.
+     * @param range The optional min and max to generate noise values.
      * @returns The value at the point.
      */
-    point4D(coord: [number, number, number, number]){
+    point4D(coord: [number, number, number, number], range?: [number, number]){
         const init = makeNoise4D(this.seed)
-        return init(coord[0],coord[1],coord[2],coord[3])
+        return range?  ((init(coord[0],coord[1],coord[2],coord[3])+0.9)*(range[1]-range[0])/1.8)+range[0]: init(coord[0],coord[1],coord[2],coord[3])
     }
 }
 
