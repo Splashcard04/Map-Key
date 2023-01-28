@@ -1,5 +1,5 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { arcsBetween, arrSubtract, chainsBetween, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { arcsBetween, arrDiv, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { BFM_PROPS } from "../constants.ts"
 
 export let logFunctionss = false
@@ -16,19 +16,15 @@ export function logFunctions(): void {
  * @param value input your array of rgb 255-255!
  * @param colorMultiplier? the multilier for your colors (esentially affects brightness)
  * @returns beat saber compatible rgb values
- * @author splashcard__ x scuffedItalian
+ * @author splashcard__ & scuffedItalian
  */
 export function rgb(value: ColorType, colorMultiplier?: number) {
-  if(colorMultiplier === undefined) {
-    const val1 = value[0] / 255
-    const val2 = value[1] / 255
-    const val3 = value[2] / 255
-    return [val1, val2, val3, value[3]] as ColorType
-  }  else {
-    const val1 = (value[0] * colorMultiplier) /255
-    const val2 = (value[1] * colorMultiplier) /255
-    const val3 = (value[2] * colorMultiplier) /255
-    return [val1, val2, val3, value[3]] as ColorType
+  if(!value[3]){value.push(1)} else {value[3] = value[3]*255}
+  if(colorMultiplier) {
+    return arrMul(value, colorMultiplier/255).map(x =>{return setDecimals(x, 3)}) as ColorType
+  }
+  else {
+    return arrDiv(value, 255).map(x => {return setDecimals(x, 3)}) as ColorType
   }
 }
 
