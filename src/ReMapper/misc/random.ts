@@ -74,7 +74,7 @@ export class randArray {
                     bufferruns.push(j)
                 }
             }
-            if(j !< buffer){
+            if(j >= buffer){
                 MKLog(`Failed to find unique number, using ${gen} instead...`,"Error")
             }
             res.push(gen)
@@ -122,7 +122,7 @@ export class randArray {
                     bufferruns.push(j)
                 }
             }
-            if(j !< buffer){
+            if(j >= buffer){
                 MKLog(`Failed to find unique number, using ${gen} instead...`, "Error")
             }
             res.push(gen);
