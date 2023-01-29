@@ -32,7 +32,7 @@ export class noteMod {
     }
     /**
      * Slows the notes down then speeds them back up as the reach the player.
-     * @param resumePoint The point in the notes' lifetime to speed back up. (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns). Default - 0.3.
+     * @param resumePoint The point in the notes' lifetime to speed back up. (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns, Must be less that 0.5 or weird results will occur). Default - 0.3.
      * @param slowingForce The amount that the notes will be slowed, values less than 1 speed the notes up. Default - 3. (note, when resumePoint/slowingForce > 1, weird results may occur)
      * @author Aurellis
      */
@@ -45,7 +45,7 @@ export class noteMod {
             note.offset = 0;
 
             const animtrack = new CustomEvent(note.time - 1).animateTrack(track,2);
-            animtrack.animate.time = [[0,0],[resumePoint/slowingForce,resumePoint],[1,1,"easeInQuad"]];
+            animtrack.animate.time = [[0,0],[resumePoint/slowingForce,resumePoint],[0.5,0.5,"easeInQuad"]];
             animtrack.push();
 
             if(this.extraData){
