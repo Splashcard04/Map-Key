@@ -45,7 +45,7 @@ export class noteMod {
             note.offset = 0;
 
             const animtrack = new CustomEvent(note.time - 1).animateTrack(track,2);
-            animtrack.animate.time = [[0,0],[resumePoint/slowingForce,resumePoint],[0.5,0.5,"easeInQuad"]];
+            animtrack.animate.time = [[0,0],[resumePoint/slowingForce,resumePoint],[0.5,0.5,"easeInQuad"],[1,1]];
             animtrack.push();
 
             if(this.extraData){
