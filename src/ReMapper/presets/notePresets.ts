@@ -36,15 +36,15 @@ export class noteMod {
      * @param slowingForce The amount that the notes will be slowed, values less than 1 speed the notes up. Default - 3. (note, when resumePoint/slowingForce > 1, weird results may occur)
      * @author Aurellis
      */
-    noteTimeSlow(resumePoint = 0.3, slowingForce = 3){
+    noteTimeSlow(resumePoint = 0.3, slowingForce = 3, beatsBack = 1){
         allBetween(this.startTime,this.endTime, note =>{
             const track = `timeNote_${note.time}_${note.x}_${note.y}`;
             note.noteGravity = false;
             note.track.add(track)
             note.NJS = 16;
-            note.offset = 0;
+            note.offset = beatsBack-1;
 
-            const animtrack = new CustomEvent(note.time - 1).animateTrack(track,2);
+            const animtrack = new CustomEvent(note.time - beatsBack).animateTrack(track,beatsBack+1);
             animtrack.animate.time = [[0,0],[resumePoint/slowingForce,resumePoint],[0.5,0.5,"easeInQuad"],[1,1]];
             animtrack.push();
 
