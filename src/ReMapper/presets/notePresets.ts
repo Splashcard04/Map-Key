@@ -32,28 +32,52 @@ export class noteMod {
     }
     /**
      * Slows the notes down then speeds them back up as the reach the player.
-     * @param resumePoint The point in the notes' lifetime to speed back up. (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns, Must be less that 0.5 or weird results will occur). Default - 0.3.
-     * @param slowingForce The amount that the notes will be slowed, values less than 1 speed the notes up. Default - 3. (note, when resumePoint/slowingForce > 1, weird results may occur)
+     * @param slowPoint The point in the notes' lifetime where it will be the slowest. (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns, Must be less that 0.5 or weird results will occur). Default - 0.1.
+     * @param slowForce How much to slow down the notes. Must be an integer from 1-6 (inclusive). Default - 2
+     * @param offset The point to spawn the notes along the z axis. Calculated as (vanillaOffset+1)*NJS*offset. Default - 1
+     * @param specialEase Optional special easing to use on the notes, only use if you know what you're doing.
      * @author Aurellis
      */
-    noteTimeSlow(resumePoint = 0.3, slowingForce = 3, beatsBack = 1){
+    noteTimeSlow(slowPoint = 0.1, slowForce = 1, offset = 1, specialEase?: "Bounce" | "Back" | "Elastic"){
+        let ease = "easeLinear"
+        switch(slowForce){
+            case 1:
+                ease = "Sine";
+                break;
+            case 2:
+                ease = "Quad";
+                break;
+            case 3:
+                ease = "Cubic";
+                break;
+            case 4:
+                ease = "Quart";
+                break;
+            case 5:
+                ease = "Quint";
+                break;
+            case 6:
+                ease = "Circ"
+                break;
+        }
+        if(specialEase){
+            ease = specialEase
+        }
         allBetween(this.startTime,this.endTime, note =>{
-            const track = `timeNote_${note.time}_${note.x}_${note.y}`;
-            note.noteGravity = false;
-            note.track.add(track)
-            note.NJS = 16;
-            note.offset = beatsBack-1;
-
-            const animtrack = new CustomEvent(note.time - beatsBack).animateTrack(track,beatsBack+1);
-            animtrack.animate.time = [[0,0],[resumePoint/slowingForce,resumePoint],[0.5,0.5,"easeInQuad"],[1,1]];
-            animtrack.push();
+            const jd = (note.offset+1)*note.NJS*offset
+            note.animate.definitePosition = [
+                [0,0,jd,0],
+                [0,0,jd*(0.5-slowPoint),slowPoint,eval(`"easeOut${ease}"`)],
+                [0,0,0,0.5,eval(`"easeIn${ease}"`)],
+                [0,0,-1000,1,"easeInCirc"]
+            ]
 
             if(this.extraData){
                 this.extraData(note)
             }
         })
-        if(resumePoint/slowingForce > 1){
-            MKLog("Note time greater than 1, weird results may occur...","Warning")
+        if(slowPoint >= 0.5){
+            MKLog(`A resume point of ${slowPoint} is past the recommended maximum of 0.5, unexpected behaviour may occur...`,"Warning")
         }
     }
     /**
