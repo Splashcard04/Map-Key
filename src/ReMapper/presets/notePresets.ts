@@ -34,7 +34,7 @@ export class noteMod {
      * Slows the notes down then speeds them back up as the reach the player.
      * @param slowPoint The point in the notes' lifetime where it will be the slowest. (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns, Must be less that 0.5 or weird results will occur). Default - 0.1.
      * @param slowForce How much to slow down the notes. Must be an integer from 1-6 (inclusive). Default - 2
-     * @param offset The point to spawn the notes along the z axis. Calculated as (vanillaOffset+1)\*NJS\*offset. Default - 2
+     * @param offset The point to spawn the notes along the z axis. Calculated as (vanillaOffset+1)\*offset\*20. Default - 2
      * @param specialEase Optional special easing to use on the notes, only use if you know what you're doing.
      * @author Aurellis
      */
@@ -64,7 +64,7 @@ export class noteMod {
             ease = specialEase
         }
         allBetween(this.startTime,this.endTime, note =>{
-            const jd = (note.offset+1)*note.NJS*offset
+            const jd = (note.offset+1)*20*offset
             note.animate.definitePosition = [
                 [0,0,jd,0],
                 [0,0,jd*(0.5-slowPoint),slowPoint,eval(`"easeOut${ease}"`)],
