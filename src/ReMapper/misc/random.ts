@@ -19,7 +19,13 @@ export class randArray {
         public length: number = 2, 
         public decimals = 5,
         public algorithm: "mulberry32" | "jsf32" | "sfc32" | "xoshiro128" = "mulberry32"
-    ){}
+    ){
+        range.sort((a,b) =>{
+            if(a > b) return 1;
+            if(a < b) return -1;
+            return 0
+        })
+    }
     /**
      * Creates the array based on set parameters.
      * @returns An array of random values.
@@ -190,6 +196,11 @@ export function seedRNG(min: number, max: number, seed?: number | string){
     }
     else{
         number.seed = Date.now().toString()
+    }
+    if(min > max){
+        const temp = min;
+        min = max;
+        max = temp;
     }
     return number.randomFloat(min,max)
 }
