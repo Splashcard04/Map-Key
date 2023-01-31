@@ -40,6 +40,7 @@ export class strobe {
      * @param time The time to start the strobe.
      * @param duration The duration of the strobe.
      * @author Splashcard
+     * @todo Easing intervals.
      */
     constructor(public time: number, public duration: number) {}
     

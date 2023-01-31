@@ -117,6 +117,8 @@ export async function exportShareableEnv(settings?: USESettings){
 /**
  * Imports a user shared environment into your map.
  * @param file The path of the file to import from.
+ * @author Aurellis
+ * @todo Event imports.
  */
 export function importShareableEnv(file: string, conflictingBaseEnv?: "Keep Map Environment" | "Use Imported Environment") {
     const USE = JSON.parse(Deno.readTextFileSync(file));
