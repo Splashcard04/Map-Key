@@ -1,4 +1,5 @@
 import { Color, ColorType, EASE, Event, setDecimals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { repeat } from "./general.ts";
 
 export class lightGradient {
     /**
@@ -34,8 +35,14 @@ export class lightGradient {
 }
 
 export class strobe {
+    /**
+     * Creates a linear strobe sequence. With events every "interval" beats.
+     * @param time The time to start the strobe.
+     * @param duration The duration of the strobe.
+     * @author Splashcard
+     */
     constructor(public time: number, public duration: number) {}
-
+    
     get interval() { return this.interval }
     set interval(interval: number) { this.interval = interval }
 
@@ -43,21 +50,35 @@ export class strobe {
     set type(type: number) { this.type = type }
 
     get color() { return this.color }
-    set color(color: ColorType) { this.color = color }
+    set color(color: ColorType | boolean) { this.color = color }
+
+    get ids() { return this.ids }
+    set ids(ids: number[]) {this.ids = ids}
 
     push() {
-        const off = this.time + 1 / this.interval
-        for(let i = 0; i < this.interval / this.duration; i++) {
-            const ev = new Event(this.time + 1/this.interval).backLasers().on(this.color)
-            ev.type = this.type
-            ev.push()
-        }
-
-        for(let i = 0; i < this.interval / this.duration; i++) {
-            const ev = new Event(off + 1/this.interval).backLasers().off();
-            ev.type = this.type;
-            ev.push()
-        }
+        //Default values
+        if(!this.interval) {this.interval = 1}
+        if(!this.color) {this.color = true}
+        //Events
+        repeat(this.duration/this.interval, i => {
+            const time = this.time + i*this.interval*2
+            const on = new Event(time).backLasers().on(this.color).push()
+            if(this.ids){
+                on.lightID = this.ids
+            }
+            if(this.type){
+                on.type = this.type
+            }
+            on.push();
+            const off = new Event(time+this.interval).backLasers().off().push();
+            if(this.ids){
+                off.lightID = this.ids
+            }
+            if(this.type){
+                off.type = this.type
+            }
+            off.push();
+        })
     }
 }
 
