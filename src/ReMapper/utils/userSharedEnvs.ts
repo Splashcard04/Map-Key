@@ -1,7 +1,7 @@
-import { activeDiffGet, copy, info, Json, jsonPrune } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
+import { activeDiffGet, copy, Environment, ENV_NAMES, Geometry, info, Json, jsonPrune, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { MKLog } from "./general.ts"
 
-export type userSharedEnvSettings = {
+export type USESettings = {
     name?: string,
     author?: string,
     environmentVersion?: string,
@@ -14,7 +14,6 @@ export type userSharedEnvSettings = {
     }
 }
 
-
 /**
  * Takes the environments from the map and converts them into a user shared environment.
  * @param settings.name The name for the environment and environment file.
@@ -26,7 +25,7 @@ export type userSharedEnvSettings = {
  * @param settings.features.useChromaEvents Suggests the chromaEvents setting to be used with the env.
  * @param settings.features.basicBeatMapEvents The raw json of basic lighting events to be loaded with the env.
  */
-export async function exportShareableEnv(settings?: userSharedEnvSettings){
+export async function exportShareableEnv(settings?: USESettings){
     if(!settings){
         settings = {}
     }
@@ -113,4 +112,51 @@ export async function exportShareableEnv(settings?: userSharedEnvSettings){
         MKLog(error, "Error");
     }
     MKLog(`Exported ${outData.environment.length} environments to "${settings.name}.dat"...`)
+}
+
+/**
+ * Imports a user shared environment into your map.
+ * @param file The path of the file to import from.
+ */
+export function importShareableEnv(file: string, conflictingBaseEnv?: "Keep Map Environment" | "Use Imported Environment") {
+    const USE = JSON.parse(Deno.readTextFileSync(file));
+    // deno-lint-ignore no-explicit-any
+    const env = USE.environment as any[]
+    env.forEach(x =>{
+        // Check for geometry objects
+        if(x.geometry){
+            // Replace _type and _material with v3 counterparts
+            if(x.geometry._material && x.geometry._type){
+                x.geometry = {
+                    type: x.geometry._type,
+                    material: x.geometry._material
+                }
+            }
+            // Import the modified geometry
+            const geo = new Geometry(x.geometry.type,x.geometry.material)
+            geo.import(x)
+            geo.push()
+        }
+        else{
+            // Import Envs
+            const env = new Environment(x.id,x.lookupMethod);
+            env.import(x);
+            env.push()
+        }
+    })
+    // Check for materials
+    if(USE.materials){
+        const mats = USE.materials as Record<string,RawGeometryMaterial>
+        Object.assign(activeDiffGet().geoMaterials, mats)
+    }
+    // Check for conflicting environments
+    const envName = USE.environmentName as ENV_NAMES
+    if(envName !== info.environment){
+        if(!conflictingBaseEnv){
+            MKLog("Imported environment uses a different base environment than your map. Please use the conflictingBaseEnv setting on this function...","Warning")
+        }
+        else if(conflictingBaseEnv == "Use Imported Environment"){
+            info.environment = envName
+        }
+    }
 }
