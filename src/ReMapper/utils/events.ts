@@ -39,21 +39,26 @@ export class strobeGenerator {
      * Creates a linear strobe sequence. With events every "interval" beats.
      * @param time The time to start the strobe.
      * @param duration The duration of the strobe.
+     * @param interval How many times per beat to add a strobe event, or one event every 1/interval beats.
+     * @param type The event type to use.
+     * @param color The on color to use, the off color will always be [0,0,0,0]. Can also be a boolean to use vanilla colors.
+     * @param ids Specific ids to target.
+     * @param ease Whether to use an easing on the strobe. Any special easings like, bounce, elastic, etc... will yield very weird results.
      * @author Splashcard & Aurellis
      */
     constructor(public time: number, public duration: number, public interval = 1, public type = 0, public color: ColorType | boolean = true, public ids?: number, public ease?: EASE) {}
 
     push() {
         //Events
-        repeat(this.duration/this.interval, i => {
+        repeat(this.duration*this.interval, i => {
             let time = 0
             if(this.ease){
                 // "Activate" the import so it works
                 e.easeInBack
-                time = eval(`e.${this.ease}(${i},${this.time},${this.duration},${this.duration/this.interval})`)
+                time = eval(`e.${this.ease}(${i},${this.time},${this.duration},${this.duration*this.interval})`)
             }
             else {
-                time = this.time + i*this.interval
+                time = this.time + i/this.interval
             }
             if(i%2 == 0){
                 const on = new Event(time).backLasers().on(this.color)
