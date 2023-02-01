@@ -35,3 +35,11 @@ export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => v
         }
     })
 }
+
+export function notesBetween(time: number, timeEnd: number, forNote: (n: Note) => {
+    JSON.parse(Deno.readTextFileSync(activeOutput)).colorNotes.forEach(x => {
+        if(x.b >= time && x.b <= timeEnd) {
+            forNote(x)
+        }
+    })
+}) 
