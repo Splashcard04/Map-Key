@@ -42,26 +42,9 @@ export class strobeGenerator {
      * @param duration The duration of the strobe.
      * @author Splashcard
      */
-    constructor(public time: number, public duration: number) {}
-    
-    get interval() { return this.interval }
-    set interval(interval: number) { this.interval = interval }
+    constructor(public time: number, public duration: number, public interval = 1, public type = 0, public color: ColorType | boolean = true, public ids?: number, public ease?: EASE) {}
 
-    get type() { return this.type }
-    set type(type: number) { this.type = type }
-
-    get color() { return this.color }
-    set color(color: ColorType | boolean) { this.color = color }
-
-    get ids() { return this.ids }
-    set ids(ids: number[]) {this.ids = ids}
-
-    get ease() {return this.ease}
-    set ease(ease: EASE) {this.ease = ease}
     push() {
-        //Default values
-        if(!this.interval) {this.interval = 1}
-        if(!this.color) {this.color = true}
         //Events
         repeat(this.duration/this.interval, i => {
             let time = 0
