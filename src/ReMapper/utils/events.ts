@@ -1,4 +1,3 @@
-// deno-lint-ignore no-unused-vars
 import * as e from "https://deno.land/x/remapper@3.1.1/src/easings.ts";
 import { Color, ColorType, EASE, Event, setDecimals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 import { repeat } from "./general.ts";
@@ -40,7 +39,7 @@ export class strobeGenerator {
      * Creates a linear strobe sequence. With events every "interval" beats.
      * @param time The time to start the strobe.
      * @param duration The duration of the strobe.
-     * @author Splashcard
+     * @author Splashcard & Aurellis
      */
     constructor(public time: number, public duration: number, public interval = 1, public type = 0, public color: ColorType | boolean = true, public ids?: number, public ease?: EASE) {}
 
@@ -49,8 +48,9 @@ export class strobeGenerator {
         repeat(this.duration/this.interval, i => {
             let time = 0
             if(this.ease){
-                // This uses the "unused" import.
-                time = eval(`e.${this.ease}(${i},${this.time},${this.time+this.duration},${this.duration/this.interval})`)
+                // "Activate" the import so it works
+                e.easeInBack
+                time = eval(`e.${this.ease}(${i},${this.time},${this.duration},${this.duration/this.interval})`)
             }
             else {
                 time = this.time + i*this.interval
@@ -66,7 +66,7 @@ export class strobeGenerator {
                 on.push();
             }
             else {
-                const off = new Event(time).backLasers().off()
+                const off = new Event(time).backLasers().on([0,0,0,0])
                 if(this.ids){
                     off.lightID = this.ids
                 }
