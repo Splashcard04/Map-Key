@@ -1,6 +1,7 @@
+// deno-lint-ignore no-unused-vars
+import * as e from "https://deno.land/x/remapper@3.1.1/src/easings.ts";
 import { Color, ColorType, EASE, Event, setDecimals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 import { repeat } from "./general.ts";
-
 export class lightGradient {
     /**
      * Create simple lighting gradients.
@@ -40,7 +41,6 @@ export class strobe {
      * @param time The time to start the strobe.
      * @param duration The duration of the strobe.
      * @author Splashcard
-     * @todo Easing intervals.
      */
     constructor(public time: number, public duration: number) {}
     
@@ -56,29 +56,42 @@ export class strobe {
     get ids() { return this.ids }
     set ids(ids: number[]) {this.ids = ids}
 
+    get ease() {return this.ease}
+    set ease(ease: EASE) { this.ease = ease }
     push() {
         //Default values
         if(!this.interval) {this.interval = 1}
         if(!this.color) {this.color = true}
         //Events
         repeat(this.duration/this.interval, i => {
-            const time = this.time + i*this.interval*2
-            const on = new Event(time).backLasers().on(this.color).push()
-            if(this.ids){
-                on.lightID = this.ids
+            let time = 0
+            if(this.ease){
+                // This uses the "unused" import.
+                time = eval(`e.${this.ease}(${i},${this.time},${this.time+this.duration},${this.duration/this.interval})`)
             }
-            if(this.type){
-                on.type = this.type
+            else {
+                time = this.time + i*this.interval
             }
-            on.push();
-            const off = new Event(time+this.interval).backLasers().off().push();
-            if(this.ids){
-                off.lightID = this.ids
+            if(i%2 == 0){
+                const on = new Event(time).backLasers().on(this.color)
+                if(this.ids){
+                    on.lightID = this.ids
+                }
+                if(this.type){
+                    on.type = this.type
+                }
+                on.push();
             }
-            if(this.type){
-                off.type = this.type
+            else {
+                const off = new Event(time).backLasers().off()
+                if(this.ids){
+                    off.lightID = this.ids
+                }
+                if(this.type){
+                    off.type = this.type
+                }
+                off.push()
             }
-            off.push();
         })
     }
 }
