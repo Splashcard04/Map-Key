@@ -12,11 +12,9 @@ export class playerAnim {
      */
     constructor(public time: number = 0, public timeEnd: number = 0, public animation?: (x: AnimateTrack) => void) {}
 
-    get playerTrack() { return this.playerTrack }
-    set playerTrack(track: string) { this.playerTrack = track }
+    playerTrack(public track: string) { this.playerTrack = track }
 
-    get noteTrack() { return this.noteTrack }
-    set noteTrack(track: string) { this.noteTrack = track }
+    noteTrack(public track: string) { this.noteTrack = track }
     
 
     push() {
