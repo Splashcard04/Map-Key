@@ -16,7 +16,8 @@ class playerAnimation {
         position: [0, 0, 0, 0], 
         rotation: [0, 0, 0], 
         playerTrack: "bruh", 
-        noteTrack: "idk"}) 
+        noteTrack: "idk"
+        }) 
         {
         this.time = settings.time
         this.duration = settings.duration
