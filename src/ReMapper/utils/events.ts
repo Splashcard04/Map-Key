@@ -35,7 +35,7 @@ export class lightGradient {
     }
 }
 
-export class strobe {
+export class strobeGenerator {
     /**
      * Creates a linear strobe sequence. With events every "interval" beats.
      * @param time The time to start the strobe.
