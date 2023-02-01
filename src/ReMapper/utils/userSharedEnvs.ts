@@ -117,6 +117,7 @@ export async function exportShareableEnv(settings?: USESettings){
 /**
  * Imports a user shared environment into your map.
  * @param file The path of the file to import from.
+ * @param conflictingBaseEnv If your map's environment conflicts with the base environment of the imported one. This option will allow you to specify which base environment to use.
  * @author Aurellis
  * @todo Event imports.
  */
