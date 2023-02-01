@@ -57,7 +57,7 @@ export class strobeGenerator {
     set ids(ids: number[]) {this.ids = ids}
 
     get ease() {return this.ease}
-    set ease(ease: EASE) { this.ease = ease }
+    set ease(ease: EASE) {this.ease = ease}
     push() {
         //Default values
         if(!this.interval) {this.interval = 1}
