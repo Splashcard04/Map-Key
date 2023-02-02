@@ -38,37 +38,59 @@ export class noteMod {
      * @param specialEase Optional special easing to use on the notes, only use if you know what you're doing.
      * @author Aurellis
      */
-    noteTimeSlow(slowPoint = 0.1, slowForce = 1, offset = 2, specialEase?: "Bounce" | "Back" | "Elastic"){
-        let ease = "easeLinear"
-        switch(slowForce){
+    noteTimeSlow(slowPoint = 0.1, slowForce = [1,1], offset = 2, specialEase?: ["Bounce" | "Back" | "Elastic", "Bounce" | "Back" | "Elastic"]){
+        let easeIn = "easeLinear"
+        let easeOut = "easeLinear"
+        switch(slowForce[0]){
             case 1:
-                ease = "Sine";
+                easeIn = "Sine"
                 break;
             case 2:
-                ease = "Quad";
+                easeIn = "Quad";
                 break;
             case 3:
-                ease = "Cubic";
+                easeIn = "Cubic";
                 break;
             case 4:
-                ease = "Quart";
+                easeIn = "Quart";
                 break;
             case 5:
-                ease = "Quint";
+                easeIn = "Quint";
                 break;
             case 6:
-                ease = "Circ"
+                easeIn = "Circ"
+                break;
+        }
+        switch(slowForce[1]){
+            case 1:
+                easeOut = "Sine";
+                break;
+            case 2:
+                easeOut = "Quad";
+                break;
+            case 3:
+                easeOut = "Cubic";
+                break;
+            case 4:
+                easeOut = "Quart";
+                break;
+            case 5:
+                easeOut = "Quint";
+                break;
+            case 6:
+                easeOut = "Circ"
                 break;
         }
         if(specialEase){
-            ease = specialEase
+            easeIn = specialEase[0];
+            easeOut = specialEase[1];
         }
         allBetween(this.startTime,this.endTime, note =>{
             const jd = (note.offset+1)*20*offset
             note.animate.definitePosition = [
                 [0,0,jd,0],
-                [0,0,jd*(0.5-slowPoint),slowPoint,eval(`"easeOut${ease}"`)],
-                [0,0,0,0.5,eval(`"easeIn${ease}"`)],
+                [0,0,jd*(0.5-slowPoint),slowPoint,eval(`"easeOut${easeIn}"`)],
+                [0,0,0,0.5,eval(`"easeIn${easeOut}"`)],
                 [0,0,-1000,1,"easeInCirc"]
             ]
 
