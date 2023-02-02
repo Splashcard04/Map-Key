@@ -41,6 +41,7 @@ export class noteMod {
     noteTimeSlow(slowPoint = 0.1, slowForce = [1,1], offset = 2, specialEase?: ["Bounce" | "Back" | "Elastic", "Bounce" | "Back" | "Elastic"]){
         let easeIn = "easeLinear"
         let easeOut = "easeLinear"
+        // Could probably use an enum here. Work on that later.
         switch(slowForce[0]){
             case 1:
                 easeIn = "Sine"
