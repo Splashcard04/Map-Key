@@ -1,6 +1,11 @@
-import { ModelScene, GroupObjectTypes, Environment, Geometry } from "https://deno.land.x.remapper@3.1.1/src/mod.ts"
+import { ModelScene, GroupObjectTypes, Environment, Geometry, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 
 export class laserScene {
+    json: Json = {};
+    import(json: Json) {
+        this.json = json
+        return this
+    }
     /**
      * @param scene the model scene to add the lasers to
      * @param object the laser that you would like to place (environment or geometry)
@@ -8,26 +13,23 @@ export class laserScene {
      * @method matName the name of your material in blender
      * @method push add the lasers to a primary group
      */
-    constructor(public scene: ModelScene, public object: GroupObjectTypes) {
-        this.sceneName = scene
-        this.object = object
-    }
+    constructor(public scene: ModelScene, public object: GroupObjectTypes) {}
     /**pass a variable to modify your laser objects in any way */
-    modify(public envMod: (x: Environment | Geometry)) {
-        this.mod = envMod
+    modify(envMod: (x: Environment | Geometry) => void) {
+        this.json.mod = envMod
     }
     /**the name of your blender material */
-    matName(public name: string) {
-        this.mat = name
+    matName(name: string) {
+        this.json.mat = name
     }
     /**add the lasers to the primary group */
     push() {
-        const laserMats: [] = []
+        const laserMats = []
         const obj = this.object
-        this.mod(obj)
+        this.json.mod(obj)
         for(let i = 1; i <= 1; i++) {
-            laserTracks.push(this.mat+`${i}`)
+            laserMats.push(this.json.mat+`${i}`)
         }
-        this.sceneName.addPrimaryGroups(laserMats, obj)
+        this.scene.addPrimaryGroups(laserMats, obj)
     }
 }
