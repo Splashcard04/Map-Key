@@ -12,10 +12,10 @@ export function logFunctions(): void {
 }
 
 /** 
- * convert rgb values easily
- * @param value input your array of rgb 255-255!
- * @param colorMultiplier? the multilier for your colors (esentially affects brightness)
- * @returns beat saber compatible rgb values
+ * Convert gamma RGB to linear RGB. (RGB from 0-255, into RGB from 0-1).
+ * @param value RGB color from 0-255, alpha values are still 0-1.
+ * @param colorMultiplier Optional, multiplier for your color to make it brighter.
+ * @returns Linear RGB values.
  * @author splashcard__ & scuffedItalian
  */
 export function rgb(value: ColorType, colorMultiplier?: number) {
@@ -36,7 +36,7 @@ export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => v
 
 export class blenderFrameMath {
   /**
-   * Some basic math to aid with the timing of Blender animations to RM
+   * Some basic math to aid with the timing of Blender animations to RM.
    * @param bpm The BPM of the song.
    * @param beats The duration of your animation in RM.
    * @param fps The fps of your blender project.

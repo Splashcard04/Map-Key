@@ -10,10 +10,10 @@ export class notePath {
       return this
   }
    /**
-   * @param timeStart the time to start applying the custom data to the notes
-   * @param timeEnd the time to stop applying custom data to the notes
-   * @param forNoteL pass for all left notes
-   * @param fornoteR pass for all right notes
+   * @param time The time to start applying the custom data to the notes.
+   * @param timeEnd The time to stop applying custom data to the notes.
+   * @param fornoteLeft Pass for all left notes.
+   * @param forNoteRight Pass for all right notes.
    * @author splashcard__ 
  */
   constructor(time: number, timeEnd: number, fornoteLeft: (n: Note) => void, forNoteRight: (n: Note) => void) {
