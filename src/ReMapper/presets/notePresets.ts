@@ -185,4 +185,20 @@ export class noteMod {
         }
         anim.push()
     }
+    /**
+     * Makes the notes bounce up and down once over their lifetime.
+     * @param height How high to bounce up.
+     * @param time The time to sart the bounce, the peak of the bounce, and the end of the bounce. (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns). Default - [0.1,0.25,0.4].
+     * @param easing The easings to use in the bounce, the easing on the way up, and the easing on the way down. Default - ["easeLinear","easeLinear"].
+     */
+    noteBeatBounce(height = 1, time: [number, number, number] = [0.1,0.25,0.4], easing?: [EASE,EASE]){
+        allBetween(this.startTime,this.endTime, note =>{
+            if(easing){
+                note.animation.offsetPosition = [[0,0,0,time[0]],[0,height,0,time[1],easing[0]],[0,0,0,time[2],easing[1]]];
+            }
+            else {
+                note.animation.offsetPosition = [[0,0,0,time[0]],[0,height,0,time[1]],[0,0,0,time[2]]];
+            }
+        })
+    }
 }
