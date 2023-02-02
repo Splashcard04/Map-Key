@@ -109,11 +109,17 @@ export const Env = {
         railLight: "t\\.\\[\\d+\\]Neon\\w+L$",
         rain: "Rain$"
     },
-
+    BTS: {
+        doorLight: "MagicDoorSprite",
+        upperClouds: "HighCloudsGenerator$",
+        lowerClouds: "LowCloudsGenerator$",
+        allClouds: "Clouds$"
+    },
     all: {
         cinemaScreen: "CinemaScreen$",
         cinemaDirLight: "CinemaDirectionalLight$",
-        mirror: "Place\\.\\[\\d+\\]Mirror$"
+        mirror: "Place\\.\\[\\d+\\]Mirror$",
+        playerPlatform: "PlayersPlace$"
     }
 }
 
