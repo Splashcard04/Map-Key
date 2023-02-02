@@ -1,6 +1,12 @@
 import { activeDiff } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 
 export class functionLogger {
+    /**
+     * log specific pieces of your map to the console
+     * @param objects log object data to the console?
+     * @param fakeArray log fake object data to the console?
+     * @param moddedMapData log modded map data to the console?
+     */
     constructor(objects: boolean = true, fakeArray: boolean = true, moddedMapData: boolean = true) {
         const map = activeDiff
 

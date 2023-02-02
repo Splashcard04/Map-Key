@@ -12,6 +12,8 @@ export class lightGradient {
      * @param easing The easing to use on each color.
      */
     constructor(public time = 0, public duration = 1, public type = 0, public colors: ColorType[], public lerpType?: "HSV" | "RGB", public easing?: EASE){}
+    
+    /**push the gradient to the difficulty */
     push() {
         const ev = new Event(this.time).backLasers().on(this.colors[0])
         ev.type = this.type;

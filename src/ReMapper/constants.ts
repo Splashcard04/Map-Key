@@ -118,6 +118,7 @@ export const Env = {
 }
 
 export enum lightTypes {
+    /**light type constants as a solution to ReMapper's horrible event system */
     backLasers = 0,
     ringLights = 1,
     leftLasers = 2,

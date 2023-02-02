@@ -25,8 +25,8 @@ export type USESettings = {
  * @param settings.features.useChromaEvents Suggests the chromaEvents setting to be used with the env.
  * @param settings.features.basicBeatMapEvents The raw json of basic lighting events to be loaded with the env.
  */
-export async function exportShareableEnv(settings?: USESettings){
-    if(!settings){
+export async function exportShareableEnv(settings?: USESettings) {
+    if(!settings) {
         settings = {}
     }
     // Default values

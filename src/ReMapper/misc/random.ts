@@ -30,7 +30,7 @@ export class randArray {
      * Creates the array based on set parameters.
      * @returns An array of random values.
      */
-    run(){
+    run() {
         const _prngs = PRNGs
         const res: number[] = [];
         const number = new Seed("", eval(`_prngs.${this.algorithm}`));

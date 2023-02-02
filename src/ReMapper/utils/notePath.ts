@@ -1,14 +1,7 @@
 import { notesBetween, Note, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { logFunctionss, MKLog } from "./general.ts" 
- /**
- * @param timeStart the time to start applying the custom data to the notes
- * @param timeEnd the time to stop applying custom data to the notes
- * @param forNoteL pass for all left notes
- * @param fornoteR pass for all right notes
- * @author splashcard__ 
- */
 
-export class noteSplit {
+export class notePath {
 
   json: Json = {}
 
@@ -16,12 +9,20 @@ export class noteSplit {
       this.json = json
       return this
   }
+   /**
+   * @param timeStart the time to start applying the custom data to the notes
+   * @param timeEnd the time to stop applying custom data to the notes
+   * @param forNoteL pass for all left notes
+   * @param fornoteR pass for all right notes
+   * @author splashcard__ 
+ */
   constructor(time: number, timeEnd: number, fornoteLeft: (n: Note) => void, forNoteRight: (n: Note) => void) {
     this.json.time = time;
     this.json.timeEnd = timeEnd;
     this.json.forL = fornoteLeft
     this.json.forR = forNoteRight
   }
+  /**push the note effects to the difficulty */
   push() {
     notesBetween(this.json.time, this.json.timeEnd, n => {
         let pass = false;

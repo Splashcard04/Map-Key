@@ -17,7 +17,6 @@ export class despawnerBuilder {
         this.json = json
         return this
     }
-    constructor(settings: despawnerSettings) {
         /**
          * @param {LOOKUP} lookup the lookup method of despawned and restored environment pieces
          * @param {string[]} ids the array of environment ids to despawn
@@ -25,6 +24,8 @@ export class despawnerBuilder {
          * @param {string[]} restore environment peices to restore from being despawned
          * @author splashcard
          */
+
+    constructor(settings: despawnerSettings) {
 
         this.json.lookup = settings.lookup
         this.json.ids = settings.ids

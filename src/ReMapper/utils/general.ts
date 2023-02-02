@@ -11,7 +11,7 @@ export function logFunctions(): void {
   logFunctionss = true;
 }
 
-/**
+/** 
  * convert rgb values easily
  * @param value input your array of rgb 255-255!
  * @param colorMultiplier? the multilier for your colors (esentially affects brightness)
