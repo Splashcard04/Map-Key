@@ -25,6 +25,7 @@ export class shapeGenerator {
         public track: string | undefined = undefined,
         public iterateTrack: boolean = true
         ){}
+        /**push the created shape to the difficulty */
         push(){
             const cube = new Geometry("Cube", this.material);
             for(let side = 0; side < this.sides; side++){

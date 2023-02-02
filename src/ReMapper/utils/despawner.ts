@@ -16,6 +16,7 @@ export class despawner {
         this.hardDespawn = hardDespawn
     }
 
+    /**push despawned objects to the difficulty */
     push() {
         this.ids.forEach(id => {
             const env = new Environment(id, this.lookup)

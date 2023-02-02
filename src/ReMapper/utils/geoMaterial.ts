@@ -17,6 +17,13 @@ export class geoMaterial {
         return this
     }
 
+    /**
+     * create a geometry material
+     * @param name the name of the created geometry material
+     * @param material the material to create
+     * @param addGroup add this material to a primary group?
+     */
+
     constructor(public name: string, public material: RawGeometryMaterial, public addGroup?: addGroupSettings) {
         this.name = name
         this.material = material
@@ -28,7 +35,7 @@ export class geoMaterial {
 
 
     }
-
+    /**push the material to the difficulty and add a model scene group if selected */
     push() {
         const map = activeDiff
 

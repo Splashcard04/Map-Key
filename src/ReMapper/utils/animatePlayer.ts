@@ -12,13 +12,15 @@ export class playerAnim {
      */
     constructor(public time: number = 0, public timeEnd: number = 0, public animation?: (x: CustomEventInternals.AnimateTrack) => void) {}
 
+    /**an extra track to assign the player to */
     get playerTrack() { return this.playerTrack }
     set playerTrack(track: string) { this.playerTrack = track }
 
+    /**an extra note track to add any notemods */
     get noteTrack() { return this.noteTrack }
     set noteTrack(track: string) { this.noteTrack = track }
     
-
+    /**push the animation to the difficulty */
     push() {
         // Figure out how to check if a push() statement was included. Then MKLog a warning.
         if(!this.playerTrack) {

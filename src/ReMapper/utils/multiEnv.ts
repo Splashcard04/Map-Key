@@ -2,7 +2,13 @@ import { Environment } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { MKLog, logFunctionss } from './general.ts'
  
 export class multiEnv {
-
+    /**
+     * modify a set of environment IDs with multiple lookup methods
+     * @param contains environment ids to modify with lookup method "Contains"
+     * @param regex environment ids to modify with lookup method "Regex"
+     * @param endswith environment ids to modify with lookup method "EndsWith"
+     * @param exact environment ids to modify with lookup method "Exact"
+     */
     constructor(
         public contains: string[] = [],
         public regex: string[] = [],
@@ -10,6 +16,7 @@ export class multiEnv {
         public exact: string[] = []
     ){}
 
+    /**push the environment objects to the difficulty */
     push(forEnv: (x: Environment) => void) {
         this.contains.forEach((id: string) => {
             const env = new Environment(id, "Contains")

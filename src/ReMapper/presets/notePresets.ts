@@ -171,7 +171,7 @@ export class noteMod {
      * @param rotateAngle How much to rotate the notes as they sway. Default - 30.
      * @author Aurellis
      */
-    noteSway(rotateFrom: "Top" | "Bottom" = "Top", moveDistance = 1, rotateAngle = 30){
+    noteSway(rotateFrom: "Top" | "Bottom" = "Top", moveDistance = 1, rotateAngle = 30) {
         allBetween(this.startTime,this.endTime,note =>{
             note.track.add("SwayNotes")
             if(this.extraData){

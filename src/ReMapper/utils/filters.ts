@@ -14,7 +14,7 @@ export function filterGeometry(filter: [GEO_FILTER_PROPS | position | rotation |
     arr.forEach(geo =>{
       let pass = true
       filter.forEach(fill => {
-        if(fill[0] == "track"){
+        if(fill[0] == "track") {
           if(!geo.track.has(fill[1].toString())){
             pass = false;
           }
