@@ -24,7 +24,3 @@ export class laserScene {
         this.sceneName.addPrimaryGroups(laserMats, obj)
     }
 }
-
-new laserScene(scene, x => {
-    x.lightID = 0
-})
