@@ -51,7 +51,6 @@ export class strobeGenerator {
     constructor(public time: number, public duration: number, public interval = 1, public type = 0, public color: ColorType | boolean = true, public ids?: number, public ease?: EASE) {}
 
     push() {
-        //Events
         repeat(this.duration*this.interval, i => {
             let time = 0
             if(this.ease){

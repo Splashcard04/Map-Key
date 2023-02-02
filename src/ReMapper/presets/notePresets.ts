@@ -1,6 +1,16 @@
 import { activeDiffGet, CustomEvent, EASE, Note, notesBetween, rand } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { allBetween, MKLog } from "../utils/general.ts";
 
+type easeBase = 
+        "Sine" |
+        "Quad" |
+        "Cubic" |
+        "Quart" |
+        "Quint" |
+        "Circ" |
+        "Linear" |
+        "Step"
+
 export class noteMod {
     /**
      * A class to aid in adding quick noteMod effects.
@@ -38,50 +48,10 @@ export class noteMod {
      * @param specialEase Optional special easing to use on the notes, only use if you know what you're doing.
      * @author Aurellis
      */
-    noteTimeSlow(slowPoint = 0.1, slowForce = [1,1], offset = 2, specialEase?: ["Bounce" | "Back" | "Elastic", "Bounce" | "Back" | "Elastic"]){
-        let easeIn = "easeLinear"
-        let easeOut = "easeLinear"
-        // Could probably use an enum here. Work on that later.
-        switch(slowForce[0]){
-            case 1:
-                easeIn = "Sine"
-                break;
-            case 2:
-                easeIn = "Quad";
-                break;
-            case 3:
-                easeIn = "Cubic";
-                break;
-            case 4:
-                easeIn = "Quart";
-                break;
-            case 5:
-                easeIn = "Quint";
-                break;
-            case 6:
-                easeIn = "Circ"
-                break;
-        }
-        switch(slowForce[1]){
-            case 1:
-                easeOut = "Sine";
-                break;
-            case 2:
-                easeOut = "Quad";
-                break;
-            case 3:
-                easeOut = "Cubic";
-                break;
-            case 4:
-                easeOut = "Quart";
-                break;
-            case 5:
-                easeOut = "Quint";
-                break;
-            case 6:
-                easeOut = "Circ"
-                break;
-        }
+
+    noteTimeSlow(slowPoint = 0.1, slowForce: [easeBase,easeBase] = ["Sine","Sine"], offset = 2, specialEase?: ["Bounce" | "Back" | "Elastic", "Bounce" | "Back" | "Elastic"]){
+        let easeIn = slowForce[0] as string;
+        let easeOut = slowForce[1] as string;
         if(specialEase){
             easeIn = specialEase[0];
             easeOut = specialEase[1];
