@@ -11,6 +11,7 @@ export class laserScene {
      * @param object the laser that you would like to place (environment or geometry)
      * @method modify the modifications (lightID, lightType, etc.) for your lasers
      * @method matName the name of your material in blender
+     * @method amount the amount of laser objects in you rmodel scene
      * @method push add the lasers to a primary group
      */
     constructor(public scene: ModelScene, public object: GroupObjectTypes) {}
@@ -22,12 +23,15 @@ export class laserScene {
     matName(name: string) {
         this.json.mat = name
     }
+    amount(amount: number) {
+        this.json.amt = amount
+    }
     /**add the lasers to the primary group */
     push() {
         const laserMats = []
         const obj = this.object
         this.json.mod(obj)
-        for(let i = 1; i <= 1; i++) {
+        for(let i = 1; i <= this.amt i++) {
             laserMats.push(this.json.mat+`${i}`)
         }
         this.scene.addPrimaryGroups(laserMats, obj)
