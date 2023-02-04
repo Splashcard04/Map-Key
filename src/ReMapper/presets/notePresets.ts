@@ -56,12 +56,24 @@ export class noteMod {
             easeIn = specialEase[0];
             easeOut = specialEase[1];
         }
+        if(easeIn == "Linear" || easeIn == "Step"){
+            easeIn = `ease${easeIn}`
+        }
+        else {
+            easeIn = `easeOut${easeIn}`
+        }
+        if(easeOut == "Linear" || easeOut == "Step"){
+            easeOut = `ease${easeOut}`
+        }
+        else {
+            easeOut = `easeIn${easeOut}`
+        }
         allBetween(this.startTime,this.endTime, note =>{
             const jd = (note.offset+1)*20*offset
             note.animate.definitePosition = [
                 [0,0,jd,0],
-                [0,0,jd*(0.5-slowPoint),slowPoint,eval(`"easeOut${easeIn}"`)],
-                [0,0,0,0.5,eval(`"easeIn${easeOut}"`)],
+                [0,0,jd*(0.5-slowPoint),slowPoint,eval(`"${easeIn}"`)],
+                [0,0,0,0.5,eval(`"${easeOut}"`)],
                 [0,0,-1000,1,"easeInCirc"]
             ]
 
