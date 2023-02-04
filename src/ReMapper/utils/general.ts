@@ -169,5 +169,4 @@ export function pointRotation(point1: Vec3, point2: Vec3, defaultAngle?: Vec3){
  * @param code The code to repeat, written as repeatvariablename =>{code}.
  * @example repeat(20, rep =>{ console.log(rep) })
  */
-// deno-lint-ignore no-explicit-any
-export function repeat(repeat: number, code: (i: any) => void) {for(let i = 0; i < repeat; i++) {code(i)}}
+export function repeat(repeat: number, code: (i: number) => void) {for(let i = 0; i < repeat; i++) {code(i)}}
