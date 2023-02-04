@@ -1,5 +1,5 @@
 import { Note } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-import { noteSplit } from '../utils/notePath.ts'
+import { notePath } from '../utils/notePath.ts'
 
 export type notePathSettings = {
     time: number,
@@ -18,6 +18,6 @@ export class notePathBuilder{
      * @author splashcard
      */
 
-    new noteSplit(settings.time, settings.timeEnd, settings.left, settings.right)
+    new notePath(settings.time, settings.timeEnd, settings.left, settings.right)
     }
 }
