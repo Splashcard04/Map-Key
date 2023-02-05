@@ -97,7 +97,8 @@ export class lerpGradient {
     ){}
     /**
      * Returns the color at a certain position.
-     * @param index The position to check for. (TIP: if index == loopPoint, startingColor will be returned)
+     * @param index The position to check for. (TIP: if index == loopPoint, startingColor will be returned).
+     * @param precision How many decimals to include in the final rgb value.
      * @returns Color.
      */
     export(index: number, precision = 2) {
