@@ -1,5 +1,4 @@
 const {  animateTrack, assignTrackParent, assignPlayerToTrack, notesBetween } = require(`splashcard_jsmapper`)
-const { MKlog } = require(`./general.js`) 
 
 class playerAnimation {
 
