@@ -209,7 +209,7 @@ export class noteMod {
                 note.animation.offsetPosition = [[0,0,0,time[0]],[0,height,0,time[1],easing[0]],[0,0,0,time[2],easing[1]]];
             }
             else {
-                note.animation.offsetPosition = [[0,0,0,time[0]],[0,height,0,time[1]],[0,0,0,time[2]]];
+                note.animation.offsetPosition = [[0,0,0,time[0]],[0,height,0,time[1],"easeOutSine"],[0,0,0,time[2],"easeInSine"]];
             }
         })
     }
