@@ -1,16 +1,7 @@
 // deno-lint-ignore-file no-namespace
-
-
-
-
-
 export const Spline = "splineCatmullRom";
 
 export const mapDir = "./temp/map"
-
-// export const notes = "note";
-// export const walls = "wall";
-// export const events = "event";
 
 export enum Mod {
     Chroma = "Chroma",
@@ -32,7 +23,14 @@ export namespace Difficulty {
         Normal = "NormalStandard.dat",
         Hard = "HardStandard.dat",
         Expert = "ExpertStandard.dat",
-        ExpertPlus = "ExpertPluStandard..dat"
+        ExpertPlus = "ExpertPlusStandard.dat"
+    }
+    export enum Lightshow {
+        Easy = "EasyLightshow.dat",
+        Normal = "NormalLightshow.dat",
+        Hard = "HardLightshow.dat",
+        Expert = "ExpertLightshow.dat",
+        ExpertPlus = "ExpertPlusLightshow.dat"
     }
 }
 
@@ -50,10 +48,6 @@ export enum Shader {
     Standard = "Standard",
     OpaqueLight = "OpaqueLight",
     TransparentLight = "TransparentLight"
-}
-
-export enum Font {
-    LiteFont = "./models/litefont.dae"
 }
 
 export namespace ease {
@@ -94,29 +88,4 @@ export namespace ease {
         Bounce = "easeInOutBounce"
     }
     export const Step = "easeStep"
-}
-
-export namespace Prop {
-    export namespace Note {
-        export enum Type {
-            Red = 0,
-            Blue = 1,
-            Bomb = 3
-        }
-        export enum Direction {
-            Up = 0,
-            Down = 1,
-            Left = 2,
-            Right = 3,
-            UpL = 4,
-            UpR = 5,
-            DownL = 6,
-            DownR = 7,
-            Dot = 8
-        }
-    }
-    export enum Wall {
-        Full = 0,
-        Crouch = 1
-    }
 }
