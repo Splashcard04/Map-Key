@@ -211,7 +211,7 @@ export function seedRNG(min: number, max: number, seed?: number | string){
  * @param points The number of graph lines to show.
  * @param magnitude The maximum length of the graph lines. The higher this value is set, the more accurate the lower graph bars will be. Setting it too high may cause unintended text wrapping.
  */
-export function distribution(arr: number[], points: number, magnitude: number){
+export function graphDistribution(arr: number[], points: number, magnitude: number){
     // Convert the array to 0-1.
     let max = copy(arr);
     max.sort((a,b) =>{
