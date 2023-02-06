@@ -25,14 +25,14 @@ export class functionLogger {
                     arr.push(note.time)
                 })
                 graphDistribution(arr, 20, 100);
-                console.log("\x1b[31mEnd...");
+                console.log("\x1b[31mEnd...\x1b[97");
                 console.log("\n\x1b[36mMap wall frequency:\n\x1b[31mStart:\x1b[97m")
                 arr = [];
                 map.walls.forEach(wall =>{
                     arr.push(wall.time)
                 })
                 graphDistribution(arr, 20, 100);
-                console.log("\x1b[31mEnd...");
+                console.log("\x1b[31mEnd...\x1b[97m");
             }
         }
 
@@ -45,7 +45,7 @@ export class functionLogger {
                     arr.push(note.time)
                 })
                 graphDistribution(arr, 20, 100);
-                console.log("\x1b[31mEnd...");
+                console.log("\x1b[31mEnd...\x1b[97m");
                 console.log("\n\x1b[36mMap wall frequency:\n\x1b[31mStart:\x1b[97m")
                 arr = [];
                 map.fakeWalls.forEach(wall =>{
