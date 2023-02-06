@@ -241,8 +241,8 @@ export function graphDistribution(arr: number[], points: number, magnitude: numb
         return 0;
     })
     // Normalise the array based on the longest line and magnitude
-    length = length.map(x => { return Math.floor(x/(max[max.length-1]/magnitude)) })
-    // Convert the array to a string of |s and log them.
+    length = length.map(x => { return Math.floor(x*magnitude/max[max.length-1]) })
+    // Convert the array to a string of | and log them.
     let i = 0
     length.forEach(val =>{
         const out: string[] = [];
