@@ -17,16 +17,16 @@ export class functionLogger {
         `)
 
         if(this.objects) {
-            console.log(`\x1b[36m ======== Object Data ========`, '\n', `\x1b[32m notes: ${map.notes.length} \n walls: ${map.walls.length} \n bombs: ${map.bombs.length} \n arcs: ${map.arcs.length} \n chains: ${map.chains.length}`);
+            console.log(`\x1b[36m ======== Object Data ========`, '\n', `\x1b[32mnotes: ${map.notes.length} \n walls: ${map.walls.length} \n bombs: ${map.bombs.length} \n arcs: ${map.arcs.length} \n chains: ${map.chains.length}`);
             if(graph){
-                console.log(`\x1b[32mMap note frequency:\n\x1b[31mStart:\x1b[97m`)
+                console.log(`\x1b[36mMap note frequency:\n\x1b[31mStart:\x1b[97m`)
                 let arr: number[] = [];
                 map.notes.forEach(note =>{
                     arr.push(note.time)
                 })
                 graphDistribution(arr, 20, 100);
                 console.log("\x1b[31mEnd...");
-                console.log("\n\x1b[32mMap wall frequency:\n\x1b[31mStart:\x1b[97m")
+                console.log("\n\x1b[36mMap wall frequency:\n\x1b[31mStart:\x1b[97m")
                 arr = [];
                 map.walls.forEach(wall =>{
                     arr.push(wall.time)
@@ -39,14 +39,14 @@ export class functionLogger {
         if(this.fakeArray) {
             console.log(`\x1b[36m ======== Fake Array ========`, '\n', `\x1b[32m fake notes: ${map.fakeNotes.length} \n fake walls: ${map.fakeWalls.length} \n fake bombs: ${map.fakeBombs.length} \n fake chains: ${map.fakeChains}`)
             if(graph){
-                console.log(`\x1b[32mMap note frequency:\n\x1b[31mStart:\x1b[97m`)
+                console.log(`\x1b[36mMap note frequency:\n\x1b[31mStart:\x1b[97m`)
                 let arr: number[] = [];
                 map.fakeNotes.forEach(note =>{
                     arr.push(note.time)
                 })
                 graphDistribution(arr, 20, 100);
                 console.log("\x1b[31mEnd...");
-                console.log("\n\x1b[32mMap wall frequency:\n\x1b[31mStart:\x1b[97m")
+                console.log("\n\x1b[36mMap wall frequency:\n\x1b[31mStart:\x1b[97m")
                 arr = [];
                 map.fakeWalls.forEach(wall =>{
                     arr.push(wall.time)
