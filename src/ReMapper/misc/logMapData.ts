@@ -59,6 +59,7 @@ export class functionLogger {
         if(this.moddedMapData) {
             console.log(`\x1b[36m ======== Modded Map Data ========`, '\n', `\x1b[32m animateTracks: ${map.animateTracks(arr =>{ arr.length })} \n path animations: ${map.assignPathAnimations(arr =>{ arr.length })} \n parentTracks: ${map.assignTrackParents(arr =>{ arr.length })} \n player tracks: ${map.assignPlayerToTracks(arr =>{ arr.length })}\x1b[97m`)
             if(graph){
+                console.log(`\x1b[36mMap animateTrack frequency:\n\x1b[31mStart:\x1b[97m`)
                 const array: number[] = [];
                 map.animateTracks(arr =>{
                     arr.forEach(anim =>{
@@ -66,6 +67,7 @@ export class functionLogger {
                     })
                 })
                 graphDistribution(array, 20, 100);
+                console.log("\x1b[31mEnd...\x1b[97m");
             }
         }
     }
