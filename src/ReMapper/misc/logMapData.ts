@@ -52,7 +52,7 @@ export class functionLogger {
                     arr.push(wall.time)
                 })
                 graphDistribution(arr, 20, 100);
-                console.log("\x1b[31mEnd...");
+                console.log("\x1b[31mEnd...\x1b[97m");
             }
         }
 
