@@ -13,7 +13,7 @@ export class functionLogger {
         const map = activeDiff
 
         console.log(`
-        \x1b[3m. ================ ${map.name} ================
+        \x1b[3m ================ ${map.name} ================
         `)
 
         if(this.objects) {
@@ -57,7 +57,7 @@ export class functionLogger {
         }
 
         if(this.moddedMapData) {
-            console.log(`\x1b[36m ======== Modded Map Data ========`, '\n', `\x1b[32m animateTracks: ${map.animateTracks(arr =>{ arr.length })} \n path animations: ${map.assignPathAnimations(arr =>{ arr.length })} \n parentTracks: ${map.assignTrackParents(arr =>{ arr.length })} \n player tracks: ${map.assignPlayerToTracks(arr =>{ arr.length })}`)
+            console.log(`\x1b[36m ======== Modded Map Data ========`, '\n', `\x1b[32m animateTracks: ${map.animateTracks(arr =>{ arr.length })} \n path animations: ${map.assignPathAnimations(arr =>{ arr.length })} \n parentTracks: ${map.assignTrackParents(arr =>{ arr.length })} \n player tracks: ${map.assignPlayerToTracks(arr =>{ arr.length })}\x1b[97m`)
             if(graph){
                 const array: number[] = [];
                 map.animateTracks(arr =>{
