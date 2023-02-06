@@ -240,7 +240,7 @@ export function distribution(arr: number[], points: number, magnitude: number){
         if(a < b) { return -1 }
         return 0;
     })
-    // Normalise the arra based on the longest line and magnitude
+    // Normalise the array based on the longest line and magnitude
     length = length.map(x => { return Math.floor(x/(max[max.length-1]/magnitude)) })
     // Convert the array to a string of |s and log them.
     let i = 0
