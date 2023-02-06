@@ -17,7 +17,7 @@ export class functionLogger {
         `)
 
         if(this.objects) {
-            console.log(`\x1b[36m======== Object Data ========`, '\n', `\x1b[32mnotes: ${map.notes.length} \n walls: ${map.walls.length} \n bombs: ${map.bombs.length} \n arcs: ${map.arcs.length} \n chains: ${map.chains.length}`);
+            console.log(`\x1b[36m======== Object Data ========`, '\n', `\x1b[32mnotes: ${map.notes.length}\n walls: ${map.walls.length}\n bombs: ${map.bombs.length}\n arcs: ${map.arcs.length}\n chains: ${map.chains.length}`);
             if(graph){
                 console.log(`\x1b[36mMap note frequency:\n\x1b[31mStart:\x1b[97m`)
                 let arr: number[] = [];
@@ -37,7 +37,7 @@ export class functionLogger {
         }
 
         if(this.fakeArray) {
-            console.log(`\x1b[36m======== Fake Array ========`, '\n', `\x1b[32mfake notes: ${map.fakeNotes.length} \n fake walls: ${map.fakeWalls.length} \n fake bombs: ${map.fakeBombs.length} \n fake chains: ${map.fakeChains}`)
+            console.log(`\x1b[36m======== Fake Array ========`, '\n', `\x1b[32mfake notes: ${map.fakeNotes.length}\n fake walls: ${map.fakeWalls.length}\n fake bombs: ${map.fakeBombs.length}\n fake chains: ${map.fakeChains.length}`)
             if(graph){
                 console.log(`\x1b[36mMap fake note frequency:\n\x1b[31mStart:\x1b[97m`)
                 let arr: number[] = [];
@@ -57,7 +57,23 @@ export class functionLogger {
         }
 
         if(this.moddedMapData) {
-            console.log(`\x1b[36m======== Modded Map Data ========\n \x1b[32manimateTracks: ${map.animateTracks.length}\n path animations: ${map.assignPathAnimations.length}\n parentTracks: ${map.assignTrackParents.length}\n player tracks: ${map.assignPlayerToTracks.length}\x1b[97m`)
+            let anims
+            map.animateTracks(arr =>{
+                anims = arr;    
+            })
+            let paths
+            map.assignPathAnimations(arr =>{
+                paths = arr;
+            })
+            let parents
+            map.assignTrackParents(arr =>{
+                parents = arr;
+            })
+            let players
+            map.assignPlayerToTracks(arr =>{
+                players = arr;
+            })
+            console.log(`\x1b[36m======== Modded Map Data ========\n \x1b[32manimateTracks: ${anims}\n path animations: ${paths}\n parentTracks: ${parents}\n player tracks: ${players}\x1b[97m`)
             if(graph){
                 console.log(`\x1b[36mMap animateTrack frequency:\n\x1b[31mStart:\x1b[97m`)
                 const array: number[] = [];
