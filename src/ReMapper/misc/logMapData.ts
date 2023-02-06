@@ -81,8 +81,8 @@ export class functionLogger {
                     arr.forEach(anim =>{
                         array.push(anim.time)
                     })
-                    graphDistribution(array, 20, 100);
                 })
+                graphDistribution(array, 20, 100);
                 console.log("\x1b[31mEnd...\x1b[97m");
             }
         }
