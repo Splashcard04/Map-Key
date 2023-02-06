@@ -206,7 +206,7 @@ export function seedRNG(min: number, max: number, seed?: number | string){
 }
 
 /**
- * Display graphically, the distribution of an array.
+ * Display graphically, the distribution of an array. If unusual spikes appear on the graph (generally the same length and at regular intervals) it is likely that the total length of the array divides poorly into the graph lines. You can fix this by increasing the size of the array or changing the points value.
  * @param arr The array of values to convert to a distribution graph.
  * @param points The number of graph lines to show.
  * @param magnitude The maximum length of the graph lines. The higher this value is set, the more accurate the lower graph bars will be. Setting it too high may cause unintended text wrapping.
