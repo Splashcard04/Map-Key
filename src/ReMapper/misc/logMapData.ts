@@ -59,19 +59,19 @@ export class functionLogger {
         if(this.moddedMapData) {
             let anims
             map.animateTracks(arr =>{
-                anims = arr;    
+                anims = arr.length;    
             })
             let paths
             map.assignPathAnimations(arr =>{
-                paths = arr;
+                paths = arr.length;
             })
             let parents
             map.assignTrackParents(arr =>{
-                parents = arr;
+                parents = arr.length;
             })
             let players
             map.assignPlayerToTracks(arr =>{
-                players = arr;
+                players = arr.length;
             })
             console.log(`\x1b[36m======== Modded Map Data ========\n \x1b[32manimateTracks: ${anims}\n path animations: ${paths}\n parentTracks: ${parents}\n player tracks: ${players}\x1b[97m`)
             if(graph){
@@ -81,8 +81,8 @@ export class functionLogger {
                     arr.forEach(anim =>{
                         array.push(anim.time)
                     })
+                    graphDistribution(array, 20, 100);
                 })
-                graphDistribution(array, 20, 100);
                 console.log("\x1b[31mEnd...\x1b[97m");
             }
         }
