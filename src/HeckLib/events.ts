@@ -1,6 +1,9 @@
 import * as e from "https://deno.land/x/remapper@3.1.1/src/easings.ts";
-import { Color, ColorType, EASE, Event, setDecimals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
-import { repeat } from "./general.ts";
+import { Color, ColorType, setDecimals, EASE } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { repeat } from "../ReMapper/utils/general.ts";
+import { LightEvent } from "./HeckLib/lights.ts";
+import { lights } from "./HeckLib/mapHandler.ts";
+import { lightType } from "./HeckLib/types.ts";
 export class lightGradient {
     /**
      * Create simple lighting gradients.
@@ -11,25 +14,25 @@ export class lightGradient {
      * @param lerpType The color lerp to use.
      * @param easing The easing to use on each color.
      */
-    constructor(public time = 0, public duration = 1, public type = 0, public colors: ColorType[], public lerpType?: "HSV" | "RGB", public easing?: EASE){}
+    constructor(public time = 0, public duration = 1, public type: lightType = 0, public colors: ColorType[], public lerpType?: "HSV" | "RGB", public easing?: EASE){}
     
     /**push the gradient to the difficulty */
     push() {
-        const ev = new Event(this.time).backLasers().on(this.colors[0])
-        ev.type = this.type;
-        ev.push()
+        const ev = new LightEvent({time: this.time, type: this.type, value: 1})
+        ev.data.color = this.colors[0];
+        lights.push(ev)
         let i = 0;
         this.colors.forEach(color =>{
             if(i !== 0){
-                const ev = new Event(i*this.duration/(this.colors.length-1)).backLasers().in(color)
-                ev.type = this.type;
+                const ev = new LightEvent({time: i*this.duration/(this.colors.length-1), type: this.type, value: 4})
+                ev.data.color = color;
                 if(this.easing){
-                    ev.easing = this.easing
+                    ev.data.easing = this.easing
                 }
                 if(this.lerpType){
-                    ev.lerpType = this.lerpType
+                    ev.data.lerpType = this.lerpType
                 }
-                ev.push()
+                lights.push(ev)
             }
             i++
         })
@@ -48,7 +51,7 @@ export class strobeGenerator {
      * @param ease Whether to use an easing on the strobe. Any special easings like, bounce, elastic, etc... will yield very weird results.
      * @author Splashcard & Aurellis
      */
-    constructor(public time: number, public duration: number, public interval = 1, public type = 0, public color: ColorType | boolean = true, public ids?: number, public ease?: EASE) {}
+    constructor(public time: number, public duration: number, public interval = 1, public type: lightType = 0, public color: ColorType = [1,1,1,1], public ids?: number, public ease?: EASE) {}
 
     push() {
         repeat(this.duration*this.interval, i => {
@@ -62,24 +65,20 @@ export class strobeGenerator {
                 time = this.time + i/this.interval
             }
             if(i%2 == 0){
-                const on = new Event(time).backLasers().on(this.color)
+                const on = new LightEvent({time: time, type: this.type, value: 1})
                 if(this.ids){
-                    on.lightID = this.ids
+                    on.data.lightID = this.ids
                 }
-                if(this.type){
-                    on.type = this.type
-                }
-                on.push();
+                on.data.color = this.color
+                lights.push(on)
             }
             else {
-                const off = new Event(time).backLasers().on([0,0,0,0])
+                const off = new LightEvent({time: time, type: this.type, value: 1})
+                off.data.color = [0,0,0,0]
                 if(this.ids){
-                    off.lightID = this.ids
+                    off.data.lightID = this.ids
                 }
-                if(this.type){
-                    off.type = this.type
-                }
-                off.push()
+                lights.push(off)
             }
         })
     }

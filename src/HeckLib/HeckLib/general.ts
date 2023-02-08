@@ -1,16 +1,36 @@
 // deno-lint-ignore-file
 
-import { AnimateTrack, V3 } from "./main.ts";
+import { Note } from "./objects.ts";
+import { NOTE } from "./types.ts";
 
 export const __dirname = new URL('.', import.meta.url).pathname.slice(1).replace(/\//g, "\\").replace(/src\\/g, "");
 
-
-export function isPresent(x: any) {
-    if (typeof x !== 'undefined' && x !== null) return true;
-    return false;
+export function dupeNote(obj: NOTE): NOTE {
+    const o = JSON.parse(JSON.stringify(obj)).json;
+    const n: NOTE = new Note({
+        //Vanilla data
+        time: o.nD.time,
+        type: o.nD.type,
+        x: o.nD.x,
+        y: o.nD.y,
+        direction: o.nD.direction,
+    }, o.cD, o.aD);
+    return n;
 }
 
-export function isArr (x: any) {
+/**
+ * A function for linear interpolation.
+ * @param start First value
+ * @param end Last value
+ * @param amount Interpolation amount
+ * @returns Interpolated value
+ * @example lerp(5, 10, 0.5); returns 7.5
+ */
+export function lerp(start:number, end:number, amount:number): number {
+    return (1 - amount) * start + amount * end;
+}
+
+export function isArr (x: any): boolean {
     if (Array.isArray(x)) {
         return true;
     } else return false;
@@ -21,10 +41,10 @@ export function isArr (x: any) {
  * @param h Hue
  * @param s Saturation
  * @param v Value
- * @returns RGB
+ * @returns [R, G, B]
  */
 
-export function HSVtoRGB(h: any, s: number, v: number) {
+export function HSVtoRGB(h: any, s: number, v: number): [number, number, number] {
     let r: number, g: number, b: number, i: number, f: number, p: number, q: number, t: number;
     if (arguments.length === 1) {
         (s = h.s), (v = h.v), (h = h.h);
@@ -67,7 +87,7 @@ export function HSVtoRGB(h: any, s: number, v: number) {
  * @returns Random number
  */
 
-export function random(min: number, max: number, precision?: number) {
+export function random(min: number, max: number, precision?: number): number {
     let p = 10;
     if (typeof precision !== 'undefined' && precision !== null) {
         p = Math.pow(p, precision);

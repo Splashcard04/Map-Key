@@ -4,28 +4,19 @@ import { allBetween, logFunctionss, MKLog } from "./general.ts";
 export class playerAnim {
 
     /**
-     * A class to animate notes and the player at once
-     * @param time the time to start animating the player
-     * @param timeEnd the time to stop animating the player
-     * @param animation assign data to the track to assign player / notes to
+     * A class to animate notes and the player at once.
+     * @param time The time to start animating the player.
+     * @param timeEnd The time to stop animating the player.
+     * @param animation Assign data to the track to assign player / notes to.
      * @author @Splashcard @Aurellis
      */
-    constructor(public time: number = 0, public timeEnd: number = 0, public animation?: (x: CustomEventInternals.AnimateTrack) => void) {}
-
-    /**an extra track to assign the player to */
-    get playerTrack() { return this.playerTrack }
-    set playerTrack(track: string) { this.playerTrack = track }
-
-    /**an extra note track to add any notemods */
-    get noteTrack() { return this.noteTrack }
-    set noteTrack(track: string) { this.noteTrack = track }
+    constructor(public time: number = 0, public timeEnd: number = 0, public animation?: (x: CustomEventInternals.AnimateTrack) => void, public playerTrack: string = "player", public noteTrack: string = "notes") {
+        this.playerTrack = playerTrack; this.noteTrack = noteTrack
+    }
     
-    /**push the animation to the difficulty */
+    /**Push the animation to the diffficulty.*/
     push() {
         // Figure out how to check if a push() statement was included. Then MKLog a warning.
-        if(!this.playerTrack) {
-            this.playerTrack = "player"
-        }
 
         if(this.animation){
             const anim = new CustomEvent(this.time).animateTrack(this.playerTrack, this.timeEnd - this.time);
@@ -33,9 +24,6 @@ export class playerAnim {
             anim.push();
         }
 
-        if(!this.noteTrack) { 
-            this.noteTrack = "notes"
-        }
         new CustomEvent(this.time).assignPlayerToTrack(this.playerTrack).push()
         new CustomEvent(this.time).assignTrackParent([this.noteTrack], this.playerTrack).push()
         allBetween(this.time, this.timeEnd, n => {

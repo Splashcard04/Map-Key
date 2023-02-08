@@ -1,7 +1,7 @@
 import { PRNGs, Seed } from "https://deno.land/x/seed@1.0.0/index.ts";
-import { setDecimals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { copy, setDecimals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 import { makeNoise2D, makeNoise3D, makeNoise4D } from "https://deno.land/x/open_simplex_noise@v2.5.0/mod.ts";
-import { MKLog } from "../utils/general.ts";
+import { MKLog, repeat } from "../utils/general.ts";
 
 export class randArray {
     /**
@@ -203,4 +203,53 @@ export function seedRNG(min: number, max: number, seed?: number | string){
         max = temp;
     }
     return number.randomFloat(min,max)
+}
+
+/**
+ * Display graphically, the distribution of an array. If unusual spikes appear on the graph (generally the same length and at regular intervals) it is likely that the total length of the array divides poorly into the graph lines. You can fix this by increasing the size of the array or changing the points value.
+ * @param arr The array of values to convert to a distribution graph.
+ * @param points The number of graph lines to show.
+ * @param magnitude The maximum length of the graph lines. The higher this value is set, the more accurate the lower graph bars will be. Setting it too high may cause unintended text wrapping.
+ */
+export function graphDistribution(arr: number[], points: number, magnitude: number){
+    // Convert the array to 0-1.
+    let max = copy(arr);
+    max.sort((a,b) =>{
+        if(a > b) { return 1 }
+        if(a < b) { return -1 }
+        return 0;
+    })
+    arr = arr.map(x => { return (x-max[0])/(max[max.length-1]-max[0]) })
+    // Round to the nearest value for points
+    arr = arr.map(x =>{ return Math.floor(x*points)/points });
+    // Create an array for every instance of a point value.
+    let length: number[] = []
+    repeat(points, point =>{
+        let layer = 0
+        arr.forEach(x =>{
+            if(x == point/points){
+                layer++
+            }
+        })
+        length.push(layer)
+    })
+    // Find the longest line in the graph
+    max = copy(length)
+    max.sort((a,b) =>{
+        if(a > b) { return 1 }
+        if(a < b) { return -1 }
+        return 0;
+    })
+    // Normalise the array based on the longest line and magnitude
+    length = length.map(x => { return Math.floor(x*magnitude/max[max.length-1]) })
+    // Convert the array to a string of | and log them.
+    let i = 0
+    length.forEach(val =>{
+        const out: string[] = [];
+        repeat(val, _i => {
+            out.push("|")
+        })
+        console.log(out.toString().replace(/,/g,""))
+        i++
+    })
 }

@@ -1,9 +1,10 @@
-// deno-lint-ignore-file no-explicit-any
+
 import { Environment, Material } from "./environment.ts"
-import { Track, vec4 } from "./main.ts";
-import { V3, walls } from "./mapHandler.ts";
+import { AnimateTrack } from "./events.ts";
+import { Track, vec4, WALL } from "./types.ts";
+import { walls } from "./mapHandler.ts";
 import { Wall } from "./objects.ts";
-import { geoShape, shaderType, vec3 } from "./types.ts"
+import { geoShape, JsonModel, shaderType, vec3, vec3anim } from "./types.ts"
 
 export class ModelEnvironment {
     /**
@@ -51,86 +52,99 @@ export class ModelEnvironment {
 }
 
 export class ModelWall {
-    walls: any[] = [];
+    walls: WALL[] = [];
     constructor(time: number, filePath: string) {
-        if (V3) throw new Error("ModelWall does not work with V3 yet")
         const model = JSON.parse(Deno.readTextFileSync(filePath))
-        const objs = model.objects;
-        objs.forEach((x: {
-            position: vec3,
-            rotation: vec3,
-            scale: vec3,
-            shape: geoShape,
-            color: vec3
-        }) => {
-            let col: vec3 = [1, 1, 1]
-            if (x.color) col = x.color;
-            new Wall({
+        model.forEach((x: JsonModel) => {
+            const col = x.color;
+            const s: [number, number, number] = x.scale;
+            const r: [number, number, number] = x.rotation;
+            r[0] = Math.round((r[0] / 6.2832 - 180) * 1000) / 1000;
+            r[1] = Math.round((r[1] / 6.2832 - 180) * 1000) / 1000;
+            r[2] = Math.round((r[2] / 6.2832 - 180) * 1000) / 1000;
+
+            const p: [number, number, number] = x.position
+            p[0] = Math.round((p[0] / 1.666 - s[0] / 2 - (r[0] / 360 * s[0])) * 1000) / 1000;
+            p[1] = Math.round((p[1] / 1.666 - s[1] / 2 - (r[1] / 360 * s[1])) * 1000) / 1000;
+            p[2] = Math.round((p[2] / 1.666 - s[2] / 2 - (r[2] / 360 * s[2])) * 1000) / 1000;
+
+            p[0] += r[2] / 360;
+            p[0] -= r[1] / 360;
+
+            p[1] += r[2] / 360;
+            p[1] += r[0] / 360;
+
+            p[2] += r[0] / 360;
+            p[2] += r[1] / 360;
+
+            const w: WALL = new Wall({
                 time: time,
                 duration: 1
             }, {
                 fake: true,
                 interactable: false,
-                color: [...col, 1],
+                color: [...col],
                 position: [0, 0],
-                rotation: x.rotation,
-                scale: x.scale
+                localRotation: r,
+                scale: s
             }, {
-                definitePosition: x.position
-            }).push()
+                definitePosition: p,
+            })
+            this.walls.push(w);
         });
     }
     track(track: Track) {
-        if (!V3)
-        this.walls.forEach(x => {
-            x._customData._track = track;
+        this.walls.forEach((x: WALL) => {
+            x.data.track = track;
         })
         return this;
     }
     alpha(alpha: number) {
-        if (!V3)
-        this.walls.forEach(x => {
-            x._customData._color[3] = alpha;
+        this.walls.forEach((x: WALL) => {
+            if (x.data.color) x.data.color[3] = alpha;
         })
         return this;
     }
-    position(pos: vec3) {
-        if (!V3)
-        this.walls.forEach(x => {
-            const bruh = x._customData._animation._definitePosition;
-            bruh[0] += pos[0];
-            bruh[1] += pos[1];
-            bruh[2] += pos[2];
-        })
+    position(pos: vec3anim, duration?: number) {
+        const fw = this.walls[0].data;
+        if (fw.track) {
+            let track: Track;
+            let d = 0;
+            if (duration) d = duration;
+            if (Array.isArray(fw.track)) track = fw.track[fw.track.length - 1];
+            else track = fw.track;
+            new AnimateTrack(0, {
+                track: track,
+                duration: d,
+                position: pos
+            }).push();
+        }
         return this;
     }
     duration(duration: number) {
-        if (!V3)
         this.walls.forEach(x => {
-            x._customData.duration = duration;
+            x.duration = duration;
         })
         return this;
     }
     color(color: vec4) {
-        if (!V3)
         this.walls.forEach(x => {
-            x._customData._color = color;
+            x.data.color = color;
         })
         return this;
     }
     outline(thickness: number) {
-        if (!V3)
         this.walls.forEach(x => {
-            const d = x._customData;
-            d._scale[0] /= thickness;
-            d._scale[1] /= thickness;
-            d._scale[2] /= thickness;
-            d._animation._scale = [thickness, thickness, thickness];
+                if (x.data.scale) {
+                x.data.scale[0] /= thickness;
+                x.data.scale[1] /= thickness;
+                x.data.scale[2] /= thickness;
+                x.anim.scale = [thickness, thickness, thickness];
+            }
         })
         return this;
     }
     push() {
-        if (!V3)
         this.walls.forEach(x => {
             walls.push(x);
         })

@@ -12,10 +12,10 @@ export function logFunctions(): void {
 }
 
 /** 
- * convert rgb values easily
- * @param value input your array of rgb 255-255!
- * @param colorMultiplier? the multilier for your colors (esentially affects brightness)
- * @returns beat saber compatible rgb values
+ * Convert gamma RGB to linear RGB. (RGB from 0-255, into RGB from 0-1).
+ * @param value RGB color from 0-255, alpha values are still 0-1.
+ * @param colorMultiplier Optional, multiplier for your color to make it brighter.
+ * @returns Linear RGB values.
  * @author splashcard__ & scuffedItalian
  */
 export function rgb(value: ColorType, colorMultiplier?: number) {
@@ -36,7 +36,7 @@ export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => v
 
 export class blenderFrameMath {
   /**
-   * Some basic math to aid with the timing of Blender animations to RM
+   * Some basic math to aid with the timing of Blender animations to RM.
    * @param bpm The BPM of the song.
    * @param beats The duration of your animation in RM.
    * @param fps The fps of your blender project.
@@ -124,21 +124,12 @@ export function MKLog(message: any, errorLevel?: "Warning" | "Error") {
 }
 
 /**
- * Finds the magnitude of a vector.
- * @param vector The vector to find the magnitude of.
- * @returns The magnitude of the vector.
- */
-export function vectorMagnitude(vector: Vec3){
-  return Math.sqrt(Math.pow(vector[0],2)+Math.pow(vector[1],2)+Math.pow(vector[2],2))
-}
-
-/**
  * Finds the unit vector in the same direction as another vector.
  * @param vector The vector to find the unit of.
  * @returns The unit vector in the direction of the input vector.
  */
 export function vectorUnit(vector: Vec3){
-  const mag = vectorMagnitude(vector);
+  const mag = Math.hypot(vector[0],vector[1],vector[2]);
   return [vector[0]/mag,vector[1]/mag,vector[2]/mag]
 }
 
@@ -156,10 +147,10 @@ export function pointRotation(point1: Vec3, point2: Vec3, defaultAngle?: Vec3){
   const pitchPoint = rotatePoint(vector,[0,-angle[1],0]);
   angle[0] = -180*Math.atan2(pitchPoint[1],pitchPoint[2])/Math.PI;
   if(defaultAngle){
-      return arrSubtract(angle,defaultAngle)
+      return arrSubtract(angle,defaultAngle) as Vec3
   }
   else{
-      return angle
+      return angle as Vec3
   }
 }
 
@@ -169,5 +160,4 @@ export function pointRotation(point1: Vec3, point2: Vec3, defaultAngle?: Vec3){
  * @param code The code to repeat, written as repeatvariablename =>{code}.
  * @example repeat(20, rep =>{ console.log(rep) })
  */
-// deno-lint-ignore no-explicit-any
-export function repeat(repeat: number, code: (i: any) => void) {for(let i = 0; i < repeat; i++) {code(i)}}
+export function repeat(repeat: number, code: (i: number) => void) {for(let i = 0; i < repeat; i++) {code(i)}}

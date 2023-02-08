@@ -1,4 +1,4 @@
-import { activeDiff, Geometry, GEO_TYPE, Json, RawGeometryMaterial, ModelScene } from "https://deno.land/x/remapper@3.1.1/src/mod.ts" 
+import { Geometry, GEO_TYPE, Json, RawGeometryMaterial, ModelScene, activeDiffGet } from "https://deno.land/x/remapper@3.1.1/src/mod.ts" 
 import { logFunctionss, MKLog } from './general.ts'
 
 export type addGroupSettings = {
@@ -18,10 +18,10 @@ export class geoMaterial {
     }
 
     /**
-     * create a geometry material
-     * @param name the name of the created geometry material
-     * @param material the material to create
-     * @param addGroup add this material to a primary group?
+     * Create a geometry material.
+     * @param name The name of the created geometry material.
+     * @param material The material to create.
+     * @param addGroup Add this material to a primary group?
      */
 
     constructor(public name: string, public material: RawGeometryMaterial, public addGroup?: addGroupSettings) {
@@ -35,11 +35,9 @@ export class geoMaterial {
 
 
     }
-    /**push the material to the difficulty and add a model scene group if selected */
+    /**Push the material to the difficulty and add a model scene group if selected.*/
     push() {
-        const map = activeDiff
-
-        map.geoMaterials[this.name+"Material"] = this.material
+        activeDiffGet().geoMaterials[this.name] = this.material
 
         if(this.addGroup) {
             // if(this.addGroup.scale === undefined) { this.json.scale = [1, 1, 1] } else { this.json.scale = this.addGroup.scale } 

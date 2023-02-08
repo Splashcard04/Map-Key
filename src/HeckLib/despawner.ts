@@ -6,7 +6,7 @@ export class despawner {
     json: Json = {}
             
     import(json: Json) {
-        this.json =json
+        this.json = json
         return this
     }
     constructor(public lookup: lookup, ids: string[]) {

@@ -3,11 +3,11 @@ import { MKLog, logFunctionss } from './general.ts'
  
 export class multiEnv {
     /**
-     * modify a set of environment IDs with multiple lookup methods
-     * @param contains environment ids to modify with lookup method "Contains"
-     * @param regex environment ids to modify with lookup method "Regex"
-     * @param endswith environment ids to modify with lookup method "EndsWith"
-     * @param exact environment ids to modify with lookup method "Exact"
+     * Modify a set of environment IDs with multiple lookup methods.
+     * @param contains Environment ids to modify with lookup method "Contains".
+     * @param regex Environment ids to modify with lookup method "Regex".
+     * @param endswith Environment ids to modify with lookup method "EndsWith".
+     * @param exact Environment ids to modify with lookup method "Exact"
      */
     constructor(
         public contains: string[] = [],

@@ -1,6 +1,16 @@
 import { activeDiffGet, CustomEvent, EASE, Note, notesBetween, rand } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
 import { allBetween, MKLog } from "../utils/general.ts";
 
+type easeBase = 
+        "Sine" |
+        "Quad" |
+        "Cubic" |
+        "Quart" |
+        "Quint" |
+        "Circ" |
+        "Linear" |
+        "Step"
+
 export class noteMod {
     /**
      * A class to aid in adding quick noteMod effects.
@@ -38,37 +48,32 @@ export class noteMod {
      * @param specialEase Optional special easing to use on the notes, only use if you know what you're doing.
      * @author Aurellis
      */
-    noteTimeSlow(slowPoint = 0.1, slowForce = 1, offset = 2, specialEase?: "Bounce" | "Back" | "Elastic"){
-        let ease = "easeLinear"
-        switch(slowForce){
-            case 1:
-                ease = "Sine";
-                break;
-            case 2:
-                ease = "Quad";
-                break;
-            case 3:
-                ease = "Cubic";
-                break;
-            case 4:
-                ease = "Quart";
-                break;
-            case 5:
-                ease = "Quint";
-                break;
-            case 6:
-                ease = "Circ"
-                break;
-        }
+
+    noteTimeSlow(slowPoint = 0.1, slowForce: [easeBase,easeBase] = ["Sine","Sine"], offset = 2, specialEase?: ["Bounce" | "Back" | "Elastic", "Bounce" | "Back" | "Elastic"]){
+        let easeIn = slowForce[0] as string;
+        let easeOut = slowForce[1] as string;
         if(specialEase){
-            ease = specialEase
+            easeIn = specialEase[0];
+            easeOut = specialEase[1];
+        }
+        if(easeIn == "Linear" || easeIn == "Step"){
+            easeIn = `ease${easeIn}`
+        }
+        else {
+            easeIn = `easeOut${easeIn}`
+        }
+        if(easeOut == "Linear" || easeOut == "Step"){
+            easeOut = `ease${easeOut}`
+        }
+        else {
+            easeOut = `easeIn${easeOut}`
         }
         allBetween(this.startTime,this.endTime, note =>{
             const jd = (note.offset+1)*20*offset
             note.animate.definitePosition = [
                 [0,0,jd,0],
-                [0,0,jd*(0.5-slowPoint),slowPoint,eval(`"easeOut${ease}"`)],
-                [0,0,0,0.5,eval(`"easeIn${ease}"`)],
+                [0,0,jd*(0.5-slowPoint),slowPoint,eval(`"${easeIn}"`)],
+                [0,0,0,0.5,eval(`"${easeOut}"`)],
                 [0,0,-1000,1,"easeInCirc"]
             ]
 
@@ -191,5 +196,21 @@ export class noteMod {
             }
         }
         anim.push()
+    }
+    /**
+     * Makes the notes bounce up and down once over their lifetime.
+     * @param height How high to bounce up.
+     * @param time The time to sart the bounce, the peak of the bounce, and the end of the bounce. (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns). Default - [0.1,0.25,0.4].
+     * @param easing The easings to use in the bounce, the easing on the way up, and the easing on the way down. Default - ["easeLinear","easeLinear"].
+     */
+    noteBeatBounce(height = 1, time: [number, number, number] = [0.1,0.25,0.4], easing?: [EASE,EASE]){
+        allBetween(this.startTime,this.endTime, note =>{
+            if(easing){
+                note.animation.offsetPosition = [[0,0,0,time[0]],[0,height,0,time[1],easing[0]],[0,0,0,time[2],easing[1]]];
+            }
+            else {
+                note.animation.offsetPosition = [[0,0,0,time[0]],[0,height,0,time[1],"easeOutSine"],[0,0,0,time[2],"easeInSine"]];
+            }
+        })
     }
 }
