@@ -147,10 +147,10 @@ export function pointRotation(point1: Vec3, point2: Vec3, defaultAngle?: Vec3){
   const pitchPoint = rotatePoint(vector,[0,-angle[1],0]);
   angle[0] = -180*Math.atan2(pitchPoint[1],pitchPoint[2])/Math.PI;
   if(defaultAngle){
-      return arrSubtract(angle,defaultAngle)
+      return arrSubtract(angle,defaultAngle) as Vec3
   }
   else{
-      return angle
+      return angle as Vec3
   }
 }
 

@@ -1,6 +1,6 @@
-import { arrAdd, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { arrAdd, arrDiv, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 import { GEO_FILTER_PROPS } from "../constants.ts";
-import { logFunctionss, MKLog, repeat } from './general.ts'
+import { logFunctionss, MKLog, pointRotation, repeat } from './general.ts'
 
 export class shapeGenerator {
     /**
@@ -117,8 +117,7 @@ export class primitiveGenerator {
     ){}
 
     prism(sides = 3, radius = 10, length = 10, innercorners?: boolean, alignedSides?: boolean){
-        const shape = new shapeGenerator(this.material,sides,radius,arrAdd(rotatePoint([0,0,-length/2],this.rotation),this.position),this.scale,this.rotation,innercorners,this.track,this.iterateTrack)
-        shape.iterateOffset = this.iterateOffset
+        const shape = new shapeGenerator(this.material,sides,radius,arrAdd(rotatePoint([0,0,-length/2],this.rotation),this.position),this.scale,this.rotation,innercorners,this.track,this.iterateTrack,this.iterateOffset)
         shape.push();
         shape.position = arrAdd(rotatePoint([0,0,length/2],this.rotation),this.position)
         shape.iterateOffset = sides+this.iterateOffset;
@@ -147,6 +146,36 @@ export class primitiveGenerator {
             }
             cube.rotation = [this.rotation[0],this.rotation[1],this.rotation[2]-180*angle/Math.PI];
             cube.scale = [this.scale[1],this.scale[1],length+this.scale[2]];
+            cube.push()
+        })
+    }
+    cone(sides = 4, baseRadius = 10, depth = 10, innercorners?: boolean, alignedSides?: boolean){
+        const base = new shapeGenerator(this.material,sides,baseRadius,arrAdd(rotatePoint([0,-depth/2,0],this.rotation),this.position),this.scale,this.rotation,innercorners,this.track,this.iterateTrack,this.iterateOffset)
+        base.push()
+        const cube = new Geometry("Cube",this.material);
+        repeat(sides, side =>{
+            if(this.track && this.iterateTrack){
+                cube.track.value = `${this.track}_${side+2*sides+this.iterateOffset}`;
+            }
+            else if(this.track && !this.iterateTrack){
+                cube.track.value = this.track;
+            }
+            let angle = Math.PI*2*(side+0.5)/sides;
+            let pos, corner
+            if(innercorners){
+                corner = [-Math.sin(angle)*Math.hypot(baseRadius,(base.push([0,"scale[0]"])+base.push([0,"scale[1]"]))/2),-depth/2,-Math.cos(angle)*Math.hypot(baseRadius,(base.push([0,"scale[0]"])+base.push([0,"scale[1]"]))/2)] as Vec3
+                pos = rotatePoint(arrDiv(arrAdd(corner,[0,0,depth/2]),2),this.rotation)
+            }
+            else{
+                corner = [-Math.sin(angle)*Math.hypot(baseRadius,(base.push([0,"scale[0]"])-base.push([0,"scale[1]"]))/2),-depth/2,-Math.cos(angle)*Math.hypot(baseRadius,(base.push([0,"scale[0]"])-base.push([0,"scale[1]"]))/2)] as Vec3
+                pos = rotatePoint(arrDiv(arrAdd(corner,[0,0,depth/2]),2),this.rotation)
+            }
+            cube.position = arrAdd(pos, this.position);
+            if(alignedSides){
+                angle = Math.PI*2*(side+1)/sides;
+            }
+            cube.rotation = pointRotation(pos,[0,0,depth/2],[0,90,0])
+            cube.scale = [Math.hypot(depth,Math.hypot(corner[0],corner[2])),this.scale[1],this.scale[2]];
             cube.push()
         })
     }
