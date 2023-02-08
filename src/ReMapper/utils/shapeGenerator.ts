@@ -13,6 +13,7 @@ export class shapeGenerator {
      * @param track Track to apply to the shape.
      * @param innercorners Changes the way that corners are joined. Triangles look better (imo) with inner corners.
      * @param iterateTrack (Default = true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < sides}
+     * @param iterateOffset An offset to start iterating the tracks from.
      * @author Aurellis
      */
     constructor(
@@ -24,21 +25,15 @@ export class shapeGenerator {
         public rotation: Vec3 = [0,0,0],
         public innercorners: boolean = false,
         public track: string | undefined = undefined,
-        public iterateTrack: boolean = true
+        public iterateTrack: boolean = true,
+        public iterateOffset = 0
         ){}
-
-        /** Adds an offset to the numbers for iterateTrack. */
-        set iterateOffset(offset: number) { this.iterateOffset = offset}
-        get iterateOffset() { return this.iterateOffset}
 
         /**push the created shape to the difficulty */
         push(){
             const cube = new Geometry("Cube", this.material);
             for(let side = 0; side < this.sides; side++){
                 // Track assignment
-                if(!this.iterateOffset){
-                    this.iterateOffset = 0
-                }
                 if(this.track && this.iterateTrack){
                     cube.track.value = `${this.track}_${side+this.iterateOffset}`;
                 }
