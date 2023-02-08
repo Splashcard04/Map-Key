@@ -1,6 +1,6 @@
 import { arrAdd, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 import { GEO_FILTER_PROPS } from "../constants.ts";
-import { logFunctionss, MKLog } from './general.ts'
+import { logFunctionss, MKLog, repeat } from './general.ts'
 
 export class shapeGenerator {
     /**
@@ -101,7 +101,10 @@ export class primitiveGenerator {
      * @param scale The scale of the individual sides of the shape. (Note - the x value is ignored as it is used to fill the sides).
      * @param rotation The rotation to apply to the shape.
      * @param track The track for the shape
-     * @param iterateTrack (Default = true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < sides}
+     * @param iterateTrack (Default = true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < the number of cubes in the shape}
+     * @param iterateOffset The offset to begin iterating tracks from.
+     * @todo Delta scale (when I can be bther figuring out how to apply rotations)
+     * @todo Remove shapeGenerator calls and generate the cubes manually. Or add a deltaScale to shapeGenerator.
      */
     constructor(
         public material: GeometryMaterial = {shader: "Standard"},
@@ -109,12 +112,42 @@ export class primitiveGenerator {
         public scale: Vec3 = [1,1,1],
         public rotation: Vec3 = [0,0,0],
         public track: string | undefined = undefined,
-        public iterateTrack: boolean = true
+        public iterateTrack: boolean = true,
+        public iterateOffset = 0,
     ){}
 
-    prism(sides = 3, radius = 10, length = 10, innercorners?: boolean){
-        const shape = new shapeGenerator(this.material,sides,radius,arrAdd(rotatePoint([0,0,-length/2],this.rotation), this.position),this.scale,this.rotation,innercorners,this.track,this.iterateTrack)
+    prism(sides = 3, radius = 10, length = 10, innercorners?: boolean, alignedSides?: boolean){
+        const shape = new shapeGenerator(this.material,sides,radius,arrAdd(rotatePoint([0,0,-length/2],this.rotation),this.position),this.scale,this.rotation,innercorners,this.track,this.iterateTrack)
+        shape.iterateOffset = this.iterateOffset
         shape.push();
         shape.position = arrAdd(rotatePoint([0,0,length/2],this.rotation),this.position)
+        shape.iterateOffset = sides+this.iterateOffset;
+        shape.push();
+        
+        const cube = new Geometry("Cube", this.material);
+        repeat(sides, side =>{
+            // Track assignment
+            if(this.track && this.iterateTrack){
+                cube.track.value = `${this.track}_${side+2*sides+this.iterateOffset}`;
+            }
+            else if(this.track && !this.iterateTrack){
+                cube.track.value = this.track;
+            }
+            let angle = Math.PI*2*(side+0.5)/sides
+            let pos
+            if(innercorners){
+                pos = rotatePoint([-Math.sin(angle)*Math.hypot(radius,(shape.push([0,"scale[0]"])+shape.push([0,"scale[1]"]))/2),-Math.cos(angle)*Math.hypot(radius,(shape.push([0,"scale[0]"])+shape.push([0,"scale[1]"]))/2),0],this.rotation)
+            }
+            else{
+                pos = rotatePoint([-Math.sin(angle)*Math.hypot(radius,(shape.push([0,"scale[0]"])-shape.push([0,"scale[1]"]))/2),-Math.cos(angle)*Math.hypot(radius,(shape.push([0,"scale[0]"])-shape.push([0,"scale[1]"]))/2),0],this.rotation)
+            }
+            cube.position = arrAdd(pos, this.position);
+            if(alignedSides){
+                angle = Math.PI*2*(side+1)/sides
+            }
+            cube.rotation = [this.rotation[0],this.rotation[1],this.rotation[2]-180*angle/Math.PI];
+            cube.scale = [this.scale[1],this.scale[1],length+this.scale[2]];
+            cube.push()
+        })
     }
 }
