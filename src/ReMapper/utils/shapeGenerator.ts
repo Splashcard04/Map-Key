@@ -1,6 +1,5 @@
 import { arrAdd, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
-import { logFunctionss, MKLog, repeat } from './general.ts'
-import { filterGeometry } from "./filters.ts";
+import { logFunctionss, MKLog } from './general.ts'
 
 export class shapeGenerator {
     /**
@@ -27,13 +26,21 @@ export class shapeGenerator {
         public track: string | undefined = undefined,
         public iterateTrack: boolean = true
         ){}
+
+        /** Adds an offset to the numbers for iterateTrack. */
+        set iterateOffset(offset: number) { this.iterateOffset = offset}
+        get iterateOffset() { return this.iterateOffset}
+
         /**push the created shape to the difficulty */
         push(){
             const cube = new Geometry("Cube", this.material);
             for(let side = 0; side < this.sides; side++){
                 // Track assignment
+                if(!this.iterateOffset){
+                    this.iterateOffset = 0
+                }
                 if(this.track && this.iterateTrack){
-                    cube.track.value = `${this.track}_${side}`;
+                    cube.track.value = `${this.track}_${side+this.iterateOffset}`;
                 }
                 else if(this.track && !this.iterateTrack){
                     cube.track.value = this.track;
@@ -88,9 +95,9 @@ export class primitiveGenerator {
      * @param material The geo-material to use.
      * @param position The position of the center of the shape.
      * @param scale The scale of the individual sides of the shape. (Note - the x value is ignored as it is used to fill the sides).
-     * @param rotation 
-     * @param track 
-     * @param iterateTrack 
+     * @param rotation The rotation to apply to the shape.
+     * @param track The track for the shape
+     * @param iterateTrack (Default = true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < sides}
      */
     constructor(
         public material: GeometryMaterial = {shader: "Standard"},
@@ -101,40 +108,9 @@ export class primitiveGenerator {
         public iterateTrack: boolean = true
     ){}
 
-    cuboid(radius = 10){
-        const track = `primitiveCuboid${Math.random()}`
-        // UD
-        repeat(2, i=>{
-            new shapeGenerator(
-                this.material,
-                4,
-                radius,
-                arrAdd(rotatePoint([0,Math.pow(-1,i)*radius,0],this.rotation),this.position),
-                this.scale,
-                this.rotation,
-                false,
-                track,
-                false
-            ).push()
-        })
-        // LR
-        repeat(2, i=>{
-            new shapeGenerator(
-                this.material,
-                4,
-                radius,
-                arrAdd(rotatePoint([Math.pow(-1,i)*radius,0,0],this.rotation),this.position),
-                this.scale,
-                this.rotation,
-                false,
-                track,
-                false
-            ).push()
-        })
-        let i = 0;
-        filterGeometry([["track",track]], geo =>{
-            geo.track.value = "FILL THIS LATER"
-            i++
-        })
+    prism(sides = 3, radius = 10, length = 10, innercorners?: boolean){
+        const shape = new shapeGenerator(this.material,sides,radius,arrAdd(rotatePoint([0,0,-length/2],this.rotation), this.position),this.scale,this.rotation,innercorners,this.track,this.iterateTrack)
+        shape.push();
+        shape.position = arrAdd(rotatePoint([0,0,length/2],this.rotation),this.position)
     }
 }
