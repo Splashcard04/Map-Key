@@ -4,7 +4,7 @@ module.exports.noteFilterBuilder = class noteFilterBuilder {
     constructor(time = 0, timeEnd = 10) { this.time = time; this.timeEnd = timeEnd }
 
     positions(pos = [[0, 0]]) { this.positions = pos }
-    forNotes(forNote = (n = Note) = Note) { this.forNotes = forNote }
+    forNotes(forNote = (n = Note) => Note) { this.forNotes = forNote }
 
     push() {
         notesBetween(this.time, this.timeEnd, n => {
