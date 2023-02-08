@@ -1,16 +1,15 @@
 const { diff } = require(`splashcard_jsmapper`)
 
 module.exports.geoMaterial = class geoMaterial {
-    /**
-     * make a geometry material
-     * @param { string } name the name of the created mateiral
-     * @param { string } shader the shader of the created material
-     */
-    constructor(settings = { name: "hi", shader: "Standard", color: [1, 1, 1, 1], shaderKeywords: ["string"], track: "track"}) {
-        const material = "hei": {
-            "shader": settings.shader, "color": settings.color, "shaderKeywords": settings.shader, "track": settings.track
-        }
+    constructor(name = "hello", settings = { shader: "Standard", color: [1, 1, 1, 1], track: "track", shaderKeywords: [] }) {
+        this.name = name
+        this.shader = settings.shader
+        this.color = settings.color
+        this.shaderKeywords = settings.shaderKeywords
+        this.track = settings.track
+    }
 
-        diff.customData.mateirals = diff.customData.mateirals + material
+    push() {
+        diff.customData.materials[this.name] = this
     }
 }
