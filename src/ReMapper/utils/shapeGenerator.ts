@@ -1,5 +1,7 @@
-import { Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
-import { logFunctionss, MKLog } from './general.ts'
+import { arrAdd, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { logFunctionss, MKLog, repeat } from './general.ts'
+import { filterGeometry } from "./filters.ts";
+
 export class shapeGenerator {
     /**
      * Creates a 2d shape defaulting along the xy plane.
@@ -78,4 +80,61 @@ export class shapeGenerator {
                 }
             }
         }
+}
+
+export class primitiveGenerator {
+    /**
+     * Generates one of a selection of primitive 3d shapes with Geometry cubes as the edges.
+     * @param material The geo-material to use.
+     * @param position The position of the center of the shape.
+     * @param scale The scale of the individual sides of the shape. (Note - the x value is ignored as it is used to fill the sides).
+     * @param rotation 
+     * @param track 
+     * @param iterateTrack 
+     */
+    constructor(
+        public material: GeometryMaterial = {shader: "Standard"},
+        public position: Vec3 = [0,0,0],
+        public scale: Vec3 = [1,1,1],
+        public rotation: Vec3 = [0,0,0],
+        public track: string | undefined = undefined,
+        public iterateTrack: boolean = true
+    ){}
+
+    cuboid(radius = 10){
+        const track = `primitiveCuboid${Math.random()}`
+        // UD
+        repeat(2, i=>{
+            new shapeGenerator(
+                this.material,
+                4,
+                radius,
+                arrAdd(rotatePoint([0,Math.pow(-1,i)*radius,0],this.rotation),this.position),
+                this.scale,
+                this.rotation,
+                false,
+                track,
+                false
+            ).push()
+        })
+        // LR
+        repeat(2, i=>{
+            new shapeGenerator(
+                this.material,
+                4,
+                radius,
+                arrAdd(rotatePoint([Math.pow(-1,i)*radius,0,0],this.rotation),this.position),
+                this.scale,
+                this.rotation,
+                false,
+                track,
+                false
+            ).push()
+        })
+        let i = 0;
+        filterGeometry([["track",track]], geo =>{
+            geo.track.value = "FILL THIS LATER"
+            i++
+        })
+    }
 }
