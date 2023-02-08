@@ -13,12 +13,12 @@ export class playerAnim {
     constructor(public time: number = 0, public timeEnd: number = 0, public animation?: (x: AnimateTrack) => void) {}
 
     /**Assign the player to a custom track. */
-    get playerTrack() { return this.playerTrack }
-    set playerTrack(track: string) { this.playerTrack = track }
+    playerTrack() { return this.playerTrack }
+    playerTrack(track: string) { this.playerTrack = track }
 
     /**Assign the notes to a cutom track.*/
-    get noteTrack() { return this.noteTrack }
-    set noteTrack(track: string) { this.noteTrack = track }
+    noteTrack() { return this.noteTrack }
+    noteTrack(track: string) { this.noteTrack = track }
 
     push() {
         if(!this.playerTrack) {
