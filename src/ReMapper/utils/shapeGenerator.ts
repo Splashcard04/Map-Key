@@ -29,8 +29,11 @@ export class shapeGenerator {
         public iterateOffset = 0
         ){}
 
-        /**push the created shape to the difficulty */
-        push(){
+        /**
+         * Push the shape to the active diff.
+         * @param returnProp If defined, the shape will not be pushed. Instead, the method will return the property of a cube in the shape. [index, property] where index is the cube, and property is either position, scale or rotation.
+         */
+        push(returnProp?: [number, "position" | "rotation" | "scale"]){
             const cube = new Geometry("Cube", this.material);
             for(let side = 0; side < this.sides; side++){
                 // Track assignment
@@ -75,7 +78,12 @@ export class shapeGenerator {
                 }
 
                 cube.rotation = [this.rotation[0],this.rotation[1],this.rotation[2]-180*angle/Math.PI];
-                cube.push();
+                if(!returnProp){
+                    cube.push();
+                }
+                else if(side == returnProp[0]){
+                    return eval(`cube.${returnProp[1]}`)
+                }
                 
                 if(logFunctionss) {
                     MKLog(`New shape generated...\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`)
