@@ -150,7 +150,7 @@ export class primitiveGenerator {
         })
     }
     cone(sides = 4, baseRadius = 10, depth = 10, innercorners?: boolean, alignedSides?: boolean){
-        const base = new shapeGenerator(this.material,sides,baseRadius,arrAdd(rotatePoint([0,-depth/2,0],this.rotation),this.position),this.scale,this.rotation,innercorners,this.track,this.iterateTrack,this.iterateOffset)
+        const base = new shapeGenerator(this.material,sides,baseRadius,arrAdd(rotatePoint([0,-depth/2,0],this.rotation),this.position),this.scale,[this.rotation[0]+90,this.rotation[1],this.rotation[2]],innercorners,this.track,this.iterateTrack,this.iterateOffset)
         base.push()
         const cube = new Geometry("Cube",this.material);
         repeat(sides, side =>{
@@ -164,17 +164,17 @@ export class primitiveGenerator {
             let pos, corner
             if(innercorners){
                 corner = [-Math.sin(angle)*Math.hypot(baseRadius,(base.push([0,"scale[0]"])+base.push([0,"scale[1]"]))/2),-depth/2,-Math.cos(angle)*Math.hypot(baseRadius,(base.push([0,"scale[0]"])+base.push([0,"scale[1]"]))/2)] as Vec3
-                pos = rotatePoint(arrDiv(arrAdd(corner,[0,0,depth/2]),2),this.rotation)
+                pos = rotatePoint(arrDiv(arrAdd(corner,[0,depth/2,0]),2),this.rotation)
             }
             else{
                 corner = [-Math.sin(angle)*Math.hypot(baseRadius,(base.push([0,"scale[0]"])-base.push([0,"scale[1]"]))/2),-depth/2,-Math.cos(angle)*Math.hypot(baseRadius,(base.push([0,"scale[0]"])-base.push([0,"scale[1]"]))/2)] as Vec3
-                pos = rotatePoint(arrDiv(arrAdd(corner,[0,0,depth/2]),2),this.rotation)
+                pos = rotatePoint(arrDiv(arrAdd(corner,[0,depth/2,0]),2),this.rotation)
             }
             cube.position = arrAdd(pos, this.position);
             if(alignedSides){
                 angle = Math.PI*2*(side+1)/sides;
             }
-            cube.rotation = pointRotation(pos,[0,0,depth/2],[0,90,0])
+            cube.rotation = pointRotation(pos,[0,depth/2,0],[0,90,0])
             cube.scale = [Math.hypot(depth,Math.hypot(corner[0],corner[2])),this.scale[1],this.scale[2]];
             cube.push()
         })
