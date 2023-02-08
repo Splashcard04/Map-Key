@@ -9,6 +9,7 @@ class despawner {
      * @param { string[] } ids the ids to despawn
      * @param { string[] } hardDespawn the ids to set to active = false
      * @param { string[] } restore the ids to restore from being despawned
+     * @method push push the despawned environment pieces to the difficulty
      */
     constructor(settings = { lookup: "Contains", ids: [], hardDespawn: [], restore: [] }) {
         if(!settings.lookup) { this.lookup = "Regex" } else { this.lookup = settings.lookup }
@@ -18,6 +19,7 @@ class despawner {
         if(!settings.restore) { this.restore = ['bruh']} else { this.restore = settings.restore }
     }
 
+    /**push the despawned environment pieces to the difficulty */
     push() {
         this.ids.forEach(id => {
             new Environment({

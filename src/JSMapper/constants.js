@@ -1,5 +1,6 @@
 module.exports.colors = const colors = {
     rgb: {
+        /**colors compatible with the rgb() function */
         pink : [255, 51, 255, 1] as ColorType,
         orange: [255, 147, 51, 1] as ColorType,
         yellow: [255, 225, 51 , 1] as ColorType,
@@ -138,9 +139,10 @@ module.exports.colors = const colors = {
         whiteSmoke: [245,245,245,1] as ColorType,
         white: [255,255,255,1] as ColorType
     },
+    /**default beat saber compatible colors */
     pink: [1, 0.3, 1, 1] as ColorType,
     orange: [1, 0.45, 0.1, 1] as ColorType,
     yellow: [1, 1, 0.1, 1] as ColorType,
     brown: [0.5, 0.12, 0.01, 1] as ColorType,
-    cyan: [0.1, 0.9, 0.9, 1]
+    cyan: [0.1, 0.9, 0.9, 1] as ColorType
 }

@@ -30,6 +30,11 @@ module.exports.logFunctions = function logFunctions() {
     logFunctionss = true
 }
 
+/**
+ * turn an RGB color to a Beat Saber compatible color
+ * @param { color } color the rgb color to convert
+ * @returns a beat saber compatible color
+ */
 module.exports.rgb = function rgb(color = [1, 1, 1, 1]) {
     return [color[0] / 255, color[1] / 255, color[2] / 255, color[3]]
 }
