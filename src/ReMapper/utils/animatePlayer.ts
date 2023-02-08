@@ -10,15 +10,9 @@ export class playerAnim {
      * @param animation Assign data to the track to assign player / notes to.
      * @author @Splashcard @Aurellis
      */
-    constructor(public time: number = 0, public timeEnd: number = 0, public animation?: (x: CustomEventInternals.AnimateTrack) => void) {}
-
-    /**Assign the player to a custom track.*/
-    get playerTrack() { return this.playerTrack }
-    set playerTrack(track: string) { this.playerTrack = track }
-
-    /**Assign the notes to a cutom track.*/
-    get noteTrack() { return this.noteTrack }
-    set noteTrack(track: string) { this.noteTrack = track }
+    constructor(public time: number = 0, public timeEnd: number = 0, public animation?: (x: CustomEventInternals.AnimateTrack) => void, public playerTrack: string, public noteTrack: string) {
+        this.playerTrack = playerTrack; this.noteTrack = noteTrack
+    }
     
     /**Push the animation to the diffficulty.*/
     push() {
