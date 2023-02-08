@@ -196,10 +196,10 @@ export class primitiveGenerator {
             So that I don't forget where I'm up to - Aurellis
 
             This rotation currently doesn't work. Unity's rotation system works in ZXY meaning that y is always directly vertical rotation.
-            So it the cone is generated with the point up, then the cubes with length Y can be pitched with Z and then aligned with Y. This only works when the point is upwards.
-            Since any Z or X rotation would be local, then the entire shape ignores the Y rotation. 
+            So if the cone is generated with the point up, then the cubes with length Y can be pitched with X and then aligned with Y. This only works when the point is upwards.
+            Since any Z or X rotation would be local, when an additive X rotation is applied to the entire shape, the cubes rotate locally rather than globally.
 
-            Additionally, the shape suffers gymbal lock since the base is along the XZ plane.
+            Additionally, the shape suffers gymbal lock since the base is along the XZ plane (i.e., rotated x=90).
 
             Aligned sides also relies upon what is essentially a local rotation, so the cubes would probably be better off using Z for length rather than Y.
 
