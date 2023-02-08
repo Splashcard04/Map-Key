@@ -124,21 +124,12 @@ export function MKLog(message: any, errorLevel?: "Warning" | "Error") {
 }
 
 /**
- * Finds the magnitude of a vector.
- * @param vector The vector to find the magnitude of.
- * @returns The magnitude of the vector.
- */
-export function vectorMagnitude(vector: Vec3){
-  return Math.sqrt(Math.pow(vector[0],2)+Math.pow(vector[1],2)+Math.pow(vector[2],2))
-}
-
-/**
  * Finds the unit vector in the same direction as another vector.
  * @param vector The vector to find the unit of.
  * @returns The unit vector in the direction of the input vector.
  */
 export function vectorUnit(vector: Vec3){
-  const mag = vectorMagnitude(vector);
+  const mag = Math.hypot(vector[0],vector[1],vector[2]);
   return [vector[0]/mag,vector[1]/mag,vector[2]/mag]
 }
 
