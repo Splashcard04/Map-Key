@@ -1,4 +1,5 @@
 import { arrAdd, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { GEO_FILTER_PROPS } from "../constants.ts";
 import { logFunctionss, MKLog } from './general.ts'
 
 export class shapeGenerator {
@@ -33,7 +34,7 @@ export class shapeGenerator {
          * Push the shape to the active diff.
          * @param returnProp If defined, the shape will not be pushed. Instead, the method will return the property of a cube in the shape. [index, property] where index is the cube, and property is either position, scale or rotation.
          */
-        push(returnProp?: [number, "position" | "rotation" | "scale"]){
+        push(returnProp?: [number, GEO_FILTER_PROPS]){
             const cube = new Geometry("Cube", this.material);
             for(let side = 0; side < this.sides; side++){
                 // Track assignment
