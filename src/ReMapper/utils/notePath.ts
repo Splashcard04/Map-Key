@@ -14,7 +14,7 @@ export class notePath {
    * @param timeEnd The time to stop applying custom data to the notes.
    * @param fornoteLeft Pass for all left notes.
    * @param forNoteRight Pass for all right notes.
-   * @author splashcard__ 
+   * @author splashcard
  */
   constructor(time: number, timeEnd: number, fornoteLeft: (n: Note) => void, forNoteRight: (n: Note) => void) {
     this.json.time = time;
