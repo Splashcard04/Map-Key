@@ -1,4 +1,4 @@
-const { notesBetween, diff } = require(`splashcard_jsmapper`)
+const { bloqsBetween, diff } = require(`splashcard_jsmapper`)
 
 module.exports.noteFilter = class noteFileter {
     /**
@@ -7,24 +7,20 @@ module.exports.noteFilter = class noteFileter {
      * @param { {} } data the customdata to apply to filtered notes
      * @author @Splashcard
      */
-    constructor(settings = {positions: [[0, 0]], data: {}}) {
+    constructor(settings = { time = 0, timeEnd = 10, positions: [[0, 0]], forNotes = (n = Note) => Note }) {
         this.pos = settings.positions
+        this.time = settings.time
+        this.timeEnd = settings.timeEnd
         this.data = settings.data
+        this.forNotes = settings.fornotes
     }
-
+    /**apply changes to notes in the difficulty */
     push() {
-        diff.colorNotes.forEach(n => {
-            this.pos.forEach(x => {
-                if(n.customData.coordinates === x || n.x === x[0] && n.y === x[1]) {
-                    n.customData = n.customData + this.data
-                }
-            })
-        })
 
-        diff.customData.fakeColorNotes.forEach(n => {
+        bloqsBetween(this.time, this.timeEnd, n => {
             this.pos.forEach(x => {
-                if(n.customData.coordinates === x || n.x === x[0] && n.y === x[1]) {
-                    n.customData = n.customData + this.data
+                if(n.x == x[0] && n.y == x[1]) {
+                    this.forNotes(n)
                 }
             })
         })

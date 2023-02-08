@@ -1,4 +1,4 @@
-module.exports.colors = export const colors = {
+module.exports.colors = const colors = {
     rgb: {
         pink : [255, 51, 255, 1] as ColorType,
         orange: [255, 147, 51, 1] as ColorType,
