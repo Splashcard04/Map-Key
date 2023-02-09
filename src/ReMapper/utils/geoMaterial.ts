@@ -16,7 +16,7 @@ export type addGroupSettings = {
     geoType: GEO_TYPE
 }
 
-export class _Material {
+export class Material {
     /**
      * Creates a new geometry material with shader type and keywords.
      * @param name the name of the created material
