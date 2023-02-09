@@ -286,7 +286,7 @@ export const colors = {
 }
 
 export type shaderKeywords = {
-    BaseWater: Array<
+    BaseWater?: Array<
         "FOG" |
         "HEIGHT_FOG" |
         "INVERT_RIMLIGHT" |
@@ -305,7 +305,7 @@ export type shaderKeywords = {
         "_WHITEBOOSTTYPE_NONE" |
         "_ZWRITE_ON"
     >,
-    BillieWater: Array<
+    BillieWater?: Array<
         "FOG" |
         "HEIGHT_FOG" |
         "INVERT_RIMLIGHT" |
@@ -324,7 +324,7 @@ export type shaderKeywords = {
         "_WHITEBOOSTTYPE_NONE" |
         "_ZWRITE_ON"
     >,
-    BTSPillar: Array<
+    BTSPillar?: Array<
         "DIFFUSE" |
         "ENABLE_DIFFUSE" |
         "ENABLE_FOG" |
@@ -338,7 +338,7 @@ export type shaderKeywords = {
         "_ENABLE_FOG_TINT" |
         "_RIMLIGHT_NONE"
     >,
-    InterscopeCar: Array<
+    InterscopeCar?: Array<
         "ENABLE_DIFFUSE" |
         "ENABLE_DIRT" |
         "ENABLE_DIRT_DETAIL" |
@@ -360,7 +360,7 @@ export type shaderKeywords = {
         "_VERTEXMODE_METALSMOOTHNESS" |
         "_WHITEBOOSTTYPE_NONE"
     >,
-    InterscopeConcrete: Array<
+    InterscopeConcrete?: Array<
         "DIRT" |
         "ENABLE_DIFFUSE" |
         "ENABLE_DIRT" |
@@ -379,7 +379,7 @@ export type shaderKeywords = {
         "_ENABLE_FOG_TINT" |
         "_RIMLIGHT_NONE"
     >,
-    Standard: Array<
+    Standard?: Array<
         "DIFFUSE" |
         "ENABLE_DIFFUSE" |
         "ENABLE_FOG" |
@@ -393,7 +393,7 @@ export type shaderKeywords = {
         "_ENABLE_FOG_TINT" |
         "_RIMLIGHT_NONE"
     >,
-    WaterfallMirror: Array<
+    WaterfallMirror?: Array<
         "DETAIL_NORMAL_MAP" |
         "ENABLE_MIRROR" |
         "ETC1_EXTERNAL_ALPHA" |
