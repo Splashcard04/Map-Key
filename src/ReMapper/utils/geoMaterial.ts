@@ -44,6 +44,7 @@ export class Material {
                 this.material.shaderKeywords?.push(word as string)
             })
         })
+        return this
     }
 
     /**Push the material to the active diff (and primary group if applicable). */
