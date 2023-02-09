@@ -1,62 +1,61 @@
-import { Geometry, GEO_TYPE, Json, RawGeometryMaterial, ModelScene, activeDiffGet, ColorType, GEO_SHADER } from "https://deno.land/x/remapper@3.1.1/src/mod.ts" 
+import { Geometry, GEO_TYPE, Json, RawGeometryMaterial, ModelScene, activeDiffGet, TrackValue, ColorType, GEO_SHADER } from "https://deno.land/x/remapper@3.1.1/src/mod.ts" 
 import { shaderKeywords } from "../constants.ts"
 import { logFunctionss, MKLog } from './general.ts'
 
+
+export type baseGeoMaterial = {
+    shader: GEO_SHADER,
+    color?: ColorType,
+    shaderKeywords?: shaderKeywords[] | string[],
+    track?: TrackValue | string
+}
+
 export type addGroupSettings = {
-    addGroup: boolean,
     sceneName: ModelScene
     blenderMatName: string,
     geoType: GEO_TYPE
 }
 
-export class Material {
+export class _Material {
+    /**
+     * Creates a new geometry material with shader type and keywords.
+     * @param name the name of the created material
+     * @param material the material to create
+     * @method addGroup add the material to a primary group
+     * @method push push the material and a primary group if selected
+     */
     json: Json = {}
-    /**
-     * Creates a new material with shader type and keywords.
-     * @param name The name of the material.
-     * @param shader The shader type.
-     * @param color The color of the material.
-     */
-    constructor(public name: string, shader: GEO_SHADER, color?: ColorType){
-        this.json.shader = shader;
-        this.json.color = color;
+
+
+    constructor(public name: string, public material: baseGeoMaterial) {
+        this.name = name; this.material = material
     }
-    /**
-     * Add shader keywords to the material.
-     * @param _words The keywords to add. Written like {shadertype: ["keyword", "keyword", etc...]}.
-     */
-    shaderKeywords(_words: shaderKeywords){
-        this.json.shaderKeywords = eval(`_words.${this.json.shader}`)
-        return this
+
+    /**add a primary group with a specific geo type to your scene */
+    addGroup(addGroup: addGroupSettings) {
+        this.json.addGroup = addGroup
+        return this.json
     }
-    /**
-     * Manually import material json.
-     * @param json The raw JSON to import.
-     */
-    import(json: Json){
-        this.json = json;
-        return this
-    }
-    /**
-     * Add the material to a modelscene.
-     * @param settings The settings for adding to the scene.
-     */
-    addGroup(settings: addGroupSettings){
-        settings.sceneName.addPrimaryGroups(
-            settings.blenderMatName,
-            new Geometry(settings.geoType, this.name)
-        )
-        if(logFunctionss){
-            MKLog(`Added material ${this.name} to scene ${settings.sceneName}...`)
+
+    /**push the material and primary group if selected to the difficulty */
+    push() {
+        activeDiffGet().geoMaterials[this.name] = this.material
+
+        if(logFunctionss) {
+            MKLog(`New Geometry Material titled ${this.name}`)
         }
-    }
-    /**
-     * Push the material to the diff.
-     */
-    push(){
-        activeDiffGet().geoMaterials[this.name] = this.json as RawGeometryMaterial
-        if(logFunctionss){
-            MKLog(`Created new material ${this.name} to the active diff...`)
+
+        if(this.json.addGroup) {
+            const scene = this.json.addGroup.sceneName;
+            const matName = this.json.addGroup.blenderMatName;
+            const geoType = this.json.addGroup.geoType;
+
+            scene.addPrimaryGroups(matName, new Geometry(geoType, this.name))
+
+            if(logFunctionss) {
+                const logscene = scene.toString();
+                MKLog(`Added a primary group to ${logscene} of material ${this.name}`)
+            }
         }
     }
 }
