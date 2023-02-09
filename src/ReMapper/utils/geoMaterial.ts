@@ -39,6 +39,7 @@ export class Material {
 
     /**Add shader keywords with autofill for your material shader. */
     shaderKeywords(keywords: shaderKeywords){
+        // To fix, define the shaderKeywords array. I will do it later when I have time - Aurellis
         Object.entries(keywords).forEach(entry =>{
             entry.forEach((word) =>{
                 this.material.shaderKeywords?.push(word as string)
