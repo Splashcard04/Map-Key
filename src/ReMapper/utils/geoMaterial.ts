@@ -21,16 +21,13 @@ export class Material {
      * @param name The name of your material.
      * @param material The material to create.
      */
-    json: Json = {}
     addGroup: Json = {}
 
 
-    constructor(public name: string, material: baseGeoMaterial) {
-        this.json = material
-    }
+    constructor(public name: string, public material: baseGeoMaterial) {}
     /**Import raw material Json. */
     import(json: Json){
-        this.json = json
+        this.material = json as RawGeometryMaterial
         return this
     }
 
@@ -43,21 +40,21 @@ export class Material {
     /**Add shader keywords with autofill for your material shader. */
     shaderKeywords(keywords: shaderKeywords){
         Object.entries(keywords).forEach(entry =>{
-            entry.forEach(word =>{
-                this.json.shaderKeywords.push(word)
+            entry.forEach((word) =>{
+                this.material.shaderKeywords?.push(word as string)
             })
         })
     }
 
     /**Push the material to the active diff (and primary group if applicable). */
     push() {
-        activeDiffGet().geoMaterials[this.name] = this.json as RawGeometryMaterial
+        activeDiffGet().geoMaterials[this.name] = this.material
 
         if(logFunctionss) {
             MKLog(`New Geometry Material titled ${this.name}`)
         }
 
-        if(this.json.addGroup) {
+        if(this.addGroup.sceneName) { // sceneName implies addgroup is defined
             const scene = this.addGroup.sceneName;
             const matName = this.addGroup.blenderMatName;
             const geoType = this.addGroup.geoType;
