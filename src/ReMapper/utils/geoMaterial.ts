@@ -43,9 +43,10 @@ export class Material {
     /**Add shader keywords with autofill for your material shader. */
     // deno-lint-ignore no-unused-vars
     shaderKeywords(keywords: shaderKeywords){
-        eval(`keywords.${this.json.shader}`).forEach((word: string) => {
-            this.json.shaderKeywords?.push(word)
+        this.json.shaderKeywords.forEach((word: string) => {
+            eval(`_kewords.${this.json.shader}`).push(word)
         });
+        this.json.shaderKeywords = eval(`_keywords.${this.json.shader}`)
         return this
     }
 
