@@ -41,13 +41,12 @@ export class Material {
     }
 
     /**Add shader keywords with autofill for your material shader. */
-    // deno-lint-ignore no-unused-vars
     shaderKeywords(keywords: shaderKeywords){
-        this.json.shaderKeywords.forEach((word: string) => {
-            eval(`_kewords.${this.json.shader}`).push(word)
-        });
-        this.json.shaderKeywords = eval(`_keywords.${this.json.shader}`)
-        return this
+        Object.entries(keywords).forEach(entry =>{
+            entry.forEach(word =>{
+                this.json.shaderKeywords.push(word)
+            })
+        })
     }
 
     /**Push the material to the active diff (and primary group if applicable). */
