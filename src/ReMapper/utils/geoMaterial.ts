@@ -92,7 +92,7 @@ export function optimiseMaterials(){
         arr.forEach(geo =>{
             if(typeof geo.material !== "string"){
                 const mat = geo.material as RawGeometryMaterial
-                const stringMat = `${geo.material.color},${geo.material.shader},${geo.material.shaderKeywords}`
+                const stringMat = `${geo.material.color?.join("")},${geo.material.shader},${geo.material.shaderKeywords?.join("")}`
                 activeDiffGet().geometry(ray =>{
                     ray.forEach(x =>{
                         if(x.material == mat){
