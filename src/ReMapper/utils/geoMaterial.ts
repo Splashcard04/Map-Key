@@ -39,7 +39,7 @@ export class Material {
     /**Add shader keywords with autofill for your material shader.
      * @param keywords The keywords to add. Formatted as {Shader: ["Keyword", "Keyword"]}
     */
-    shaderKeywords(keywords: shaderKeywords){
+    shaderKeywords(keywords: shaderKeywords) {
         // A crappy workaround for shaderKeywords being potentially undefined.
         let tempKeywords: string[]
         if(!this.material.shaderKeywords){

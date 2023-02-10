@@ -28,11 +28,11 @@ export class laserScene {
     }
     /**add the lasers to the primary group */
     push() {
-        const laserMats = []
+        const laserMats: string[] = []
         const obj = this.object
         this.json.mod(obj)
         for(let i = 0; i < this.json.amt; i++) {
-            laserMats.push(this.json.mat+`${i}`)
+            laserMats.push(this.json.mat+i.toString())
         }
         this.scene.addPrimaryGroups(laserMats, obj)
     }
