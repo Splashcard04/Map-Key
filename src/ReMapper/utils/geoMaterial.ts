@@ -83,3 +83,26 @@ export class Material {
         }
     }
 }
+
+/**
+ * Converts all identical materials on geometry into a single map-wide material.
+ */
+export function optimiseMaterials(){
+    activeDiffGet().geometry(arr =>{
+        arr.forEach(geo =>{
+            if(typeof geo.material !== "string"){
+                const mat = geo.material as RawGeometryMaterial
+                const stringMat = `${geo.material.color},${geo.material.shader},${geo.material.shaderKeywords}`
+                activeDiffGet().geometry(ray =>{
+                    ray.forEach(x =>{
+                        if(x.material == mat){
+                            activeDiffGet().geoMaterials[stringMat] = geo.material as RawGeometryMaterial
+                            geo.material = stringMat
+                            x.material = stringMat
+                        }
+                    })
+                })
+            }
+        })
+    })
+}
