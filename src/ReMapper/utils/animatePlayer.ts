@@ -1,4 +1,4 @@
-import { CustomEvent, CustomEventInternals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { CustomEvent, CustomEventInternals, Note } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 import { allBetween, logFunctionss, MKLog } from "./general.ts";
 
 export class playerAnim {
@@ -26,7 +26,7 @@ export class playerAnim {
 
         new CustomEvent(this.time).assignPlayerToTrack(this.playerTrack).push()
         new CustomEvent(this.time).assignTrackParent([this.noteTrack], this.playerTrack).push()
-        allBetween(this.time, this.timeEnd, n => {
+        allBetween(this.time, this.timeEnd, (n: Note) => {
             n.track.add(this.noteTrack)
         })
 
