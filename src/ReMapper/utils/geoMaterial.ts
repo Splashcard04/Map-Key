@@ -37,14 +37,24 @@ export class Material {
         return this
     }
 
-    /**Add shader keywords with autofill for your material shader. */
+    /**Add shader keywords with autofill for your material shader.
+     * @param keywords The keywords to add. Formatted as {Shader: ["Keyword", "Keyword"]}
+    */
     shaderKeywords(keywords: shaderKeywords){
-        // To fix, define the shaderKeywords array. I will do it later when I have time - Aurellis
+        // A crappy workaround for shaderKeywords being potentially undefined.
+        let tempKeywords: string[]
+        if(!this.material.shaderKeywords){
+            tempKeywords = []
+        }
+        else{
+            tempKeywords = this.material.shaderKeywords
+        }
         Object.entries(keywords).forEach(entry =>{
             entry.forEach((word) =>{
-                this.material.shaderKeywords?.push(word as string)
+                tempKeywords.push(word as string)
             })
         })
+        this.material.shaderKeywords = tempKeywords
         return this
     }
 
