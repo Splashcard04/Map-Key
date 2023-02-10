@@ -2,7 +2,6 @@ import { Geometry, GEO_TYPE, Json, ModelScene, activeDiffGet, ColorType, GEO_SHA
 import { shaderKeywords } from "../constants.ts"
 import { logFunctionss, MKLog } from './general.ts'
 
-
 export type baseGeoMaterial = {
     shader: GEO_SHADER,
     color?: ColorType,
@@ -51,7 +50,11 @@ export class Material {
         }
         Object.entries(keywords).forEach(entry =>{
             entry.forEach((word) =>{
-                tempKeywords.push(word as string)
+                if(typeof word !== "string"){
+                    word.forEach(key =>{
+                        tempKeywords.push(key)
+                    })
+                }
             })
         })
         this.material.shaderKeywords = tempKeywords
