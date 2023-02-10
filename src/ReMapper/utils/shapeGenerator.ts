@@ -48,11 +48,8 @@ export class shapeGenerator {
                 // Determine that angle of the side (could have used rotatePoint here, but this was a bit easier)
                 const angle = Math.PI*2*side/this.sides;
 
-                // Define the rotated position of the shape
-                const pos = rotatePoint([-Math.sin(angle)*this.radius,-Math.cos(angle)*this.radius,0],this.rotation);
-
                 // Apply the offset position to the rotated position
-                cube.position = [pos[0]+this.position[0],pos[1]+this.position[1],pos[2]+this.position[2]]; // dumb arrAdd
+                cube.position = arrAdd(rotatePoint([-Math.sin(angle)*this.radius,-Math.cos(angle)*this.radius,0],this.rotation), this.position);
 
                 /*
                 So that I remember how this math works - Aurellis
