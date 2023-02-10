@@ -89,20 +89,24 @@ export class Material {
  */
 export function optimiseMaterials(){
     activeDiffGet().geometry(arr =>{
+        let i = 0
         arr.forEach(geo =>{
             if(typeof geo.material !== "string"){
                 const mat = geo.material as RawGeometryMaterial
                 const stringMat = `${geo.material.color?.join("")},${geo.material.shader},${geo.material.shaderKeywords?.join("")}`
                 activeDiffGet().geometry(ray =>{
+                    let j = 0;
                     ray.forEach(x =>{
-                        if(x.material == mat){
+                        if(x.material == mat && i !== j){
                             activeDiffGet().geoMaterials[stringMat] = geo.material as RawGeometryMaterial
                             geo.material = stringMat
                             x.material = stringMat
                         }
+                        j++
                     })
                 })
             }
+            i++
         })
     })
 }
