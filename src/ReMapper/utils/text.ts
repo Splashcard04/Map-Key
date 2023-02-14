@@ -47,6 +47,8 @@ export class textToWall {
     }
 }
 
+// Keeping this commented heere because it might be more effective if we can get it to work. - Aurellis
+
 // export class textBuilder {
 //     json: Json = {}
 
