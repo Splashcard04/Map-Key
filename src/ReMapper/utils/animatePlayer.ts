@@ -8,7 +8,7 @@ export class playerAnim {
      * @param time The time to start animating the player.
      * @param timeEnd The time to stop animating the player.
      * @param animation Assign data to the track to assign player / notes to.
-     * @author @Splashcard @Aurellis
+     * @author Splashcard & Aurellis
      */
     constructor(public time: number = 0, public timeEnd: number = 0, public animation?: (x: CustomEventInternals.AnimateTrack) => void, public playerTrack: string = "player", public noteTrack: string = "notes") {
         this.playerTrack = playerTrack; this.noteTrack = noteTrack
