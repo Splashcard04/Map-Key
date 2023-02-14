@@ -36,4 +36,4 @@ Make sure to include parameters and do your best to keep the format similar to e
 To pr a constant, make sure you edit the constants.ts file and keep consistent formatting with the other constants, new constant categories are allowed of course, as well as additional environment IDs or something of the sort.
 
 ## conclusion
-All PRs are very welcome, and will be merged 99% of the time. If they need to be modified, then that will be done. Once again, if you have any concerns, or would like to disscuss anything relating to PRs or MapKey in general, the [discord](https://discord.gg/NSmpcYDS) is the best place to start.
+All PRs are very welcome, and will be merged 99% of the time. If they need to be modified, then that will be done. Once again, if you have any concerns, or would like to disscuss anything relating to PRs or MapKey in general, the [discord](https://discord.gg/Q9fvu7Bn87) is the best place to start.
