@@ -1,4 +1,4 @@
-import { arrAdd, arrDiv, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { arrAdd, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 import { GEO_FILTER_PROPS } from "../constants.ts";
 import { logFunctionss, MKLog, repeat } from './general.ts'
 
@@ -92,7 +92,7 @@ export class shapeGenerator {
 
 export class primitiveGenerator {
     /**
-     * Generates one of a selection of primitive 3d shapes with Geometry cubes as the edges.
+     * Generates one of a selection of primitive 3d shapes with Geometry cubes as the edges. (Currently only supports prisms)
      * @param material The geo-material to use.
      * @param position The position of the center of the shape.
      * @param scale The scale of the individual sides of the shape. (Note - the x value is ignored as it is used to fill the sides).
@@ -102,6 +102,7 @@ export class primitiveGenerator {
      * @param iterateOffset The offset to begin iterating tracks from.
      * @todo Delta scale (when I can be bothered figuring out how to apply rotations)
      * @todo Remove shapeGenerator calls and generate the cubes manually. Or add a deltaScale to shapeGenerator.
+     * @todo Ico spheres, torus, probably not cones bc they have weird rotation that I cba figuring out.
      * @author Aurellis
      */
     constructor(
@@ -152,59 +153,6 @@ export class primitiveGenerator {
             }
             cube.rotation = [this.rotation[0],this.rotation[1],this.rotation[2]-180*angle/Math.PI];
             cube.scale = [this.scale[1],this.scale[1],length+this.scale[2]];
-            cube.push()
-        })
-    }
-    /**
-     * Generates a cone with a regular polygon base.
-     * @param sides The number of sides for the base.
-     * @param baseRadius The radius of teh base.
-     * @param depth The height of the cone.
-     * @param innercorners Makes the corners touch on the inside edge of the sides rather than the outside.
-     * @param alignedSides Aligns the sides with edges up and down, rather than faces.
-     */
-    // deno-lint-ignore no-unused-vars
-    cone(sides = 4, baseRadius = 10, depth = 10, innercorners?: boolean, alignedSides?: boolean){
-        const baseCenter: Vec3 = [0,-depth/2,0]
-        const base = new shapeGenerator(this.material,sides,baseRadius,arrAdd(rotatePoint(baseCenter,this.rotation),this.position),this.scale,[this.rotation[0]+90,this.rotation[1],this.rotation[2]],innercorners,this.track,this.iterateTrack,this.iterateOffset)
-        base.push()
-        const cube = new Geometry("Cube",this.material);
-        repeat(sides, side =>{
-            if(this.track && this.iterateTrack){
-                cube.track.value = `${this.track}_${side+2*sides+this.iterateOffset}`;
-            }
-            else if(this.track && !this.iterateTrack){
-                cube.track.value = this.track;
-            }
-            const angle = Math.PI*2*(side+0.5)/sides;
-            let corner
-            if(innercorners){
-                corner = [-Math.sin(angle)*Math.hypot(baseRadius,(base.push([0,"scale[0]"])+base.push([0,"scale[1]"]))/2),-depth/2,-Math.cos(angle)*Math.hypot(baseRadius,(base.push([0,"scale[0]"])+base.push([0,"scale[1]"]))/2)] as Vec3
-                cube.scale = [this.scale[2],Math.hypot(depth,Math.hypot(corner[0],corner[2]))-this.scale[2]/2,this.scale[1]];
-            }
-            else{
-                corner = [-Math.sin(angle)*Math.hypot(baseRadius,(base.push([0,"scale[0]"])-base.push([0,"scale[1]"]))/2),-depth/2,-Math.cos(angle)*Math.hypot(baseRadius,(base.push([0,"scale[0]"])-base.push([0,"scale[1]"]))/2)] as Vec3
-                cube.scale = [this.scale[2],Math.hypot(depth,Math.hypot(corner[0],corner[2])),this.scale[1]];
-            }
-            const pos = rotatePoint(arrDiv(arrAdd(corner,[0,depth/2,0]),2),this.rotation)
-            cube.position = arrAdd(pos, this.position);
-            cube.rotation = arrAdd([180*Math.acos(depth/cube.scale[1])/Math.PI,180*angle/Math.PI,0],this.rotation)
-            /*
-            So that I don't forget where I'm up to - Aurellis
-
-            This rotation currently doesn't work. Unity's rotation system works in ZXY meaning that y is always directly vertical rotation.
-            So if the cone is generated with the point up, then the cubes with length Y can be pitched with X and then aligned with Y. This only works when the point is upwards.
-            Since any Z or X rotation would be local, when an additive X rotation is applied to the entire shape, the cubes rotate locally rather than globally.
-
-            Additionally, the shape suffers gymbal lock since the base is along the XZ plane (i.e., rotated x=90).
-
-            Aligned sides also relies upon what is essentially a local rotation, so the cubes would probably be better off using Z for length rather than Y.
-
-            Potential fixes:
-                Generate the cone with point along the x axis and base along the YZ plane.
-                Use cube Z axis for length so Z is always local rotation.
-
-            */
             cube.push()
         })
     }
