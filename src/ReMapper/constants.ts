@@ -402,3 +402,15 @@ export type shaderKeywords = {
         "_EMISSION"
     >
 }
+
+//Used for one noteMod
+
+export type easeBase = 
+        "Sine" |
+        "Quad" |
+        "Cubic" |
+        "Quart" |
+        "Quint" |
+        "Circ" |
+        "Linear" |
+        "Step"
