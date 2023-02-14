@@ -7,4 +7,4 @@ Or you can use them on any map by putting them in this folder `Beat Saber Instal
 
 ## Want to add your own?
 
-If you have an environment that you would like to see here. Don't hesitate to pull-request it, or send it to the MapKey Discord and it will be added here.
+If you have an environment that you would like to see here. Don't hesitate to pull-request it, or send it to the [discord](https://discord.gg/Q9fvu7Bn87) and it will be added here.
