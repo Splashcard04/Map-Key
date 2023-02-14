@@ -1,5 +1,8 @@
 # Shareable Environments
-Here you will find a collection of shareable environments create by the community. You can download these and inport them into your map with `importShareableEnv` (this function will be available with the next MapKey update).
+Here you will find a collection of shareable environments create by the community. You can download these and inport them into your map with the import function.
+```ts
+importShareableEnv("Billie Cubes.dat")
+```
 Or you can use them on any map by putting them in `Beat Saber Install Folder\UserData\Chroma\Environments` and enabling them ingame.
 
 ## PRs
