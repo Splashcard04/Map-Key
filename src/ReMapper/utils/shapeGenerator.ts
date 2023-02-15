@@ -167,9 +167,9 @@ export class primitiveGenerator {
     RingSphere(radius = 10, rings = 8, segments = 8, innerCorners?: boolean){
         const YRing = new shapeGenerator(this.material,segments,radius,this.position,this.scale,arrAdd([90,0,0],this.rotation),innerCorners,this.track,this.iterateTrack,this.iterateOffset)
         repeat(rings, ring =>{
-            const localPos = rotatePoint([0,Math.cos((ring+0.5)*Math.PI/rings)*radius,0],this.rotation)
-            YRing.position = arrAdd(localPos,this.position);
-            YRing.radius = easeInCirc(Math.abs(localPos[1]/radius),radius,-radius,1)
+            const height = Math.cos((ring+0.5)*Math.PI/rings)*radius
+            YRing.position = arrAdd(rotatePoint([0,height,0],this.rotation),this.position);
+            YRing.radius = easeInCirc(Math.abs(height/radius),radius,-radius,1)
             YRing.push()
         })
     }
