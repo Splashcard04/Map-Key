@@ -158,19 +158,19 @@ export class primitiveGenerator {
         })
     }
     /**
-     * Generates a sphere made with lateral rings.
+     * Generates a sphere made of rings.
      * @param radius The radius of the sphere. Default - 10.
-     * @param rings The number of lateral rings to make the sphere from. Default - 8.
+     * @param rings The number of rings to make the sphere from. Default - 8.
      * @param segments The number of segments to make each ring out of. Default - 8.
      * @param innerCorners Makes the segments join at the inner corner of the cubes rather than the outer one.
      */
     ringSphere(radius = 10, rings = 8, segments = 8, innerCorners?: boolean){
-        const YRing = new shapeGenerator(this.material,segments,radius,this.position,this.scale,arrAdd([90,0,0],this.rotation),innerCorners,this.track,this.iterateTrack,this.iterateOffset)
+        const Ring = new shapeGenerator(this.material,segments,radius,this.position,this.scale,this.rotation,innerCorners,this.track,this.iterateTrack,this.iterateOffset)
         repeat(rings, ring =>{
-            const height = Math.cos((ring+0.5)*Math.PI/rings)*radius
-            YRing.position = arrAdd(rotatePoint([0,height,0],this.rotation),this.position);
-            YRing.radius = easeInCirc(Math.abs(height/radius),radius,-radius,1)
-            YRing.push()
+            const interpos = Math.cos((ring+0.5)*Math.PI/rings)*radius
+            Ring.position = arrAdd(rotatePoint([0,0,interpos],this.rotation),this.position);
+            Ring.radius = easeInCirc(Math.abs(interpos/radius),radius,-radius,1)
+            Ring.push()
         })
     }
 }
