@@ -1,3 +1,4 @@
+import { easeInCirc } from "https://deno.land/x/remapper@3.1.1/src/easings.ts";
 import { arrAdd, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 import { GEO_FILTER_PROPS } from "../constants.ts";
 import { logFunctionss, MKLog, repeat } from './general.ts'
@@ -154,6 +155,15 @@ export class primitiveGenerator {
             cube.rotation = [this.rotation[0],this.rotation[1],this.rotation[2]-180*angle/Math.PI];
             cube.scale = [this.scale[1],this.scale[1],length+this.scale[2]];
             cube.push()
+        })
+    }
+    UVSphere(radius = 10, rings = 8, innerCorners?: boolean){
+        const YRing = new shapeGenerator(this.material,rings,radius,this.position,this.scale,arrAdd([90,0,0],this.rotation),innerCorners,this.track,this.iterateTrack,this.iterateOffset)
+        repeat(rings, ring =>{
+            const localPos = rotatePoint([0,Math.cos((ring+0.5)*Math.PI/rings)*radius,0],this.rotation)
+            YRing.position = arrAdd(localPos,this.position);
+            YRing.radius = easeInCirc(Math.abs(localPos[1]/radius),radius,-radius,1)
+            YRing.push()
         })
     }
 }
