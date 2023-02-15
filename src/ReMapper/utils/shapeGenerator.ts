@@ -157,8 +157,15 @@ export class primitiveGenerator {
             cube.push()
         })
     }
-    UVSphere(radius = 10, rings = 8, innerCorners?: boolean){
-        const YRing = new shapeGenerator(this.material,rings,radius,this.position,this.scale,arrAdd([90,0,0],this.rotation),innerCorners,this.track,this.iterateTrack,this.iterateOffset)
+    /**
+     * Generates a sphere made with lateral rings.
+     * @param radius The radius of the sphere. Default - 10.
+     * @param rings The number of lateral rings to make the sphere from. Default - 8.
+     * @param segments The number of segments to make each ring out of. Default - 8.
+     * @param innerCorners Makes the segments join at the inner corner of the cubes rather than the outer one.
+     */
+    RingSphere(radius = 10, rings = 8, segments = 8, innerCorners?: boolean){
+        const YRing = new shapeGenerator(this.material,segments,radius,this.position,this.scale,arrAdd([90,0,0],this.rotation),innerCorners,this.track,this.iterateTrack,this.iterateOffset)
         repeat(rings, ring =>{
             const localPos = rotatePoint([0,Math.cos((ring+0.5)*Math.PI/rings)*radius,0],this.rotation)
             YRing.position = arrAdd(localPos,this.position);
