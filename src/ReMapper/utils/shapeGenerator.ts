@@ -182,6 +182,13 @@ export class primitiveGenerator {
             geo.push()
         })
     }
+    /**
+     * Returns the array of geometry that is generated.
+     * @returns Geometry array.
+     */
+    return(){
+        return this.collection
+    }
 
     /**
      * Generates the prism of any regular 2d shape.
