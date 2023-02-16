@@ -84,7 +84,7 @@ export class Material {
     }
 }
 
-export type namingMethods = 
+export type materialNamingMethods = 
     "Numbered" |
     "By Properties" |
     "Geometry Type Numbered" |
@@ -94,7 +94,7 @@ export type namingMethods =
  * Converts all identical materials on geometry into a single map-wide material.
  * @param namingMethod Decides the way to name the created materials. Defaults to numbered.
  */
-export function optimizeMaterials(namingMethod: namingMethods = "Numbered"){
+export function optimizeMaterials(namingMethod: materialNamingMethods = "Numbered"){
     activeDiffGet().geometry(arr =>{
         let i = 0;
         arr.forEach(geo =>{
