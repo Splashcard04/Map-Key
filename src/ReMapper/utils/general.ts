@@ -1,8 +1,8 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { arcsBetween, arrDiv, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-import { BFM_PROPS } from "../constants.ts"
+import { arcsBetween, arrDiv, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { BFM_PROPS } from "../constants.ts";
 
-export let logFunctionss = false
+export let logFunctionss = false;
 
 /**
  * Put this at the top of your script to console log functions as they are executed.
@@ -11,7 +11,7 @@ export function logFunctions(): void {
   logFunctionss = true;
 }
 
-/** 
+/**
  * Convert gamma RGB to linear RGB. (RGB from 0-255, into RGB from 0-1).
  * @param value RGB color from 0-255, alpha values are still 0-1.
  * @param colorMultiplier Optional, multiplier for your color to make it brighter.
@@ -19,19 +19,27 @@ export function logFunctions(): void {
  * @author splashcard__ & scuffedItalian
  */
 export function rgb(value: ColorType, colorMultiplier?: number) {
-  if(!value[3]){value.push(1)} else {value[3] = value[3]*255}
-  if(colorMultiplier) {
-    return arrMul(value, colorMultiplier/255).map(x =>{return setDecimals(x, 3)}) as ColorType
-  }
-  else {
-    return arrDiv(value, 255).map(x => {return setDecimals(x, 3)}) as ColorType
+  if (!value[3]) value.push(1);
+  else value[3] = value[3] * 255;
+  if (colorMultiplier) {
+    return arrMul(value, colorMultiplier / 255).map((x) => {
+      return setDecimals(x, 3);
+    }) as ColorType;
+  } else {
+    return arrDiv(value, 255).map((x) => {
+      return setDecimals(x, 3);
+    }) as ColorType;
   }
 }
 
-export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => void) {
-  notesBetween(time, timeEnd, forAll)
-  arcsBetween(time, timeEnd, forAll)
-  chainsBetween(time, timeEnd, forAll)
+export function allBetween(
+  time: number,
+  timeEnd: number,
+  forAll: (n: Note) => void,
+) {
+  notesBetween(time, timeEnd, forAll);
+  arcsBetween(time, timeEnd, forAll);
+  chainsBetween(time, timeEnd, forAll);
 }
 
 export class blenderFrameMath {
@@ -42,66 +50,86 @@ export class blenderFrameMath {
    * @param fps The fps of your blender project.
    * @author Aurellis
    */
-  constructor(public bpm: number, public beats: number, public fps: number){
-      this.bpm = bpm;
-      this.beats = beats;
-      this.fps = fps;
-      
+  constructor(public bpm: number, public beats: number, public fps: number) {
+    this.bpm = bpm;
+    this.beats = beats;
+    this.fps = fps;
   }
   /**
    * Console logs the duration (in seconds) that you animation goes for in the song.
    */
- public durationInSong() {
-  console.log(`An animation of ${this.beats} beats at ${this.bpm} BPM will take ${this.beats*60/this.bpm} seconds`);
- }
- /**
-  * Console logs the total frames required in blender to match your animation.
-  */
- public totalFramesInBlender(){
-  console.log(`The animation will need ${this.beats*this.fps*60/this.bpm} total frames in blender at ${this.fps} fps.`);
- }
- /**
-  * Console logs the length in seconds and frames that each beat in your song will take.
-  */
- public beatLength(){
-  console.log(`Each beat takes ${60/this.bpm} seconds, or ${this.fps*60/this.bpm} frames`);
- }
- /**
-  * Gets the same information that the other methods supply. Returning it rather than logging it.
-  * @param property The property you wish to return.
-  * @returns The value of the property.
-  */
- public returnProperty(property: BFM_PROPS){
-  const _beatTime = 60/this.bpm; //Seconds per song beat
-  const _seconds = this.beats*_beatTime; //Seconds of full animation
-  const _totalFrames = _seconds*this.fps; //Total frame count of the full animation
-  const _framesPerBeat = _beatTime*this.fps; //Like _beat_time but synced to fps
-  return eval(property); //Converts the string BFM_PROP into the name of one of the consts
- }
+  public durationInSong() {
+    console.log(
+      `An animation of ${this.beats} beats at ${this.bpm} BPM will take ${
+        this.beats * 60 / this.bpm
+      } seconds`,
+    );
+  }
+  /**
+   * Console logs the total frames required in blender to match your animation.
+   */
+  public totalFramesInBlender() {
+    console.log(
+      `The animation will need ${
+        this.beats * this.fps * 60 / this.bpm
+      } total frames in blender at ${this.fps} fps.`,
+    );
+  }
+  /**
+   * Console logs the length in seconds and frames that each beat in your song will take.
+   */
+  public beatLength() {
+    console.log(
+      `Each beat takes ${60 / this.bpm} seconds, or ${
+        this.fps * 60 / this.bpm
+      } frames`,
+    );
+  }
+  /**
+   * Gets the same information that the other methods supply. Returning it rather than logging it.
+   * @param property The property you wish to return.
+   * @returns The value of the property.
+   */
+  public returnProperty(property: BFM_PROPS) {
+    const _beatTime = 60 / this.bpm; //Seconds per song beat
+    const _seconds = this.beats * _beatTime; //Seconds of full animation
+    const _totalFrames = _seconds * this.fps; //Total frame count of the full animation
+    const _framesPerBeat = _beatTime * this.fps; //Like _beat_time but synced to fps
+    return eval(property); //Converts the string BFM_PROP into the name of one of the consts
+  }
 }
 
 /**
-* Copies the map to a new directory.
-* Useful for if you are working outside of the default BS game directory.
-* @param diffs The diff files. You must include all diffs listed in the Info.dat.
-* @param todir The directory to copy to. Directory must either use double backslashes, or single forward slashes (i.e., \\ or /)
-* @param otherFiles Any other files that you wish to copy over (i.e., Contributer images, scripts, models etc.)
-* @example copytodir(["ExpertPlusStandard","ExpertStandard"],"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Beat Saber\\Beat Saber_Data\\CustomWIPLevels\\Epic map",["script.ts"]);
-* @author Aurellis
-*/
-export async function copytodir(diffs: FILENAME<DIFFS>[] = [], todir: string, otherFiles?: Array<string>){
+ * Copies the map to a new directory.
+ * Useful for if you are working outside of the default BS game directory.
+ * @param diffs The diff files. You must include all diffs listed in the Info.dat.
+ * @param todir The directory to copy to. Directory must either use double backslashes, or single forward slashes (i.e., \\ or /)
+ * @param otherFiles Any other files that you wish to copy over (i.e., Contributer images, scripts, models etc.)
+ * @example copytodir(["ExpertPlusStandard","ExpertStandard"],"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Beat Saber\\Beat Saber_Data\\CustomWIPLevels\\Epic map",["script.ts"]);
+ * @author Aurellis
+ */
+export async function copytodir(
+  diffs: FILENAME<DIFFS>[] = [],
+  todir: string,
+  otherFiles?: Array<string>,
+) {
   await ensureDir(todir);
   Deno.copyFile("Info.dat", `${todir}\\Info.dat`);
   diffs.forEach((file) => {
     Deno.copyFile(`${file}.dat`, `${todir}\\${file}.dat`);
   });
-  const song = info.json._songFilename
-  Deno.copyFile(song,`${todir}\\${song}`);
-  if(info.json._coverImageFilename !== undefined) Deno.copyFile(info.json._coverImageFilename,`${todir}\\${info.json._coverImageFilename}`);
+  const song = info.json._songFilename;
+  Deno.copyFile(song, `${todir}\\${song}`);
+  if (info.json._coverImageFilename !== undefined) {
+    Deno.copyFile(
+      info.json._coverImageFilename,
+      `${todir}\\${info.json._coverImageFilename}`,
+    );
+  }
   otherFiles?.forEach((file) => {
     Deno.copyFile(`${file}`, `${todir}\\${file}`);
   });
-  MKLog(`Copied map to ${todir}`)
+  MKLog(`Copied map to ${todir}`);
 }
 
 /**
@@ -112,14 +140,18 @@ export async function copytodir(diffs: FILENAME<DIFFS>[] = [], todir: string, ot
 
 // deno-lint-ignore no-explicit-any
 export function MKLog(message: any, errorLevel?: "Warning" | "Error") {
-  if(!errorLevel) {
-    console.log(`[MapKey:   ${getSeconds()}s] ${message}`)
+  if (!errorLevel) {
+    console.log(`[MapKey:   ${getSeconds()}s] ${message}`);
   }
-  if(errorLevel == "Error") {
-    console.log(`\x1b[1m\x1b[31m[Error In MapKey: ${getSeconds()}s] \x1b[31m${message}\x1b[1m\x1b[37m`)
+  if (errorLevel == "Error") {
+    console.log(
+      `\x1b[1m\x1b[31m[Error In MapKey: ${getSeconds()}s] \x1b[31m${message}\x1b[1m\x1b[37m`,
+    );
   }
-  if(errorLevel == "Warning") {
-    console.log(`\x1b[1m\x1b[33m[Warning In MapKey: ${getSeconds()}s] \x1b[1m\x1b[33m${message}\x1b[1m\x1b[37m`)
+  if (errorLevel == "Warning") {
+    console.log(
+      `\x1b[1m\x1b[33m[Warning In MapKey: ${getSeconds()}s] \x1b[1m\x1b[33m${message}\x1b[1m\x1b[37m`,
+    );
   }
 }
 
@@ -128,9 +160,9 @@ export function MKLog(message: any, errorLevel?: "Warning" | "Error") {
  * @param vector The vector to find the unit of.
  * @returns The unit vector in the direction of the input vector.
  */
-export function vectorUnit(vector: Vec3){
-  const mag = Math.hypot(vector[0],vector[1],vector[2]);
-  return [vector[0]/mag,vector[1]/mag,vector[2]/mag]
+export function vectorUnit(vector: Vec3) {
+  const mag = Math.hypot(vector[0], vector[1], vector[2]);
+  return [vector[0] / mag, vector[1] / mag, vector[2] / mag];
 }
 
 /**
@@ -141,16 +173,15 @@ export function vectorUnit(vector: Vec3){
  * @returns The rotation for the object at point1.
  * @author Aurellis
  */
-export function pointRotation(point1: Vec3, point2: Vec3, defaultAngle?: Vec3){
-  const vector = arrSubtract(point2,point1);
-  const angle = [0,180*Math.atan2(vector[0],vector[2])/Math.PI,0];
-  const pitchPoint = rotatePoint(vector,[0,-angle[1],0]);
-  angle[0] = -180*Math.atan2(pitchPoint[1],pitchPoint[2])/Math.PI;
-  if(defaultAngle){
-      return arrSubtract(angle,defaultAngle) as Vec3
-  }
-  else{
-      return angle as Vec3
+export function pointRotation(point1: Vec3, point2: Vec3, defaultAngle?: Vec3) {
+  const vector = arrSubtract(point2, point1);
+  const angle = [0, 180 * Math.atan2(vector[0], vector[2]) / Math.PI, 0];
+  const pitchPoint = rotatePoint(vector, [0, -angle[1], 0]);
+  angle[0] = -180 * Math.atan2(pitchPoint[1], pitchPoint[2]) / Math.PI;
+  if (defaultAngle) {
+    return arrSubtract(angle, defaultAngle) as Vec3;
+  } else {
+    return angle as Vec3;
   }
 }
 
@@ -160,4 +191,6 @@ export function pointRotation(point1: Vec3, point2: Vec3, defaultAngle?: Vec3){
  * @param code The code to repeat, written as repeatvariablename =>{code}.
  * @example repeat(20, rep =>{ console.log(rep) })
  */
-export function repeat(repeat: number, code: (i: number) => void) {for(let i = 0; i < repeat; i++) {code(i)}}
+export function repeat(repeat: number, code: (i: number) => void) {
+  for (let i = 0; i < repeat; i++) code(i);
+}
