@@ -1,5 +1,5 @@
 import { Vec3, Json, GeometryMaterial } from "https://deno.land/x/remapper@3.1.1/src/mod.ts"
-import { shapeGenerator } from '../utils/shapeGenerator.ts'
+import { Polygon } from '../utils/shapeGenerator.ts'
 
 export type shapeBuilderSettings = {
     material: GeometryMaterial,
@@ -46,6 +46,6 @@ export class shapeBuilder {
 
     }
     push() {
-        new shapeGenerator(this.json.material, this.json.sides, this.json.radius, this.json.position, this.json.scale, this.json.rotation, this.json.innercorners, this.json.track, this.json.iterateTrack).push();
+        new Polygon(this.json.material, this.json.sides, this.json.radius, this.json.position, this.json.scale, this.json.rotation, this.json.innercorners, this.json.track, this.json.iterateTrack).push();
     }
 }

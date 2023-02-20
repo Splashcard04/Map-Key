@@ -3,7 +3,7 @@ import { arrAdd, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://d
 import { GEO_FILTER_PROPS } from "../constants.ts";
 import { logFunctionss, MKLog, repeat } from './general.ts'
 
-export class shapeGenerator {
+export class Polygon {
     /**
      * Creates a 2d shape defaulting along the xy plane.
      * @param sides The number of sides.
@@ -148,7 +148,7 @@ export class shapeGenerator {
         }
 }
 
-export class primitiveGenerator {
+export class primitiveShape {
     collection: Geometry[] = []
     /**
      * Generates one of a selection of primitive 3d shapes with Geometry cubes as the edges. (Currently only supports prisms)
@@ -199,7 +199,7 @@ export class primitiveGenerator {
      * @param alignedSides Aligns the rotation of the sides to the nearest clockwise side of the 2d prism base shape.
      */
     prism(sides = 3, radius = 10, length = 10, innercorners?: boolean, alignedSides?: boolean){
-        const shape = new shapeGenerator(this.material,sides,radius,arrAdd(rotatePoint([0,0,-length/2],this.rotation),this.position),this.scale,this.rotation,innercorners,this.track,this.iterateTrack,this.iterateOffset)
+        const shape = new Polygon(this.material,sides,radius,arrAdd(rotatePoint([0,0,-length/2],this.rotation),this.position),this.scale,this.rotation,innercorners,this.track,this.iterateTrack,this.iterateOffset)
         let tempArr: Geometry[] = shape.return()
         tempArr.forEach(geo =>{
             this.collection.push(geo)
@@ -246,7 +246,7 @@ export class primitiveGenerator {
      * @param innerCorners Makes the segments join at the inner corner of the cubes rather than the outer one.
      */
     ringSphere(rings = 8, segments = 8, radius = 10, innerCorners?: boolean){
-        const Ring = new shapeGenerator(this.material,segments,radius,this.position,this.scale,this.rotation,innerCorners,this.track,this.iterateTrack,this.iterateOffset)
+        const Ring = new Polygon(this.material,segments,radius,this.position,this.scale,this.rotation,innerCorners,this.track,this.iterateTrack,this.iterateOffset)
         repeat(rings, ring =>{
             const interpos = Math.cos((ring+0.5)*Math.PI/rings)*radius
             Ring.position = arrAdd(rotatePoint([0,0,interpos],this.rotation),this.position);
@@ -267,7 +267,7 @@ export class primitiveGenerator {
      * @param innerCorners Makes the segments join at the inner corner of the cubes rather than the outer one.
      */
     ringCone(rings = 8, segments = 4, baseRadius = 10, depth = 10, innerCorners?: boolean){
-        const Ring = new shapeGenerator(this.material,segments,baseRadius,this.position,this.scale,this.rotation,innerCorners,this.track,this.iterateTrack,this.iterateOffset)
+        const Ring = new Polygon(this.material,segments,baseRadius,this.position,this.scale,this.rotation,innerCorners,this.track,this.iterateTrack,this.iterateOffset)
         repeat(rings, ring =>{
             Ring.position = arrAdd(rotatePoint([0,0,((ring+0.5)*depth-rings/2)/rings],this.rotation),this.position)
             Ring.radius = baseRadius-(ring*baseRadius/rings)
