@@ -133,7 +133,7 @@ export async function copytodir(
 }
 
 /**
- * log any message labeled as a MapKey lint process.
+ * Log any message labeled as a MapKey lint process.
  * @param message The message to log with Map Key label.
  * @param errorLevel Whether to log the message as a warning or an error (or leave blank for regular log)
  */
