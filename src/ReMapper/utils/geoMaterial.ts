@@ -97,8 +97,7 @@ export function optimizeMaterials(
         const mat = copy(geo.material);
         let name: string;
         if (namingMethod == "By Properties") {
-          name =
-            `${mat.color?.join()}${mat.shader}${mat.shaderKeywords?.join()}${mat.track}`;
+          name = `${mat.color?.join()}${mat.shader}${mat.shaderKeywords?.join()}${mat.track}`;
         } else if (namingMethod == "Geometry Type Numbered") {
           name = `${geo.type}${i}`;
         } else if (namingMethod == "Shader Numbered") {
