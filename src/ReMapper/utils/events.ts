@@ -1,5 +1,5 @@
 import * as e from "https://deno.land/x/remapper@3.1.1/src/easings.ts";
-import { Color, ColorType, EASE, Event, setDecimals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { Color, ColorType, EASE, Event, LightID, setDecimals } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 import { repeat } from "./general.ts";
 
 export class lightGradient {
@@ -39,7 +39,7 @@ export class lightGradient {
 
 export class strobeGenerator {
     /**
-     * Creates a strobe sequence. With events every "interval" beats.
+     * Creates a strobe sequence. With "interval" number of events every beat.
      * @param time The time to start the strobe.
      * @param duration The duration of the strobe.
      * @param interval How many times per beat to add a strobe event, or one event every 1/interval beats.
@@ -49,7 +49,7 @@ export class strobeGenerator {
      * @param ease Whether to use an easing on the strobe. Any special easings like, bounce, elastic, etc... will yield very weird results.
      * @author Splashcard & Aurellis
      */
-    constructor(public time: number, public duration: number, public interval = 1, public type = 0, public color: ColorType | boolean = true, public ids?: number, public ease?: EASE) {}
+    constructor(public time: number, public duration: number, public interval = 1, public type = 0, public color: ColorType | boolean = true, public ids?: LightID, public ease?: EASE) {}
 
     push() {
         repeat(this.duration*this.interval, i => {

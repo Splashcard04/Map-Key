@@ -14,7 +14,7 @@ export class Material {
    * @param name The name of your material.
    * @param material The material to create.
    */
-  addGroup: Json = {};
+  private addGroup: Json = {};
 
   constructor(public name: string, public material: RawGeometryMaterial) {}
   /**Import raw material Json. */

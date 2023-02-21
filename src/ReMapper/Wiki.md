@@ -1,7 +1,9 @@
 
 # Intro
 
-Map key is a library of functions designed to extend [ReMapper](https://github.com/Swifter1243/ReMapper) if you don't know what that is then I'm sorry but this is not the tool for you.  If you do then welcome! Map Key is designed to make otherwise tedious things easier, here are a few examples:
+Map key is a library of functions designed to extend [ReMapper](https://github.com/Swifter1243/ReMapper) if you are not using ReMapper, then try having a look at the other mappings tools supported by MapKey. For those using ReMapper, welcome!
+
+MapKey is a feature packed extension of ReMapper designed to make many tedious tasks much simpler.
 
 # Documentation
 
@@ -16,7 +18,7 @@ import { } from "https://deno.land/x/mapkey@1.3.0/src/ReMapper/mod.ts"
 You can add classes and functions to the import just like this:
 
 ```ts
-import { despawner, noteFilter, lightGroup } from "https://deno.land/x/mapkey@1.3.0/src/ReMapper/mod.ts"
+import { despawner, Polygon, optimizeMaterials } from "https://deno.land/x/mapkey@1.3.0/src/ReMapper/mod.ts"
 ```
 
 You can also import everything like this:
@@ -25,7 +27,7 @@ You can also import everything like this:
 import * as mk from "https://deno.land/x/mapkey@1.3.0/src/ReMapper/mod.ts"
 ```
 
-This isnt recommended though, because you will have to prefix everything with `mk`.
+This isn't recommended though, because you will have to prefix everything with `mk`.
 
 ```ts
 new mk.despawner()
@@ -41,17 +43,11 @@ import {  } from "https://deno.land/x/enviromodder@5.0.0/src/exports.ts"
 
 **There ARE broken functions in this version** but it is currently the most compatible with Beatmaps v2
 
-If you would like to use ReMapper 3.0.0 use this link:
-
-```ts
-import {  } from "https://deno.land/x/mapkey@1.3.0/src/ReMapper/mod.ts"
-```
-
 # Functions and Documentation
 
-## Note
+## Class Usage
 
-Most classes have 2 ways of being used. You can either initialise the class in a single line.
+Most classes have 2 ways of being used. You can either initialise the class in a single line like so:
 
 ```ts
 new despawner("Contains", ["Environment"]).push()
@@ -95,22 +91,24 @@ This will move all environment pieces to -9999 on all axis, it will then restore
 | `lookup`         | `rm.LOOKUP` (lookup method) | The lookup method to find your IDs to despawn and exclude.                                                                                                                                         |
 | `ids`            | `string[]`                  | An array of environment IDs to despawn (hint, use `"Environment"` and `"Contains"` to despawn an entire environment.                                                                               |
 | `excludes`       | `string[]`                  | Exclude anything from your original array if ids (useful for bringing back small amounts of environment pieces after despawning a lot).                                                            |
-| `hardDespawn()`  | `string[]`                  | Set slected environment piece to `active = false`.  |
+| `hardDespawn()`  | `string[]`                  | Set slected environment piece to `active = false`. This will mean that environment objects and their children cannot be reused later. |
 
 ## Player Animation
 
-`playerAnim` is a class allowing to move and rotate the player while simultaneously parenting the notes to make them follow the player's movement and rotation, you can also assign extra tracks to the player or the notes, allowing for note mods and small player movements while moving the player.
+`playerAnim` is a class that helps with animating the player and notes together. With optional tracks for the player and notes for later use.
 
 ### Example
 
-```js
-const anim = new playerAnim(0, 50, player => {
- player.animate.position = [[0,0,0,0],[0,100,100,1]];
- player.animate.rotation = [[10,0,0,0],[0,0,0,1,"easeInOutSine"]] 
-})
-anim.playerTrack = "player"
-anim.noteTrack = "notes"
-anim.push();
+```ts
+new playerAnim(0, 64, player =>{player.animate.position = [[0, 0, 0, 0], [0, 0, 100, 1]]}, "camera", "notes").push()
+```
+Or:
+```ts
+const pAnim = new playerAnim(0,64);
+pAnim.animation = player =>{
+    player.animate.position = [[0, 0, 0, 0], [0, 0, 100, 1]]
+}
+pAnim.push()
 ```
 
 ### Params
@@ -125,7 +123,7 @@ anim.push();
 
 ## Events
 
-There are a few classes to help with creating and modifying events.
+There are a few classes to help with creating and modifying lighting events and colors.
 
 ### Light Gradient
 
@@ -133,13 +131,13 @@ There are a few classes to help with creating and modifying events.
 
 #### Example
 
-```js
+```ts
 new lightGradient(0, 32, 0, [[1, 0, 0, 1], [0, 1, 0, 1], [1, 0, 1, 1]], "HSV", "easeInOutExpo").push()
 ```
 
-Or referenced as a variable.
+Or referenced as a variable:
 
-```js
+```ts
 const gradient = new lightGradient(0, 32);
 gradient.colors = [[1, 0, 0, 1], [0, 1, 0, 1], [1, 0, 1, 1]];
 gradient.push()
@@ -153,7 +151,7 @@ gradient.push()
 | `duration`  | `number`                   | The duration of the gradient.                        |
 | `type` | `number` | The lightType for the events
 | `colors` | `ColorType[]` | The colors to include in the gradient.|
-| `lerpType` | `"HSV"\|"RGB"` | The lerp type to use on each color in the gradient.|
+| `lerpType` | `"HSV" \| "RGB"` | The lerp type to use on each color in the gradient.|
 |`easing`|`EASE`|The easing to use on each color in the gradient.|
 
 ### Lerp Gradient
@@ -198,7 +196,15 @@ strobe.push()
 ```
 
 #### Params
-
+|Param|Type|Description|
+|---|---|---|
+|`time`|`number`|The time to start the strobe sequence.|
+|`duration`|`number`|The duration of the sequence.|
+|`interval`|`number`|The number of lighting events to do per beat. This includes the off events.|
+|`type`|`number`|The lightType to use.|
+|`color`|`ColorType \| boolean`|The color that acts as the on event. Can also be a boolean to use vanilla lighting colors.|
+|`ids`|`LightID`|The IDs of the lights to affect.|
+|`ease`|`EASE`|Any easing to use on the sequence. NOTE: some of the easings may yield unusual results.|
 ## Export User Shared Environment
 
 `exportShareableEnv` is a function that can be run at the end of your script to export all the environments (and optionally, events) to a shareable environment file.
@@ -229,30 +235,62 @@ exportShareableEnv({
 |`settings.features.useChromaEvents`|`boolean`|Suggests the chromaEvents setting to be used with the env.|
 |`settings.features.basicBeatMapEvents`|`Json[]`|The raw json of basic lighting events to be loaded with your env. `copyLightEvents` is the better alternative to this.|
 
-## Geometry material
+## Import User Shared Environment
 
-`geoMaterial` is a class allowing to make map geometry materials and add them to a primary group of your Model Scene much faster
+Works in the opposite way to the afformentioned export function. This function imports the environment from a .dat file.
 
 ### Example
 
-```js
-const water = new geoMaterial("water")
-water.material = { shader: "BillieWater" }
-water.addGroup = {
-   addGroup: true,
-   sceneName: scene,
-   blenderMatName: "water"
-   geoType: "Sphere"
-}
+```ts
+importShareableEnv("Cool Env.dat")
+```
+
+### Params
+|Param|Type|Description|
+|-|-|-|
+|`file`|`string`|The path of the file to import from.|
+|`conflictingBaseEnv`|`"Keep Map Environment" \| "Use Imported Environment"`| The function will prompt you to use this param if the base environment of the imported env is different to your map's base environment. You don't need to specify this normally, only if the error appears in the console.|
+
+## Geometry material
+
+`Material` is a class that helps with creating map-wide materials quickly. It also supports auto-filling shader keywords with VSCode. Youcan also assign the created material to the primary group of a ModelScene.
+
+### Example
+
+```ts
+new Material("Solid",{shader:"BTSPillar"}).shaderKeywords({BTSPillar:["ENABLE_SPECULAR","DIFFUSE","_RIMLIGHT_NONE"]}).push()
+```
+Or:
+```ts
+const mat = new Material("Solid",{shader:"BTSPillar"})
+mat.shaderKeywords({BTSPillar:["ENABLE_SPECULAR","DIFFUSE","_RIMLIGHT_NONE"]})
+mat.addPrimaryGroup({
+  sceneName: scene,
+  blenderMatName: "Solid",
+  geoType: "Cube"
+})
+mat.push()
 ```
 
 ### Params
 
 | Param       | Type                                    | description                                                         |
 |-------------|-----------------------------------------|---------------------------------------------------------------------|
-| `name`      | `string`                                | the name of the geoMaterial name                                    |
-| `material`  | `RawGeometryMaterial`                   | the material settings of the geometry object                        |
-| `addGroup?` | `boolean, ModelScene, string, GEO_TYPE` | the settings for adding a primary group with your geometry material |
+| `name`      | `string`                                | The name of the material.                                    |
+| `material`  | `RawGeometryMaterial`                   | The raw material data.                        |
+
+|Method|Params|Description|
+|-|-|-|
+|`addPrimaryGroup`|`sceneName: ModelScene`, `blenderMatName: string`, `geoType: GEO_TYPE`|Adds your material to the primary group of a ModelScene.|
+|`shaderKeywords`|`keywords: shaderKeywords`| Add shader keywords to your material with autofill on supported platforms.|
+
+**NOTE:** The shaderKeywords function is only confirmed to work on Beat Saber 1.27. This is subject to change with any Beat Saber update and may not be consistently updated on MapKey.
+
+Shader keywords need to be formatted as such in the `shaderKeywords()` method.
+```ts
+{MaterialShader:["keyword", "keyword"]}
+// MaterialShader would be replaced by the name of the shader that your material uses. e.g., BTSPillar, or WaterfallMirror etc.
+```
 
 ## Multi Environment
 
@@ -292,7 +330,7 @@ The `push()` method also requires a parameter.
 ### Example
 
 ```js
-const LR = new noteSplit(0, 20)
+const LR = new notePath(0, 20)
 LR.forNoteLeft = l => {
    l.animate.position = [[-10, 10, 0, 0], [0, 0, 0, 0.3]]
 }
