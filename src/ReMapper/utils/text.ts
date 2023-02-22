@@ -37,7 +37,7 @@ export class textToWall {
      * @param textData Any extra data for the text.
      * @param wallData Any extra data for the walls.
      */
-    constructor(public text: string, public fontModel: string, public time: number, public duration: number, public textData?: (data: Text) => void, public wallData?: (data: Wall) => void){}
+    constructor(public text: string, public fontModel: string, public time = 0, public duration = 1, public textData?: (data: Text) => void, public wallData?: (data: Wall) => void){}
     push(){
         const txt = new Text(this.fontModel)
         if(this.textData){
