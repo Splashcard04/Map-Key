@@ -3,7 +3,7 @@
 
 Map key is a library of functions designed to extend [ReMapper](https://github.com/Swifter1243/ReMapper) if you are not using ReMapper, then try having a look at the other mappings tools supported by MapKey. For those using ReMapper, welcome!
 
-MapKey is a feature packed extension of ReMapper designed to make many tedious tasks much simpler.
+MapKey is a feature-packed extension of ReMapper designed to make many tedious tasks much simpler.
 
 # Documentation
 
@@ -211,7 +211,7 @@ strobe.push()
 
 ### Example
 
-```js
+```ts
 exportShareableEnv({
  name: "A cool environment",
  author: "Me",
@@ -237,7 +237,7 @@ exportShareableEnv({
 
 ## Import User Shared Environment
 
-Works in the opposite way to the afformentioned export function. This function imports the environment from a .dat file.
+Works in the opposite way to the aforementioned export function. This function imports the environment from a .dat file.
 
 ### Example
 
@@ -253,7 +253,7 @@ importShareableEnv("Cool Env.dat")
 
 ## Geometry material
 
-`Material` is a class that helps with creating map-wide materials quickly. It also supports auto-filling shader keywords with VSCode. Youcan also assign the created material to the primary group of a ModelScene.
+`Material` is a class that helps with creating map-wide materials quickly. It also supports auto-filling shader keywords with VSCode. You can also assign the created material to the primary group of a ModelScene.
 
 ### Example
 
@@ -329,7 +329,7 @@ The `push()` method also requires a parameter.
 
 ### Example
 
-```js
+```ts
 const LR = new notePath(0, 20)
 LR.forNoteLeft = l => {
    l.animate.position = [[-10, 10, 0, 0], [0, 0, 0, 0.3]]
@@ -483,7 +483,7 @@ tri.push()
 
 ### Primitive Shape
 
-`primitiveShape` generates a 3d shae primitive from geometry cubes. As of now, the only available shapes are `prism`, `ringSphere`, and `ringCone`.
+`primitiveShape` generates a 3d shape primitive from geometry cubes. As of now, the only available shapes are `prism`, `ringSphere`, and `ringCone`.
 
 #### Example
 
@@ -540,7 +540,7 @@ Generates a cone (or pyramid) out of rings.
 |Param|Type|Description|
 |-|-|-|
 |`rings`|`number`|The number of rings to make the cone from.|
-|`segments`|`number`|The number of segments per ring. For example, 4 will make a square-base pyramid, 3 will make a triangle-base pyramid.|
+|`segments`|`number`|The number of segments per ring. For example, 4 will make a square-base pyramid, and 3 will make a triangle-base pyramid.|
 |`baseRadius`|`number`|The radius of the base of the cone.|
 |`depth`|`number`|The depth of the cone (how far away the point is from the base).|
 |`innerCorners`|`boolean`|Makes the segments join at the inner corner of the cubes rather than the outer one.|
@@ -773,7 +773,7 @@ repeat(10,rep => {console.log(rep)})
 
 Converts all duplicate raw materials on geometry objects into a single map-wide material. Improving the load time and filesize of your map.
 
-Has different methods for naming the materials, this won't change much. But can improve file-size or readability in some cases.
+It has different methods for naming the materials. This won't change much but can improve file size or readability in some cases.
 
 ```ts
 optimizeMaterials()
