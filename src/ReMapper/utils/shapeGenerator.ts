@@ -156,8 +156,8 @@ export class primitiveShape {
      * @param position The position of the center of the shape.
      * @param scale The scale of the individual sides of the shape. (Note - the x value is ignored as it is used to fill the sides).
      * @param rotation The rotation to apply to the shape.
-     * @param track The track for the shape
-     * @param iterateTrack (Default = true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < the number of cubes in the shape}
+     * @param track The track for the shape.
+     * @param iterateTrack (Default - true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < the number of cubes in the shape}
      * @param iterateOffset The offset to begin iterating tracks from.
      * @todo Delta scale (when I can be bothered figuring out how to apply rotations)
      * @todo Remove shapeGenerator calls and generate the cubes manually. Or add a deltaScale to shapeGenerator.
@@ -195,11 +195,12 @@ export class primitiveShape {
      * @param sides The number of sides. Default - 3.
      * @param radius The radius of the 2d shape. Default - 10.
      * @param length The extrusion length of the prism. Default - 10.
-     * @param innercorners Makes the corners touch on the inside edge of the sides rather than the outside.
+     * @param innerCorners Makes the corners touch on the inside edge of the sides rather than the outside.
      * @param alignedSides Aligns the rotation of the sides to the nearest clockwise side of the 2d prism base shape.
      */
-    prism(sides = 3, radius = 10, length = 10, innercorners?: boolean, alignedSides?: boolean){
-        const shape = new Polygon(this.material,sides,radius,arrAdd(rotatePoint([0,0,-length/2],this.rotation),this.position),this.scale,this.rotation,innercorners,this.track,this.iterateTrack,this.iterateOffset)
+    prism(sides = 3, radius = 10, length = 10, innerCorners?: boolean, alignedSides?: boolean){
+        this.collection = [];
+        const shape = new Polygon(this.material,sides,radius,arrAdd(rotatePoint([0,0,-length/2],this.rotation),this.position),this.scale,this.rotation,innerCorners,this.track,this.iterateTrack,this.iterateOffset)
         let tempArr: Geometry[] = shape.return()
         tempArr.forEach(geo =>{
             this.collection.push(geo)
@@ -222,7 +223,7 @@ export class primitiveShape {
             }
             let angle = Math.PI*2*(side+0.5)/sides
             let pos
-            if(innercorners){
+            if(innerCorners){
                 pos = rotatePoint([-Math.sin(angle)*Math.hypot(radius,(shape.return([0,"scale[0]"])+shape.return([0,"scale[1]"]))/2),-Math.cos(angle)*Math.hypot(radius,(shape.return([0,"scale[0]"])+shape.return([0,"scale[1]"]))/2),0],this.rotation)
             }
             else{
@@ -246,6 +247,7 @@ export class primitiveShape {
      * @param innerCorners Makes the segments join at the inner corner of the cubes rather than the outer one.
      */
     ringSphere(rings = 8, segments = 8, radius = 10, innerCorners?: boolean){
+        this.collection = [];
         const Ring = new Polygon(this.material,segments,radius,this.position,this.scale,this.rotation,innerCorners,this.track,this.iterateTrack,this.iterateOffset)
         repeat(rings, ring =>{
             const interpos = Math.cos((ring+0.5)*Math.PI/rings)*radius
@@ -260,13 +262,14 @@ export class primitiveShape {
     }
     /**
      * Generates a cone out of rings.
-     * @param rings The number of rings to make the cone from.
-     * @param segments The number of segments per ring.
-     * @param baseRadius The radius of the base of the cone.
-     * @param depth The depth of the cone.
+     * @param rings The number of rings to make the cone from. Default - 8.
+     * @param segments The number of segments per ring. Default - 4.
+     * @param baseRadius The radius of the base of the cone. Default - 10.
+     * @param depth The depth of the cone. Default - 10.
      * @param innerCorners Makes the segments join at the inner corner of the cubes rather than the outer one.
      */
     ringCone(rings = 8, segments = 4, baseRadius = 10, depth = 10, innerCorners?: boolean){
+        this.collection = [];
         const Ring = new Polygon(this.material,segments,baseRadius,this.position,this.scale,this.rotation,innerCorners,this.track,this.iterateTrack,this.iterateOffset)
         repeat(rings, ring =>{
             Ring.position = arrAdd(rotatePoint([0,0,((ring+0.5)*depth-rings/2)/rings],this.rotation),this.position)

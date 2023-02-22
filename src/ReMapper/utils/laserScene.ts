@@ -18,13 +18,16 @@ export class laserScene {
     /**pass a variable to modify your laser objects in any way */
     modify(envMod: (x: Environment | Geometry) => void) {
         this.json.mod = envMod
+        return this
     }
     /**the name of your blender material */
     matName(name: string) {
         this.json.mat = name
+        return this
     }
     amount(amount: number) {
         this.json.amt = amount
+        return this
     }
     /**add the lasers to the primary group */
     push() {

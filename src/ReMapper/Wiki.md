@@ -356,7 +356,7 @@ laser group allows you to add a primary group of your model scene with customiza
 ### Example
 
 ```ts
-const group = new laserGroup(new Environment("LightingWithTarget", "EndsWith"))
+const group = new laserScene(new Environment("LightingWithTarget", "EndsWith"))
 group.amount = 12
 group.blenderMatName = "Lightning"
 group.lightID = 101
@@ -398,7 +398,7 @@ filterGeometry(
 
 This will filter geometry with the track `"sickTrackBruh"` and assign it to position `[0, 0, 0]`
 
-### Params
+#### Params
 
 | Param      | Type                           | description                                    |
 |------------|--------------------------------|------------------------------------------------|
@@ -420,7 +420,7 @@ filterEnvironment(
 
 This will filter environment pieces with the track `"lessSickTrackBruh"` assigning them to position `[0, 1, 0]`
 
-### Params
+#### Params
 
 | Param      | Type                           | Description                                       |
 |------------|--------------------------------|---------------------------------------------------|
@@ -439,7 +439,7 @@ filterNotes(
 })
 ```
 
-### Params
+#### Params
 
 |Param|Type|Description|
 |-----|-----|----|
@@ -447,14 +447,16 @@ filterNotes(
 |`value`|`number[] \| string \| number \| boolean`|The value that the property must be to pass.|
 |`forEach`|`(x: Note) =>  void`|What to execute for each note that passes.|
 
-## Shape generator
+## Shape Generators
 
-Shape generator will make a shape with customizable sides, radius, position, scale, and rotation.
+The shape generators will generate custom 2d and 3d shapes from geometry cubes.
 
-### Example
+### Polygon
+
+`Polygon` generates a regular 2d shape with any number of sides > 2. The shape will generate along the XY plane but can be rotated and repositioned to to your liking.
 
 ```ts
-const tri = new shapeGenerator("water")
+const tri = new Polygon("water")
 tri.sides = 3
 tri.radius = 6
 tri.position = [0, 0, 10]
@@ -464,7 +466,7 @@ tri.innercorners = true
 tri.push()
 ```
 
-### Params
+#### Params
 
 | Param          | Type      | description                                                                              |
 |----------------|-----------|------------------------------------------------------------------------------------------|
@@ -477,6 +479,71 @@ tri.push()
 | `innercorners` | `boolean` | Changes the way that corners are joined. Triangles look better (IMO) with inner corners. |
 | `track`        | `string`  | The track to assign the shape to.                                                         |
 | `iterateTrack` | `boolean` | If false, each piece of the shape will have the same track, if true they will have individual tracks.                                      |
+|`iterateOffset`|`number`| If defined, will begin iterating tracks from this number rather than 0.|
+
+### Primitive Shape
+
+`primitiveShape` generates a 3d shae primitive from geometry cubes. As of now, the only available shapes are `prism`, `ringSphere`, and `ringCone`.
+
+#### Example
+
+```ts
+new primitiveShape("water", [0, 10, 10], [1, 1, 1], [-90, 0, 0], "pyramid").ringCone().push()
+```
+
+Or:
+```ts
+const pyramid = new primitiveShape("solid", [0, 10, 10], [1, 1, 1])
+pyramid.track = "pyramid"
+pyramid.rotation = [-90, 0, 0]
+pyramid.ringCone()
+pyramid.push()
+```
+
+#### Params
+
+##### Parameters for the base class:
+
+|Param|Type|Description|
+|-|-|-|
+|`material`|`GeometryMaterial`|The material to use.|
+|`position`|`Vec3`|The position of the center of the shape.|
+|`scale`|`Vec3`|The scale of the individual sides of the shape. (Note - the x value is ignored as it is used to fill the sides)|
+|`rotation`|`Vec3`|The rotation to apply to the shape.|
+|`track`|`string \| undefined`|The track for the shape.|
+|`iterateTrack`|`boolean`|(Default - true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < the number of cubes in the shape}.|
+|`iterateOffset`|`number`|The offset to begin iterating tracks from.|
+
+##### Prism:
+Generates the prism of any regular 2d shape.
+|Param|Type|Description|
+|-|-|-|
+|`sides`|`number`|The number of sides.|
+|`radius`|`number`|The radius of the 2d shape, i.e., the triangles of a triangular prism.|
+|`length`|`number`|The extrusion length of the prism, i.e., the length of the sides.|
+|`innerCorners`|`boolean`|Makes the corners join on the inside edge of the sides rather than the outside edge. looks better for triangles.|
+|`alignedSides`|`boolean`|Aligns the rotation of the sides to the nearest clockwise side of the 2d prism base shape.|
+
+##### Ring Sphere
+
+Generates a sphere made out of rings.
+|Param|Type|Description|
+|-|-|-|
+|`radius`|`number`|The radius of the sphere.|
+|`rings`|`number`|The number of rings to make the sphere from.|
+|`segments`|`number`|The number of segments to make each ring from.|
+|`innerCorners`|`boolean`|Makes the segments join at the inner corner of the cubes rather than the outer one.|
+
+##### Ring Cone
+
+Generates a cone (or pyramid) out of rings.
+|Param|Type|Description|
+|-|-|-|
+|`rings`|`number`|The number of rings to make the cone from.|
+|`segments`|`number`|The number of segments per ring. For example, 4 will make a square-base pyramid, 3 will make a triangle-base pyramid.|
+|`baseRadius`|`number`|The radius of the base of the cone.|
+|`depth`|`number`|The depth of the cone (how far away the point is from the base).|
+|`innerCorners`|`boolean`|Makes the segments join at the inner corner of the cubes rather than the outer one.|
 
 ## Note Mods
 
