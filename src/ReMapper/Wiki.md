@@ -545,11 +545,83 @@ Generates a cone (or pyramid) out of rings.
 |`depth`|`number`|The depth of the cone (how far away the point is from the base).|
 |`innerCorners`|`boolean`|Makes the segments join at the inner corner of the cubes rather than the outer one.|
 
-## Note Mods
+### Text
 
-`noteMod` is a class that helps to create quick note mods.
+MapKey has 2 classes to help with quick text production in your map.
 
-### Example
+#### Text To Wall
+
+Create text out of walls.
+
+#### Example
+
+```ts
+new textToWall("blah blah blah, cool text idk", "font", 64, 2).push()
+```
+
+Or:
+
+```ts
+const hi = new textToWall("Hi", "font")
+hi.time = 64;
+hi.duration = 2;
+hi.wallData = wall =>{
+    wall.color = [1,0,0,1];
+    wall.animate.dissolve = [0.5]
+}
+hi.textData = text =>{
+    text.position = [0,0,30];
+}
+hi.push()
+```
+
+#### Params
+
+|Param|Type|Description|
+|-|-|-|
+|`text`|`string`|The text to write|
+|`fontModel`|`string`|The relative path of your font model.|
+|`time`|`number`|The time to spawn the text.|
+|`duration`|`number`|The duration of the text.|
+|`textData`|`(data: Text) => void`|Any extra data to add to the text.|
+|`wallData`|`(data: Wall) => void`|Any extra data to add to the walls.|
+
+### Text To Geometry
+
+Create text with geometry cubes.
+
+#### Example
+
+```ts
+new textToGeo("blah blah", "font", {shader:"Standard"}).push()
+```
+
+Or:
+
+```ts
+const hi = new textToGeo("Hi", "font")
+hi.material = "water";
+hi.push()
+```
+
+#### Params
+
+|Param|Type|Description|
+|-|-|-|
+|`text`|`string`|The text to write.|
+|`fontModel`|`string`|The relative path of your font model.|
+|`material`|`GeometryMaterial`|The material for your geometry objects.|
+|`extraData`|`(data: Text) => void`|Any extra data to add to the text.|
+
+## Presets
+
+MapKey offers some preset effects to quickly spice up your map. The only complete preset currently is the note mod preset. But some basic environment setups are in development.
+
+### Note Mods
+
+`noteMod` is a class that helps to create quick note mods from a collection of presets.
+
+#### Example
 
 ```js
 new noteMod(0,64).noteLine()
@@ -557,7 +629,7 @@ new noteMod(0,64).noteLine()
 
 This will make all the notes from beats 0-64 have the "note line" animation.
 
-### Params
+#### Params
 
 |Param|Type|Description|
 |---|---|---|
@@ -566,129 +638,6 @@ This will make all the notes from beats 0-64 have the "note line" animation.
 |`extraData`|`(x: Note) =>  void`|Anything extra to add to the notes on top of the note mods.|
 
 Each individual note mod may also have its own params. If you are using VSCode, you should see a brief description of how to use the params in the popup window. However, all params have default values, so you don't need to specify anything if you just want the basic note mod.
-
-## Builders
-
-Builders are essentially an alternative syntax for compatible classes, using custom types to allow for named parameters.
-
-### despawnerBuilder
-
-```ts
-new despawnerBuilder({
-   lookup: "Contains",
-   ids: [
-      "Environment"
-   ],
-   restore: [
-      "BackLasers"
-   ]
-}).push();
-```
-
-#### Params
-
-| Param          | Type       | description                        |
-|----------------|------------|------------------------------------|
-| `lookup`       | `LOOKUP`   | the lookup method to select pieces |
-| `ids`          | `string[]` | the ids to despawn                 |
-| `hardDespawn?` | `string[]` | the ids to set to `active = false` |
-| `restore`      | `string[]` | the ids to prevent from despawning |
-
-### Material Builder
-
-```ts
-new materialBuilder({
-   name: "water",
-   material: { shader: "WaterfallMirror" },
-   addGroup = {
-       addGroup: true,
-       sceneName: scene,
-      blenderMatName: "water",
-      geoType: "Sphere"
-   }
-}).push();
-```
-
-#### Params
-
-| Param       | Type                                    | description                                                                  |
-|-------------|-----------------------------------------|------------------------------------------------------------------------------|
-| `name`      | `string`                                | the name of the created matreal                                              |
-| `material`  | `RawGeometryMaterial`                   | the material settings of the geometry                                        |
-| `addGroup?` | `boolean, ModelScene, string, GEO_TYPE` | add a primary group?, model scene name, blender material name, geometry type |
-
-### note path builder
-
-```ts
-new notePathBuilder({
-   time: 10,
-   timeEnd: 20,
-   left: l => {
-      l.animate.dissolve = [[0, 0], [0, 0.5]]
-   }
-   right: r => {
-      r.animate.dissolve = [[0, 0], [0, 0.5]]
-   }
-})
-```
-
-#### Params
-
-| Param      | Type                | description                                                     |
-|------------|---------------------|-----------------------------------------------------------------|
-| `time`     | `number`            | the time to start applying custom data to left and right notes  |
-| `timeEnd`  | `number`            | the time to stop applying modifications to left and right notes |
-| `forLeft`  | `(l: Note) => void` | the modifications to apply left notes                           |
-| `forRight` | `(r: Note) => void` | the modifications to apply to right notes                       |
-
-### Player anim builder
-
-```ts
-new playerAnimBuilder({
-   time: 0,
-   timeEnd: 10,
-   animation: player => {
-  player.animate.position = [[0,0,0,0],[0,10,0,1]]
- }
-}).push();
-```
-
-#### Params
-
-| Param          | Type            | description                                    |
-|----------------|-----------------|------------------------------------------------|
-| `time`         | `number`        | the time to start the player animation         |
-| `timeEnd`      | `number`        | the time to stop the player animation          |
-| `animation`| `(x: CustomEventInternals.AnimateTrack) =>  void`| The animation to apply to the player.|
-| `playerTrack?` | `string`        | the extra track to assign the player to        |
-| `noteTrack?`   | `string`        | the extra track to assign the notes to         |
-
-### Shape builder
-
-```ts
-new shapeBuilder({
-   material: "water", // map geomaterial
-   sides: 6,
-   radius: 3,
-   position: [0, 0, 0],
-   scale: [1, 1, 1],
-   rotation: [0, 90, 0]
-}).push();
-```
-
-### Params
-
-| Param          | Type      | description                                                                              |
-|----------------|-----------|------------------------------------------------------------------------------------------|
-| `material`     | `string`  | the map geomaterial of your shape                                                        |
-| `sides`        | `number`  | the number of sides of the shape                                                         |
-| `radius`       | `number`  | the radius of the shape                                                                  |
-| `position`     | `Vec3`    | the position of the shape                                                                |
-| `scale`        | `Vec3`    | the scale of the shape                                                                   |
-| `rotation`     | `Vec3`    | the rotation of the shape                                                                |
-| `innercorners` | `boolean` | Changes the way that corners are joined. Triangles look better (IMO) with inner corners. |
-| `track`        | `string`  | the track to assign the shape to                                                         |
-| `iterateTrack` | `boolean` | Changes the track value for each piece of the shape                                      |
 
 ## Constants
 
@@ -796,13 +745,13 @@ new blenderFrameMath(120,64,24).totalFramesInBlender()
 copytodir(["ExpertPlusStandard.dat"], "Beat Saber folder")
 ```
 
-### Vector Math
+### Vector Unit
 
-A few functions to help with basic vector math.
-|Function Name|Description|
-|---|---|
-|`vectorMagnitude` |Finds the magnitude of a given vector.|
-|`vectorUnit`|Finds the unit vector in the same direction as a given vector.|
+Finds the unit vector in the same direction as a given vector.
+
+```ts
+console.log(vectorUnit([10,5,6]))
+```
 
 ### Point Rotation
 
@@ -818,4 +767,14 @@ If you are really lazy like me, then you might find this function useful. It wri
 
 ```ts
 repeat(10,rep => {console.log(rep)})
+```
+
+### Optimize Materials
+
+Converts all duplicate raw materials on geometry objects into a single map-wide material. Improving the load time and filesize of your map.
+
+Has different methods for naming the materials, this won't change much. But can improve file-size or readability in some cases.
+
+```ts
+optimizeMaterials()
 ```
