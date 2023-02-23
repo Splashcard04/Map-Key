@@ -34,7 +34,7 @@ export async function exportShareableEnv(settings?: USESettings) {
         settings.name = `${info.name} environment`
     }
     if(!settings.author){
-        settings.author = info.authorName
+        settings.author = info.mapper
     }
     if(!settings.environmentVersion){
         settings.environmentVersion = "0.0.1"
