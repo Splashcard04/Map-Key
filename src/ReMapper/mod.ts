@@ -15,9 +15,4 @@ export * from './utils/userSharedEnvs.ts'
 export * from './misc/logMapData.ts'
 export * from './misc/random.ts'
 
-export * from './builders/despawnerBuilder.ts'
-export * from './builders/notePathBuilder.ts'
-export * from './builders/playerAnimBuilder.ts'
-export * from './builders/shapeBuilder.ts'
-
 export * from './presets/notePresets.ts'
