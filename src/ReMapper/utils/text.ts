@@ -1,4 +1,4 @@
-import { ModelScene, Text, Wall, GroupObjectTypes, Json } from 'https://deno.land/x/remapper@3.1.1/src/mod.ts'
+import { ModelScene, Text, Wall, GroupObjectTypes, Json, Geometry } from 'https://deno.land/x/remapper@3.1.1/src/mod.ts'
 
 export class textToWall {
     /**
@@ -22,7 +22,7 @@ export class textToWall {
 
 
 export class textBuilder {
-    json: Json = {}
+    private json: Json = {object: new Geometry("Cube",{shader:"Standard"})}
     /**
      * build a text to object scene
      * @param model the name of your font model
@@ -30,12 +30,11 @@ export class textBuilder {
      * @method object the object to make text of
      * @method switch the keyframes of your text
      */
-    constructor(public model: string, public forText: (x: Text) => void) {
-        this.model = model; this.forText = forText
-    }
+    constructor(public model: string, public forText: (x: Text) => void) {}
 
     object(obj: GroupObjectTypes) {
         this.json.object = obj
+        return this
     }
 
     switch(keyframes: [string, number][]) {
