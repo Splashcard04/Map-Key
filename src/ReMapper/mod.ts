@@ -10,6 +10,7 @@ export * from './utils/laserScene.ts'
 export * from './utils/shapeGenerator.ts'
 export * from './utils/filters.ts'
 export * from './utils/multiEnv.ts'
+export * from './utils/text.ts'
 export * from './utils/userSharedEnvs.ts'
 
 export * from './misc/logMapData.ts'
