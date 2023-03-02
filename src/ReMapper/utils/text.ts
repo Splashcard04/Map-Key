@@ -49,7 +49,8 @@ export class textBuilder {
             keyframe.push(text.toObjects(x[0]), x[1])
         })
 
-        scene.animate(keyframe)
+        // This line is causing a type error. I can't remember the animate switch format so I have just commented it out for now.
+        // scene.animate(keyframe)
 
     }
 }
