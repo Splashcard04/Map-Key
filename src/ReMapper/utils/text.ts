@@ -1,4 +1,4 @@
-import { ModelScene, Text, Geometry, GeometryMaterial, Wall, ColorType, Vec3, GroupObjectTypes, Json } from 'https://deno.land/x/remapper@3.1.1/src/mod.ts'
+import { ModelScene, Text, Wall, GroupObjectTypes, Json } from 'https://deno.land/x/remapper@3.1.1/src/mod.ts'
 
 export class textToWall {
     /**
@@ -42,7 +42,7 @@ export class textBuilder {
         const text = new Text(this.model)
         this.forText(text)
 
-        const scene = new ModelScene(this.object)
+        const scene = new ModelScene(this.json.object)
 
         let keyframe;
 
