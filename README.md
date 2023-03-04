@@ -11,13 +11,13 @@ To use Map Key in your script, you will need to import it. This works in the sam
 You can either import all items (not recommended as you will have to prefix everything with `mk.`).
 
 ```ts
-import * as mk from "https://deno.land/x/mapkey@1.3.0/src/ReMapper/mod.ts"
+import * as mk from "https://deno.land/x/mapkey@1.3.1/src/ReMapper/mod.ts"
 ```
 
 Or specify the individual items you need.
 
 ```ts
-import { playerAnim, Polygon } from "https://deno.land/x/mapkey@1.3.0/src/ReMapper/mod.ts"
+import { playerAnim, Polygon } from "https://deno.land/x/mapkey@1.3.1/src/ReMapper/mod.ts"
 ```
 
 **Important!**
