@@ -1,5 +1,5 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { arcsBetween, arrDiv, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { arcsBetween, arrDiv, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, EASE, FILENAME, getSeconds, info, lerp, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 import { BFM_PROPS } from "../constants.ts";
 
 export let logFunctionss = false;
@@ -193,4 +193,24 @@ export function pointRotation(point1: Vec3, point2: Vec3, defaultAngle?: Vec3) {
  */
 export function repeat(repeat: number, code: (i: number) => void) {
   for (let i = 0; i < repeat; i++) code(i);
+}
+
+/**
+ * Lerps the values of 2 arrays.
+ * @param startArr The starting arr. This must be shorter than or equal to the second arr.
+ * @param endArr The ending arr. This must be longer than or equal to the first arr.
+ * @param fraction The fraction of lerp.
+ * @param easing Any easing to use.
+ * @returns number[] with length = startArr
+ */
+export function arrLerp(startArr: number[], endArr: number[], fraction: number, easing?: EASE){
+    if(startArr.length > endArr.length){
+        MKLog("First array must be shorter or equal to the second array.","Error")
+        return [0] as number[]
+    }
+    const res: number[] = []
+    repeat(startArr.length, i =>{
+        res.push(lerp(startArr[i],endArr[i],fraction,easing))
+    })
+    return res
 }
