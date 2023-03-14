@@ -50,15 +50,11 @@ export class blenderFrameMath {
    * @param fps The fps of your blender project.
    * @author Aurellis
    */
-  constructor(public bpm: number, public beats: number, public fps: number) {
-    this.bpm = bpm;
-    this.beats = beats;
-    this.fps = fps;
-  }
+  constructor(public bpm: number, public beats: number, public fps: number) {}
   /**
    * Console logs the duration (in seconds) that you animation goes for in the song.
    */
-  public durationInSong() {
+  durationInSong() {
     console.log(
       `An animation of ${this.beats} beats at ${this.bpm} BPM will take ${
         this.beats * 60 / this.bpm
@@ -68,7 +64,7 @@ export class blenderFrameMath {
   /**
    * Console logs the total frames required in blender to match your animation.
    */
-  public totalFramesInBlender() {
+  totalFramesInBlender() {
     console.log(
       `The animation will need ${
         this.beats * this.fps * 60 / this.bpm
@@ -78,7 +74,7 @@ export class blenderFrameMath {
   /**
    * Console logs the length in seconds and frames that each beat in your song will take.
    */
-  public beatLength() {
+  beatLength() {
     console.log(
       `Each beat takes ${60 / this.bpm} seconds, or ${
         this.fps * 60 / this.bpm
@@ -90,7 +86,7 @@ export class blenderFrameMath {
    * @param property The property you wish to return.
    * @returns The value of the property.
    */
-  public returnProperty(property: BFM_PROPS) {
+  returnProperty(property: BFM_PROPS) {
     const _beatTime = 60 / this.bpm; //Seconds per song beat
     const _seconds = this.beats * _beatTime; //Seconds of full animation
     const _totalFrames = _seconds * this.fps; //Total frame count of the full animation
