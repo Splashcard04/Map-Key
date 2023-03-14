@@ -9,7 +9,7 @@ export class despawner {
      * @param restore Will return objects to [0,0,0], does not work if hardDespawn is used.
      * @param hardDespawn The ids to be hard-despawned. This will sue the active property on the objects, all object respond to the active property. Objects will not be usable later if they are hard-despawned.
      */
-    constructor(public lookup: LOOKUP, public ids: string[], public restore?: string[], public hardDespawn?: string[]) {
+    constructor(public lookup: LOOKUP, public ids: string[] = [], public restore?: string[], public hardDespawn?: string[]) {
         this.lookup = lookup
         this.ids = ids
         this.restore = restore
