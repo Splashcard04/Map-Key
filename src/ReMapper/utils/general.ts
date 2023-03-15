@@ -8,7 +8,7 @@ export let logFunctionss = false;
  * Put this at the top of your script to console log functions as they are executed.
  */
 export function logFunctions(): void {
-  logFunctionss = true;
+	logFunctionss = true;
 }
 
 /**
@@ -19,80 +19,64 @@ export function logFunctions(): void {
  * @author splashcard__ & scuffedItalian
  */
 export function rgb(value: ColorType, colorMultiplier?: number) {
-  if (!value[3]) value.push(1);
-  else value[3] = value[3] * 255;
-  if (colorMultiplier) {
-    return arrMul(value, colorMultiplier / 255).map((x) => {
-      return setDecimals(x, 3);
-    }) as ColorType;
-  } else {
-    return arrDiv(value, 255).map((x) => {
-      return setDecimals(x, 3);
-    }) as ColorType;
-  }
+	if (!value[3]) value.push(1);
+	else value[3] = value[3] * 255;
+	if (colorMultiplier) {
+		return arrMul(value, colorMultiplier / 255).map(x => {
+			return setDecimals(x, 3);
+		}) as ColorType;
+	} else {
+		return arrDiv(value, 255).map(x => {
+			return setDecimals(x, 3);
+		}) as ColorType;
+	}
 }
 
-export function allBetween(
-  time: number,
-  timeEnd: number,
-  forAll: (n: Note) => void,
-) {
-  notesBetween(time, timeEnd, forAll);
-  arcsBetween(time, timeEnd, forAll);
-  chainsBetween(time, timeEnd, forAll);
+export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => void) {
+	notesBetween(time, timeEnd, forAll);
+	arcsBetween(time, timeEnd, forAll);
+	chainsBetween(time, timeEnd, forAll);
 }
 
 export class blenderFrameMath {
-  /**
-   * Some basic math to aid with the timing of Blender animations to RM.
-   * @param bpm The BPM of the song.
-   * @param beats The duration of your animation in RM.
-   * @param fps The fps of your blender project.
-   * @author Aurellis
-   */
-  constructor(public bpm: number, public beats: number, public fps: number) {}
-  /**
-   * Console logs the duration (in seconds) that you animation goes for in the song.
-   */
-  durationInSong() {
-    console.log(
-      `An animation of ${this.beats} beats at ${this.bpm} BPM will take ${
-        this.beats * 60 / this.bpm
-      } seconds`,
-    );
-  }
-  /**
-   * Console logs the total frames required in blender to match your animation.
-   */
-  totalFramesInBlender() {
-    console.log(
-      `The animation will need ${
-        this.beats * this.fps * 60 / this.bpm
-      } total frames in blender at ${this.fps} fps.`,
-    );
-  }
-  /**
-   * Console logs the length in seconds and frames that each beat in your song will take.
-   */
-  beatLength() {
-    console.log(
-      `Each beat takes ${60 / this.bpm} seconds, or ${
-        this.fps * 60 / this.bpm
-      } frames`,
-    );
-  }
-  /**
-   * Gets the same information that the other methods supply. Returning it rather than logging it.
-   * @param property The property you wish to return.
-   * @returns The value of the property.
-   */
-  returnProperty(property: BFM_PROPS) {
-    const _beatTime = 60 / this.bpm; //Seconds per song beat
-    const _seconds = this.beats * _beatTime; //Seconds of full animation
-    const _totalFrames = _seconds * this.fps; //Total frame count of the full animation
-    const _framesPerBeat = _beatTime * this.fps; //Like _beat_time but synced to fps
-    return eval(property); //Converts the string BFM_PROP into the name of one of the consts
-  }
+	/**
+	 * Some basic math to aid with the timing of Blender animations to RM.
+	 * @param bpm The BPM of the song.
+	 * @param beats The duration of your animation in RM.
+	 * @param fps The fps of your blender project.
+	 * @author Aurellis
+	 */
+	constructor(public bpm: number, public beats: number, public fps: number) {}
+	/**
+	 * Console logs the duration (in seconds) that you animation goes for in the song.
+	 */
+	durationInSong() {
+		console.log(`An animation of ${this.beats} beats at ${this.bpm} BPM will take ${(this.beats * 60) / this.bpm} seconds`);
+	}
+	/**
+	 * Console logs the total frames required in blender to match your animation.
+	 */
+	totalFramesInBlender() {
+		console.log(`The animation will need ${(this.beats * this.fps * 60) / this.bpm} total frames in blender at ${this.fps} fps.`);
+	}
+	/**
+	 * Console logs the length in seconds and frames that each beat in your song will take.
+	 */
+	beatLength() {
+		console.log(`Each beat takes ${60 / this.bpm} seconds, or ${(this.fps * 60) / this.bpm} frames`);
+	}
+	/**
+	 * Gets the same information that the other methods supply. Returning it rather than logging it.
+	 * @param property The property you wish to return.
+	 * @returns The value of the property.
+	 */
+	returnProperty(property: BFM_PROPS) {
+		const _beatTime = 60 / this.bpm; //Seconds per song beat
+		const _seconds = this.beats * _beatTime; //Seconds of full animation
+		const _totalFrames = _seconds * this.fps; //Total frame count of the full animation
+		const _framesPerBeat = _beatTime * this.fps; //Like _beat_time but synced to fps
+		return eval(property); //Converts the string BFM_PROP into the name of one of the consts
+	}
 }
 
 /**
@@ -104,28 +88,21 @@ export class blenderFrameMath {
  * @example copytodir(["ExpertPlusStandard","ExpertStandard"],"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Beat Saber\\Beat Saber_Data\\CustomWIPLevels\\Epic map",["script.ts"]);
  * @author Aurellis
  */
-export async function copytodir(
-  diffs: FILENAME<DIFFS>[] = [],
-  todir: string,
-  otherFiles?: Array<string>,
-) {
-  await ensureDir(todir);
-  Deno.copyFile("Info.dat", `${todir}\\Info.dat`);
-  diffs.forEach((file) => {
-    Deno.copyFile(`${file}.dat`, `${todir}\\${file}.dat`);
-  });
-  const song = info.json._songFilename;
-  Deno.copyFile(song, `${todir}\\${song}`);
-  if (info.json._coverImageFilename !== undefined) {
-    Deno.copyFile(
-      info.json._coverImageFilename,
-      `${todir}\\${info.json._coverImageFilename}`,
-    );
-  }
-  otherFiles?.forEach((file) => {
-    Deno.copyFile(`${file}`, `${todir}\\${file}`);
-  });
-  MKLog(`Copied map to ${todir}`);
+export async function copytodir(diffs: FILENAME<DIFFS>[] = [], todir: string, otherFiles?: Array<string>) {
+	await ensureDir(todir);
+	Deno.copyFile("Info.dat", `${todir}\\Info.dat`);
+	diffs.forEach(file => {
+		Deno.copyFile(`${file}.dat`, `${todir}\\${file}.dat`);
+	});
+	const song = info.json._songFilename;
+	Deno.copyFile(song, `${todir}\\${song}`);
+	if (info.json._coverImageFilename !== undefined) {
+		Deno.copyFile(info.json._coverImageFilename, `${todir}\\${info.json._coverImageFilename}`);
+	}
+	otherFiles?.forEach(file => {
+		Deno.copyFile(`${file}`, `${todir}\\${file}`);
+	});
+	MKLog(`Copied map to ${todir}`);
 }
 
 /**
@@ -136,19 +113,15 @@ export async function copytodir(
 
 // deno-lint-ignore no-explicit-any
 export function MKLog(message: any, errorLevel?: "Warning" | "Error") {
-  if (!errorLevel) {
-    console.log(`[MapKey:   ${getSeconds()}s] ${message}`);
-  }
-  if (errorLevel == "Error") {
-    console.log(
-      `\x1b[1m\x1b[31m[Error In MapKey: ${getSeconds()}s] \x1b[31m${message}\x1b[1m\x1b[37m`,
-    );
-  }
-  if (errorLevel == "Warning") {
-    console.log(
-      `\x1b[1m\x1b[33m[Warning In MapKey: ${getSeconds()}s] \x1b[1m\x1b[33m${message}\x1b[1m\x1b[37m`,
-    );
-  }
+	if (!errorLevel) {
+		console.log(`[MapKey:   ${getSeconds()}s] ${message}`);
+	}
+	if (errorLevel == "Error") {
+		console.log(`\x1b[1m\x1b[31m[Error In MapKey: ${getSeconds()}s] \x1b[31m${message}\x1b[1m\x1b[37m`);
+	}
+	if (errorLevel == "Warning") {
+		console.log(`\x1b[1m\x1b[33m[Warning In MapKey: ${getSeconds()}s] \x1b[1m\x1b[33m${message}\x1b[1m\x1b[37m`);
+	}
 }
 
 /**
@@ -157,8 +130,8 @@ export function MKLog(message: any, errorLevel?: "Warning" | "Error") {
  * @returns The unit vector in the direction of the input vector.
  */
 export function vectorUnit(vector: Vec3) {
-  const mag = Math.hypot(vector[0], vector[1], vector[2]);
-  return [vector[0] / mag, vector[1] / mag, vector[2] / mag];
+	const mag = Math.hypot(vector[0], vector[1], vector[2]);
+	return [vector[0] / mag, vector[1] / mag, vector[2] / mag];
 }
 
 /**
@@ -170,15 +143,15 @@ export function vectorUnit(vector: Vec3) {
  * @author Aurellis
  */
 export function pointRotation(point1: Vec3, point2: Vec3, defaultAngle?: Vec3) {
-  const vector = arrSubtract(point2, point1);
-  const angle = [0, 180 * Math.atan2(vector[0], vector[2]) / Math.PI, 0];
-  const pitchPoint = rotatePoint(vector, [0, -angle[1], 0]);
-  angle[0] = -180 * Math.atan2(pitchPoint[1], pitchPoint[2]) / Math.PI;
-  if (defaultAngle) {
-    return arrSubtract(angle, defaultAngle) as Vec3;
-  } else {
-    return angle as Vec3;
-  }
+	const vector = arrSubtract(point2, point1);
+	const angle = [0, (180 * Math.atan2(vector[0], vector[2])) / Math.PI, 0];
+	const pitchPoint = rotatePoint(vector, [0, -angle[1], 0]);
+	angle[0] = (-180 * Math.atan2(pitchPoint[1], pitchPoint[2])) / Math.PI;
+	if (defaultAngle) {
+		return arrSubtract(angle, defaultAngle) as Vec3;
+	} else {
+		return angle as Vec3;
+	}
 }
 
 /**
@@ -188,7 +161,7 @@ export function pointRotation(point1: Vec3, point2: Vec3, defaultAngle?: Vec3) {
  * @example repeat(20, rep =>{ console.log(rep) })
  */
 export function repeat(repeat: number, code: (i: number) => void) {
-  for (let i = 0; i < repeat; i++) code(i);
+	for (let i = 0; i < repeat; i++) code(i);
 }
 
 /**
@@ -199,14 +172,14 @@ export function repeat(repeat: number, code: (i: number) => void) {
  * @param easing Any easing to use.
  * @returns number[] with length = startArr
  */
-export function arrLerp(startArr: number[], endArr: number[], fraction: number, easing?: EASE){
-    if(startArr.length > endArr.length){
-        MKLog("First array must be shorter or equal to the second array.","Error")
-        return [0] as number[]
-    }
-    const res: number[] = []
-    repeat(startArr.length, i =>{
-        res.push(lerp(startArr[i],endArr[i],fraction,easing))
-    })
-    return res
+export function arrLerp(startArr: number[], endArr: number[], fraction: number, easing?: EASE) {
+	if (startArr.length > endArr.length) {
+		MKLog("First array must be shorter or equal to the second array.", "Error");
+		return [0] as number[];
+	}
+	const res: number[] = [];
+	repeat(startArr.length, i => {
+		res.push(lerp(startArr[i], endArr[i], fraction, easing));
+	});
+	return res;
 }
