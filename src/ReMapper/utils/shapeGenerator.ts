@@ -147,7 +147,7 @@ export class Polygon {
 export class primitiveShape {
 	collection: Geometry[] = [];
 	/**
-	 * Generates one of a selection of primitive 3d shapes with Geometry cubes as the edges. (Currently only supports prisms)
+	 * Generates one of a selection of primitive 3d shapes with Geometry cubes as the edges.
 	 * @param material The geo-material to use.
 	 * @param position The position of the center of the shape.
 	 * @param scale The scale of the individual sides of the shape. (Note - the x value is ignored as it is used to fill the sides).
@@ -155,20 +155,9 @@ export class primitiveShape {
 	 * @param track The track for the shape.
 	 * @param iterateTrack (Default - true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < the number of cubes in the shape}
 	 * @param iterateOffset The offset to begin iterating tracks from.
-	 * @todo Delta scale (when I can be bothered figuring out how to apply rotations)
-	 * @todo Remove shapeGenerator calls and generate the cubes manually. Or add a deltaScale to shapeGenerator.
-	 * @todo Ico spheres, torus, probably not cones bc they have weird rotation that I cba figuring out.
 	 * @author Aurellis
 	 */
-	constructor(
-		public material: GeometryMaterial = { shader: "Standard" },
-		public position: Vec3 = [0, 0, 0],
-		public scale: Vec3 = [1, 1, 1],
-		public rotation: Vec3 = [0, 0, 0],
-		public track: string | undefined = undefined,
-		public iterateTrack: boolean = true,
-		public iterateOffset = 0
-	) {}
+	constructor(public material: GeometryMaterial = { shader: "Standard" }, public position: Vec3 = [0, 0, 0], public scale: Vec3 = [1, 1, 1], public rotation: Vec3 = [0, 0, 0], public track: string | undefined = undefined, public iterateTrack: boolean = true, public iterateOffset = 0) {}
 
 	/**
 	 * Push the primitive shape to the active diff.
@@ -196,18 +185,7 @@ export class primitiveShape {
 	 */
 	prism(sides = 3, radius = 10, length = 10, innerCorners?: boolean, alignedSides?: boolean) {
 		this.collection = [];
-		const shape = new Polygon(
-			this.material,
-			sides,
-			radius,
-			arrAdd(rotatePoint([0, 0, -length / 2], this.rotation), this.position),
-			this.scale,
-			this.rotation,
-			innerCorners,
-			this.track,
-			this.iterateTrack,
-			this.iterateOffset
-		);
+		const shape = new Polygon(this.material, sides, radius, arrAdd(rotatePoint([0, 0, -length / 2], this.rotation), this.position), this.scale, this.rotation, innerCorners, this.track, this.iterateTrack, this.iterateOffset);
 		let tempArr: Geometry[] = shape.return();
 		tempArr.forEach(geo => {
 			this.collection.push(geo);
@@ -230,23 +208,9 @@ export class primitiveShape {
 			let angle = (Math.PI * 2 * (side + 0.5)) / sides;
 			let pos;
 			if (innerCorners) {
-				pos = rotatePoint(
-					[
-						-Math.sin(angle) * Math.hypot(radius, (shape.return([0, "scale[0]"]) + shape.return([0, "scale[1]"])) / 2),
-						-Math.cos(angle) * Math.hypot(radius, (shape.return([0, "scale[0]"]) + shape.return([0, "scale[1]"])) / 2),
-						0,
-					],
-					this.rotation
-				);
+				pos = rotatePoint([-Math.sin(angle) * Math.hypot(radius, (shape.return([0, "scale[0]"]) + shape.return([0, "scale[1]"])) / 2), -Math.cos(angle) * Math.hypot(radius, (shape.return([0, "scale[0]"]) + shape.return([0, "scale[1]"])) / 2), 0], this.rotation);
 			} else {
-				pos = rotatePoint(
-					[
-						-Math.sin(angle) * Math.hypot(radius, (shape.return([0, "scale[0]"]) - shape.return([0, "scale[1]"])) / 2),
-						-Math.cos(angle) * Math.hypot(radius, (shape.return([0, "scale[0]"]) - shape.return([0, "scale[1]"])) / 2),
-						0,
-					],
-					this.rotation
-				);
+				pos = rotatePoint([-Math.sin(angle) * Math.hypot(radius, (shape.return([0, "scale[0]"]) - shape.return([0, "scale[1]"])) / 2), -Math.cos(angle) * Math.hypot(radius, (shape.return([0, "scale[0]"]) - shape.return([0, "scale[1]"])) / 2), 0], this.rotation);
 			}
 			cube.position = arrAdd(pos, this.position);
 			if (alignedSides) {

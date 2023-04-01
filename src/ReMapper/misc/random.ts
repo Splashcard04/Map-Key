@@ -13,13 +13,7 @@ export class randArray {
 	 * @param algorithm The seeded prng algorithm to use.
 	 * @author Aurellis
 	 */
-	constructor(
-		public seed: number | string = Date.now(),
-		public range: [number, number] = [0, 1],
-		public length: number = 2,
-		public decimals = 5,
-		public algorithm: "mulberry32" | "jsf32" | "sfc32" | "xoshiro128" = "mulberry32"
-	) {
+	constructor(public seed: number | string = Date.now(), public range: [number, number] = [0, 1], public length: number = 2, public decimals = 5, public algorithm: "mulberry32" | "jsf32" | "sfc32" | "xoshiro128" = "mulberry32") {
 		range.sort((a, b) => {
 			if (a > b) return 1;
 			if (a < b) return -1;
@@ -182,13 +176,8 @@ export class Noise {
  * @returns Random number.
  * @author Aurellis
  */
-export function seedRNG(min: number, max: number, seed?: number | string) {
-	const number = new Seed("", PRNGs.mulberry32);
-	if (seed) {
-		number.seed = seed.toString();
-	} else {
-		number.seed = Date.now().toString();
-	}
+export function seedRNG(min: number, max: number, seed: number | string = Date.now()) {
+	const number = new Seed(seed.toString(), PRNGs.mulberry32);
 	if (min > max) {
 		const temp = min;
 		min = max;
@@ -249,13 +238,11 @@ export function graphDistribution(arr: number[], points: number, magnitude: numb
 		return Math.floor((x * magnitude) / max[max.length - 1]);
 	});
 	// Convert the array to a string of | and log them.
-	let i = 0;
 	length.forEach(val => {
 		const out: string[] = [];
-		repeat(val, _i => {
+		repeat(val, () => {
 			out.push("|");
 		});
 		console.log(out.toString().replace(/,/g, ""));
-		i++;
 	});
 }
