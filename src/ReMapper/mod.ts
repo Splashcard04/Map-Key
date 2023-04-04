@@ -12,6 +12,7 @@ export * from "./utils/filters.ts";
 export * from "./utils/multiEnv.ts";
 export * from "./utils/text.ts";
 export * from "./utils/userSharedEnvs.ts";
+export * from "./utils/optimizers.ts";
 
 export * from "./misc/logMapData.ts";
 export * from "./misc/random.ts";
