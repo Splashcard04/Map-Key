@@ -131,7 +131,7 @@ export function MKLog(message: any, errorLevel?: "Warning" | "Error") {
  */
 export function vectorUnit(vector: Vec3) {
 	const mag = Math.hypot(vector[0], vector[1], vector[2]);
-	return [vector[0] / mag, vector[1] / mag, vector[2] / mag];
+	return [vector[0] / mag, vector[1] / mag, vector[2] / mag] as Vec3;
 }
 
 /**
