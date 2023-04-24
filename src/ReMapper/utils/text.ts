@@ -20,7 +20,8 @@ export class textToWall {
 	}
 }
 
-export class textBuilder {
+// deno-lint-ignore no-unused-vars
+class textBuilder {
 	private json: Json = { object: new Geometry("Cube", { shader: "Standard" }) };
 	/**
 	 * build a text to object scene

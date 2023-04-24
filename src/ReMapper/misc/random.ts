@@ -179,9 +179,7 @@ export class Noise {
 export function seedRNG(min: number, max: number, seed: number | string = Date.now()) {
 	const number = new Seed(seed.toString(), PRNGs.mulberry32);
 	if (min > max) {
-		const temp = min;
-		min = max;
-		max = temp;
+		[min, max] = [max, min];
 	}
 	return number.randomFloat(min, max);
 }

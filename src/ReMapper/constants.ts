@@ -3,39 +3,9 @@ import { ColorType } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
 //Property presets for BlenderFrameMath
 export type BFM_PROPS = "_beatTime" | "_seconds" | "_totalFrames" | "_framesPerBeat";
 
-export type GEO_FILTER_PROPS =
-	| "track"
-	| "position"
-	| "rotation"
-	| "scale"
-	| "type"
-	| "material"
-	| "position[0]"
-	| "position[1]"
-	| "position[2]"
-	| "rotation[0]"
-	| "rotation[1]"
-	| "rotation[2]"
-	| "scale[0]"
-	| "scale[1]"
-	| "scale[2]";
+export type GEO_FILTER_PROPS = "track" | "position" | "rotation" | "scale" | "type" | "material" | "position[0]" | "position[1]" | "position[2]" | "rotation[0]" | "rotation[1]" | "rotation[2]" | "scale[0]" | "scale[1]" | "scale[2]";
 
-export type ENV_FILTER_PROPS =
-	| "track"
-	| "position"
-	| "rotation"
-	| "scale"
-	| "id"
-	| "lookupMethod"
-	| "position[0]"
-	| "position[1]"
-	| "position[2]"
-	| "rotation[0]"
-	| "rotation[1]"
-	| "rotation[2]"
-	| "scale[0]"
-	| "scale[1]"
-	| "scale[2]";
+export type ENV_FILTER_PROPS = "track" | "position" | "rotation" | "scale" | "id" | "lookupMethod" | "position[0]" | "position[1]" | "position[2]" | "rotation[0]" | "rotation[1]" | "rotation[2]" | "scale[0]" | "scale[1]" | "scale[2]";
 
 export type NOTE_FILTER_PROPS =
 	| "time"
@@ -319,20 +289,7 @@ export type shaderKeywords = {
 		| "_WHITEBOOSTTYPE_NONE"
 		| "_ZWRITE_ON"
 	>;
-	BTSPillar?: Array<
-		| "DIFFUSE"
-		| "ENABLE_DIFFUSE"
-		| "ENABLE_FOG"
-		| "ENABLE_HEIGHT_FOG"
-		| "ENABLE_SPECULAR"
-		| "FOG"
-		| "HEIGHT_FOG"
-		| "REFLECTION_PROBE_BOX_PROJECTION"
-		| "SPECULAR"
-		| "_EMISSION"
-		| "_ENABLE_FOG_TINT"
-		| "_RIMLIGHT_NONE"
-	>;
+	BTSPillar?: Array<"DIFFUSE" | "ENABLE_DIFFUSE" | "ENABLE_FOG" | "ENABLE_HEIGHT_FOG" | "ENABLE_SPECULAR" | "FOG" | "HEIGHT_FOG" | "REFLECTION_PROBE_BOX_PROJECTION" | "SPECULAR" | "_EMISSION" | "_ENABLE_FOG_TINT" | "_RIMLIGHT_NONE">;
 	InterscopeCar?: Array<
 		| "ENABLE_DIFFUSE"
 		| "ENABLE_DIRT"
@@ -374,23 +331,6 @@ export type shaderKeywords = {
 		| "_ENABLE_FOG_TINT"
 		| "_RIMLIGHT_NONE"
 	>;
-	Standard?: Array<
-		| "DIFFUSE"
-		| "ENABLE_DIFFUSE"
-		| "ENABLE_FOG"
-		| "ENABLE_HEIGHT_FOG"
-		| "ENABLE_SPECULAR"
-		| "FOG"
-		| "HEIGHT_FOG"
-		| "REFLECTION_PROBE_BOX_PROJECTION"
-		| "SPECULAR"
-		| "_EMISSION"
-		| "_ENABLE_FOG_TINT"
-		| "_RIMLIGHT_NONE"
-	>;
+	Standard?: Array<"DIFFUSE" | "ENABLE_DIFFUSE" | "ENABLE_FOG" | "ENABLE_HEIGHT_FOG" | "ENABLE_SPECULAR" | "FOG" | "HEIGHT_FOG" | "REFLECTION_PROBE_BOX_PROJECTION" | "SPECULAR" | "_EMISSION" | "_ENABLE_FOG_TINT" | "_RIMLIGHT_NONE">;
 	WaterfallMirror?: Array<"DETAIL_NORMAL_MAP" | "ENABLE_MIRROR" | "ETC1_EXTERNAL_ALPHA" | "LIGHTMAP" | "REFLECTION_PROBE_BOX_PROJECTION" | "_EMISSION">;
 };
-
-//Used for one noteMod
-
-export type easeBase = "Sine" | "Quad" | "Cubic" | "Quart" | "Quint" | "Circ" | "Linear" | "Step";

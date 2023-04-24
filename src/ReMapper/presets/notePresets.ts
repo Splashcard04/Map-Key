@@ -1,6 +1,7 @@
 import { activeDiffGet, copy, CustomEvent, EASE, Note, notesBetween, rand } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
-import { easeBase } from "../constants.ts";
 import { allBetween, MKLog, repeat } from "../utils/general.ts";
+
+export type easeBase = "Sine" | "Quad" | "Cubic" | "Quart" | "Quint" | "Circ" | "Linear" | "Step";
 
 export class noteMod {
 	/**
