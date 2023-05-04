@@ -127,8 +127,8 @@ export type optimizeFakeSettings = {
 };
 
 /**
- * Makes all objects that are set to uninteractable also be fake.
- * @param objects Change which objects to affect.
+ * Makes all objects that are set to uninteractable also be fake to save performance.
+ * @param objects Change which objects to affect (all are set to true by default).
  */
 export function optimizeFake(objects: optimizeFakeSettings = { notes: true, bombs: true, arcs: true, chains: true, walls: true }) {
 	if (objects.notes) {
