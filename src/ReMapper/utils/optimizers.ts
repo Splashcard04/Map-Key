@@ -48,7 +48,7 @@ export function optimizeMaterials(namingMethod: materialNamingMethods = "Numbere
  * Applies static animations from animateTracks at beat 0 to the data of the env/geo objects they affect.
  * @param deleteAnims (Default - true) deletes the track animations that are being converted over to the envs/geo.
  */
-export function staticEnvironmentOptimizer(deleteAnims = true) {
+export function optimizeStaticEnvironment(deleteAnims = true) {
 	let remArr: number[] = [];
 	activeDiffGet().geometry(arr => {
 		arr.forEach(geo => {
@@ -114,6 +114,101 @@ export function staticEnvironmentOptimizer(deleteAnims = true) {
 			activeDiffGet().animateTracks(animarr => {
 				animarr.splice(remArr[i], 1);
 			});
+		}
+	}
+}
+
+export type optimizeFakeSettings = {
+	notes?: boolean;
+	bombs?: boolean;
+	arcs?: boolean;
+	chains?: boolean;
+	walls?: boolean;
+};
+
+/**
+ * Makes all objects that are set to uninteractable also be fake.
+ * @param objects Change which objects to affect.
+ */
+export function optimizeFake(objects: optimizeFakeSettings = { notes: true, bombs: true, arcs: true, chains: true, walls: true }) {
+	if (objects.notes) {
+		let noteDelArr: number[] = [];
+		let i = 0;
+		activeDiffGet().notes.forEach(note => {
+			if (note.interactable == false) {
+				const nu = copy(note);
+				nu.push(false);
+				noteDelArr.push(i);
+			}
+			i++;
+		});
+		noteDelArr = Array.from(new Set(noteDelArr));
+		for (let i = noteDelArr.length - 1; i >= 0; i--) {
+			activeDiffGet().notes.splice(noteDelArr[i], 1);
+		}
+	}
+	if (objects.bombs) {
+		let bombDelArr: number[] = [];
+		let i = 0;
+		activeDiffGet().bombs.forEach(bomb => {
+			if (bomb.interactable == false) {
+				const nu = copy(bomb);
+				nu.push(true);
+				bombDelArr.push(i);
+			}
+			i++;
+		});
+		bombDelArr = Array.from(new Set(bombDelArr));
+		for (let i = bombDelArr.length - 1; i >= 0; i--) {
+			activeDiffGet().bombs.splice(bombDelArr[i], 1);
+		}
+	}
+	if (objects.arcs) {
+		let arcDelArr: number[] = [];
+		let i = 0;
+		activeDiffGet().arcs.forEach(arc => {
+			if (arc.interactable == false) {
+				const nu = copy(arc);
+				nu.push(true);
+				arcDelArr.push(i);
+			}
+			i++;
+		});
+		arcDelArr = Array.from(new Set(arcDelArr));
+		for (let i = arcDelArr.length - 1; i >= 0; i--) {
+			activeDiffGet().arcs.splice(arcDelArr[i], 1);
+		}
+	}
+	if (objects.chains) {
+		let chainDelArr: number[] = [];
+		let i = 0;
+		activeDiffGet().chains.forEach(chain => {
+			if (chain.interactable == false) {
+				const nu = copy(chain);
+				nu.push(true);
+				chainDelArr.push(i);
+			}
+			i++;
+		});
+		chainDelArr = Array.from(new Set(chainDelArr));
+		for (let i = chainDelArr.length - 1; i >= 0; i--) {
+			activeDiffGet().chains.splice(chainDelArr[i], 1);
+		}
+	}
+	if (objects.walls) {
+		let wallDelArr: number[] = [];
+		let i = 0;
+		activeDiffGet().walls.forEach(wall => {
+			if (wall.interactable == false) {
+				const nu = copy(wall);
+				nu.push(false);
+				wallDelArr.push(i);
+			}
+			i++;
+		});
+		wallDelArr = Array.from(new Set(wallDelArr));
+		for (let i = wallDelArr.length - 1; i >= 0; i--) {
+			activeDiffGet().walls.splice(wallDelArr[i], 1);
 		}
 	}
 }
