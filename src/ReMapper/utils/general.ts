@@ -15,7 +15,7 @@ export function logFunctions(): void {
  * Convert gamma RGB to linear RGB. (RGB from 0-255, into RGB from 0-1).
  * @param value RGB color from 0-255, alpha values are still 0-1.
  * @param colorMultiplier Optional, multiplier for your color to make it brighter.
- * @returns Linear RGB values.
+ * @returns ColorType - Linear RGB values.
  * @author splashcard__ & scuffedItalian
  */
 export function rgb(value: ColorType, colorMultiplier?: number) {
@@ -127,7 +127,7 @@ export function MKLog(message: any, errorLevel?: "Warning" | "Error") {
 /**
  * Finds the unit vector in the same direction as another vector.
  * @param vector The vector to find the unit of.
- * @returns The unit vector in the direction of the input vector.
+ * @returns Vec3 - The unit vector in the direction of the input vector.
  */
 export function vectorUnit(vector: Vec3) {
 	const mag = Math.hypot(vector[0], vector[1], vector[2]);
@@ -139,7 +139,7 @@ export function vectorUnit(vector: Vec3) {
  * @param point1 The position of the object.
  * @param point2 Where the object should be facing.
  * @param defaultAngle The angle that determines where "forwards" is for the object, defaults to the +z axis. (i.e., player - [0,0,0], notes - [0,180,0], upwards facing lasers - [-90,0,0] etc.)
- * @returns The rotation for the object at point1.
+ * @returns Vec3 - The rotation for the object at point1.
  * @author Aurellis
  */
 export function pointRotation(point1: Vec3, point2: Vec3, defaultAngle?: Vec3) {
@@ -170,7 +170,7 @@ export function repeat(repeat: number, code: (i: number) => void) {
  * @param endArr The ending arr. This must be longer than or equal to the first arr.
  * @param fraction The fraction of lerp.
  * @param easing Any easing to use.
- * @returns number[] with length = startArr
+ * @returns number[] - with length = startArr
  */
 export function arrLerp(startArr: number[], endArr: number[], fraction: number, easing?: EASE) {
 	if (startArr.length > endArr.length) {
@@ -182,4 +182,15 @@ export function arrLerp(startArr: number[], endArr: number[], fraction: number, 
 		res.push(lerp(startArr[i], endArr[i], fraction, easing));
 	});
 	return res;
+}
+
+/**
+ * Finds the distance between 2 points.
+ * @param point1 The first point.
+ * @param point2 The second point.
+ * @returns number - The distance between point1 and point2.
+ */
+export function distance(point1: Vec3, point2: Vec3) {
+	// Literally just an abstraction of Math.hypot(), but it is a bit more user-friendly
+	return Math.hypot(point2[0] - point1[0], point2[1] - point1[1], point2[2] - point1[2]);
 }
