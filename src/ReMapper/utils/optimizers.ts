@@ -137,7 +137,7 @@ export function optimizeFake(objects: optimizeFakeSettings = { notes: true, bomb
 		activeDiffGet().notes.forEach(note => {
 			if (note.interactable == false) {
 				const nu = copy(note);
-				nu.push(false);
+				nu.push(true);
 				noteDelArr.push(i);
 			}
 			i++;
@@ -201,7 +201,7 @@ export function optimizeFake(objects: optimizeFakeSettings = { notes: true, bomb
 		activeDiffGet().walls.forEach(wall => {
 			if (wall.interactable == false) {
 				const nu = copy(wall);
-				nu.push(false);
+				nu.push(true);
 				wallDelArr.push(i);
 			}
 			i++;
