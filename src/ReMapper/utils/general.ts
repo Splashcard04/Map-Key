@@ -199,13 +199,13 @@ export function distance(point1: Vec3, point2: Vec3) {
  * Works the same way as rotatepoint but returns a keyframe, so you can replace a keyframe with this function.
  * @param pos The position/ point to be rotated.
  * @param rot The rotation of the point
- * @param frameTime The "time" value for the keyframe.
  * @param anchor The optional anchor to add on top of the rotation.
+ * @param frameTime The "time" value for the keyframe.
  * @param ease The optional easing of the keyframe.
  * @param spline The optional spline of the keyframe.
  * @returns Keyframe.
  */
-export function rotatedKeyframe(pos: Vec3, rot: Vec3, frameTime: number, anchor: Vec3, ease: EASE = "easeLinear", spline?: "splineCatmullRom") {
+export function rotatedKeyframe(pos: Vec3, rot: Vec3, anchor: Vec3, frameTime: number, ease: EASE = "easeLinear", spline?: "splineCatmullRom") {
 	const point = rotatePoint(pos, rot, anchor);
 	if (spline) {
 		return [point[0], point[1], point[2], frameTime, ease, spline] as [number, number, number, number, EASE, "splineCatmullRom"];
