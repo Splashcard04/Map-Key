@@ -103,24 +103,6 @@ export class Polygon {
 
 			// Apply the offset position to the rotated position
 			cube.position = arrAdd(rotatePoint([-Math.sin(angle) * this.radius, -Math.cos(angle) * this.radius, 0], this.rotation), this.position);
-
-			/*
-                So that I remember how this math works - Aurellis
-
-                The scale is determined by using the "Length of a chord in a circle formula".
-                l = 2rsin(theta/2)
-                => rsin(theta/2) = l/2 (since l/2 is the opp of a triangle formed by r, l/2, and the line between [0,0,0] and the midpoint of l)
-                => since r = hyp and l/2 = opp, therefore sin(theta/2) = 0.5l/r.
-                This works for a chord where the ends are r distance from [0,0,0].
-
-                but our case uses a chord where the midpoint is r distance from [0,0,0],
-                therefore tan is applicable as opp/adj rather than opp/hyp since r is now adj rather than hyp.
-                giving the formula 2rTan(theta/2). where theta = 2pi/2sides or simplified pi/sides.
-
-                then, to account for the fact that the line is 2d rather than 1d,
-                the r value can either be radius-scale for the innermost corner to touch,
-                or radius+scale for the outermost corners to touch.
-                */
 			if (this.innercorners) {
 				cube.scale = [(this.radius - this.scale[1] / 2) * Math.tan(Math.PI / this.sides) * 2, this.scale[1], this.scale[2]];
 			} else {

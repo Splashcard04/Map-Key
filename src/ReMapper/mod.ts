@@ -18,3 +18,4 @@ export * from "./misc/logMapData.ts";
 export * from "./misc/random.ts";
 
 export * from "./presets/notePresets.ts";
+export * from "./presets/fonts.ts";
