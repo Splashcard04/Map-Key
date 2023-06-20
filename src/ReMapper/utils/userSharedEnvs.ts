@@ -72,7 +72,7 @@ export async function exportShareableEnv(settings?: USESettings) {
 			const nu = copy(geo);
 			nu.json.geometry = {
 				_type: geo.type,
-				_material: geo.material,
+				_material: geo.material
 			};
 			if (nu.json.track) {
 				delete nu.json.track;
@@ -94,27 +94,34 @@ export async function exportShareableEnv(settings?: USESettings) {
 	if (envArray.length == 0) {
 		MKLog("Map doesn't contain eny environments! Shareable env will be empty...", "Warning");
 	}
-	// Create the json object
-	const outData = {
-		version: "1.0.0",
-		name: settings.name,
-		author: settings.author,
-		environmentVersion: settings.environmentVersion,
-		environmentName: info.environment,
-		description: settings.description,
-		features: settings.features,
-		environment: envArray.map((x: Json) => {
-			return x.json;
-		}),
-		materials: activeDiffGet().geoMaterials,
-	};
 	//Create the file
 	try {
-		await Deno.writeTextFile(`${settings.name}.dat`, JSON.stringify(outData));
+		await Deno.writeTextFile(
+			`${settings.name}.dat`,
+			JSON.stringify({
+				version: "1.0.0",
+				name: settings.name,
+				author: settings.author,
+				environmentVersion: settings.environmentVersion,
+				environmentName: info.environment,
+				description: settings.description,
+				features: settings.features,
+				environment: envArray.map((x: Json) => {
+					return x.json;
+				}),
+				materials: activeDiffGet().geoMaterials
+			})
+		);
 	} catch (error) {
 		MKLog(error, "Error");
 	}
-	MKLog(`Exported ${outData.environment.length} environments to "${settings.name}.dat"...`);
+	MKLog(
+		`Exported ${
+			envArray.map((x: Json) => {
+				return x.json;
+			}).length
+		} environments to "${settings.name}.dat"...`
+	);
 }
 
 /**
@@ -135,7 +142,7 @@ export function importShareableEnv(file: string, conflictingBaseEnv?: "Keep Map 
 			if (x.geometry._material && x.geometry._type) {
 				x.geometry = {
 					type: x.geometry._type,
-					material: x.geometry._material,
+					material: x.geometry._material
 				};
 			}
 			// Import the modified geometry
