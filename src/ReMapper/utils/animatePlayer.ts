@@ -1,4 +1,4 @@
-import { CustomEvent, CustomEventInternals, Note } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { CustomEvent, CustomEventInternals, Note } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { allBetween, logFunctionss, MKLog } from "./general.ts";
 
 export class playerAnim {
@@ -9,13 +9,7 @@ export class playerAnim {
 	 * @param animation Assign data to the track to assign player / notes to.
 	 * @author Splashcard & Aurellis
 	 */
-	constructor(
-		public time: number = 0,
-		public timeEnd: number = 0,
-		public animation?: (x: CustomEventInternals.AnimateTrack) => void,
-		public playerTrack: string = "player",
-		public noteTrack: string = "notes"
-	) {
+	constructor(public time: number = 0, public timeEnd: number = 0, public animation?: (x: CustomEventInternals.AnimateTrack) => void, public playerTrack: string = "player", public noteTrack: string = "notes") {
 		this.playerTrack = playerTrack;
 		this.noteTrack = noteTrack;
 	}

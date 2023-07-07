@@ -1,4 +1,4 @@
-import { activeDiffGet, copy, Environment, ENV_NAMES, Geometry, info, Json, jsonPrune, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { activeDiffGet, copy, Environment, ENV_NAMES, Geometry, info, Json, jsonPrune, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { MKLog } from "./general.ts";
 
 export type USESettings = {

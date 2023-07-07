@@ -1,4 +1,4 @@
-import { Geometry, activeDiffGet, Environment, Note } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { Geometry, activeDiffGet, Environment, Note } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { GEO_FILTER_PROPS, ENV_FILTER_PROPS, position, rotation, scale, NOTE_FILTER_PROPS, localRotation } from "../constants.ts";
 import { logFunctionss, MKLog } from "./general.ts";
 

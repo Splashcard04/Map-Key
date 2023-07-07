@@ -1,4 +1,4 @@
-import { ModelScene, Text, Wall, GroupObjectTypes, Json, Geometry } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { ModelScene, Text, Wall, GroupObjectTypes, Json, Geometry } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 
 export class textToWall {
 	/**

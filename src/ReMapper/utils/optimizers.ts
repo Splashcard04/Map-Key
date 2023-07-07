@@ -1,4 +1,4 @@
-import { activeDiffGet, copy, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { activeDiffGet, copy, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 
 export type materialNamingMethods = "Numbered" | "By Properties" | "Geometry Type Numbered" | "Shader Numbered";
 

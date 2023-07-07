@@ -1,4 +1,4 @@
-import { activeDiff } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { activeDiff } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { graphDistribution } from "./random.ts";
 
 export class functionLogger {
@@ -17,11 +17,7 @@ export class functionLogger {
         `);
 
 		if (this.objects) {
-			console.log(
-				`\x1b[36m======== Object Data ========`,
-				"\n",
-				`\x1b[32mnotes: ${map.notes.length}\n walls: ${map.walls.length}\n bombs: ${map.bombs.length}\n arcs: ${map.arcs.length}\n chains: ${map.chains.length}`
-			);
+			console.log(`\x1b[36m======== Object Data ========`, "\n", `\x1b[32mnotes: ${map.notes.length}\n walls: ${map.walls.length}\n bombs: ${map.bombs.length}\n arcs: ${map.arcs.length}\n chains: ${map.chains.length}`);
 			if (graph) {
 				console.log(`\x1b[36mMap note frequency:\n\x1b[31mStart:\x1b[97m`);
 				let arr: number[] = [];
@@ -41,11 +37,7 @@ export class functionLogger {
 		}
 
 		if (this.fakeArray) {
-			console.log(
-				`\x1b[36m======== Fake Array ========`,
-				"\n",
-				`\x1b[32mfake notes: ${map.fakeNotes.length}\n fake walls: ${map.fakeWalls.length}\n fake bombs: ${map.fakeBombs.length}\n fake chains: ${map.fakeChains.length}`
-			);
+			console.log(`\x1b[36m======== Fake Array ========`, "\n", `\x1b[32mfake notes: ${map.fakeNotes.length}\n fake walls: ${map.fakeWalls.length}\n fake bombs: ${map.fakeBombs.length}\n fake chains: ${map.fakeChains.length}`);
 			if (graph) {
 				console.log(`\x1b[36mMap fake note frequency:\n\x1b[31mStart:\x1b[97m`);
 				let arr: number[] = [];

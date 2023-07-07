@@ -1,4 +1,4 @@
-import { ModelScene, GroupObjectTypes, Environment, Geometry, Json } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { ModelScene, GroupObjectTypes, Environment, Geometry, Json } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 
 export class laserScene {
 	json: Json = {};

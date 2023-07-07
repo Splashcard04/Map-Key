@@ -1,4 +1,4 @@
-import { activeDiffGet, copy, CustomEvent, EASE, Note, notesBetween, rand } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { activeDiffGet, copy, CustomEvent, EASE, Note, notesBetween, rand } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { allBetween, MKLog, repeat } from "../utils/general.ts";
 
 export type easeBase = "Sine" | "Quad" | "Cubic" | "Quart" | "Quint" | "Circ" | "Linear" | "Step";
@@ -24,7 +24,7 @@ export class noteMod {
 				note.animation.offsetPosition = [
 					[position[0] - note.x, position[1] - note.y, 0, 0],
 					[position[0] - note.x, position[1] - note.y, 0, jumpTime[0]],
-					[0, 0, 0, jumpTime[1], "easeOutCubic"],
+					[0, 0, 0, jumpTime[1], "easeOutCubic"]
 				];
 			}
 			if (this.extraData) {
@@ -64,7 +64,7 @@ export class noteMod {
 				[0, 0, jd, 0],
 				[0, 0, jd * (0.5 - slowPoint), slowPoint, eval(`"${easeIn}"`)],
 				[0, 0, 0, 0.5, eval(`"${easeOut}"`)],
-				[0, 0, -1000, 1, "easeInCirc"],
+				[0, 0, -1000, 1, "easeInCirc"]
 			];
 
 			if (this.extraData) {
@@ -90,7 +90,7 @@ export class noteMod {
 			for (let i = 0; i < duration; i++) {
 				animtrack.animate.add("scale", [
 					[pulseSize, pulseSize, pulseSize, i],
-					[1, 1, 1, i + 0.999],
+					[1, 1, 1, i + 0.999]
 				]);
 			}
 			animtrack.push();
@@ -115,12 +115,12 @@ export class noteMod {
 			if (splitBy == "type") {
 				note.animation.offsetPosition = [
 					[spawnDistance * 2 * (note.type - 0.5), 0, 0, 0],
-					[0, 0, 0, animationEnd, "easeOutQuad"],
+					[0, 0, 0, animationEnd, "easeOutQuad"]
 				];
 			} else {
 				note.animation.offsetPosition = [
 					[spawnDistance * (Math.abs(note.x - 1.5) / (note.x - 1.5)), 0, 0, 0],
-					[0, 0, 0, animationEnd, "easeOutQuad"],
+					[0, 0, 0, animationEnd, "easeOutQuad"]
 				];
 			}
 			if (this.extraData) {
@@ -162,7 +162,7 @@ export class noteMod {
 				note.animation.offsetPosition = [
 					[0, streamY - note.y, 0, 0],
 					[0, streamY - note.y, 0, jumpTime[0]],
-					[0, 0, 0, jumpTime[1], easing],
+					[0, 0, 0, jumpTime[1], easing]
 				];
 				note.noteGravity = false;
 				if (this.extraData) {
@@ -192,19 +192,19 @@ export class noteMod {
 			anim.animate.add("offsetPosition", [
 				[0, 0, 0, i * 2, "easeInQuad"],
 				[moveDistance, 0, 0, i * 2 + 0.5, "easeOutQuad"],
-				[-moveDistance, 0, 0, i * 2 + 1.5, "easeInOutQuad"],
+				[-moveDistance, 0, 0, i * 2 + 1.5, "easeInOutQuad"]
 			]);
 			if (rotateFrom == "Top") {
 				anim.animate.add("localRotation", [
 					[0, 0, 0, i * 2, "easeInQuad"],
 					[0, 0, rotateAngle, i * 2 + 0.5, "easeOutQuad"],
-					[0, 0, -rotateAngle, i * 2 + 1.5, "easeInOutQuad"],
+					[0, 0, -rotateAngle, i * 2 + 1.5, "easeInOutQuad"]
 				]);
 			} else {
 				anim.animate.add("localRotation", [
 					[0, 0, 0, i * 2, "easeInQuad"],
 					[0, 0, -rotateAngle, i * 2 + 0.5, "easeOutQuad"],
-					[0, 0, rotateAngle, i * 2 + 1.5, "easeInOutQuad"],
+					[0, 0, rotateAngle, i * 2 + 1.5, "easeInOutQuad"]
 				]);
 			}
 		}
@@ -223,13 +223,13 @@ export class noteMod {
 				note.animation.offsetPosition = [
 					[0, 0, 0, time[0]],
 					[0, height, 0, time[1], easing[0]],
-					[0, 0, 0, time[2], easing[1]],
+					[0, 0, 0, time[2], easing[1]]
 				];
 			} else {
 				note.animation.offsetPosition = [
 					[0, 0, 0, time[0]],
 					[0, height, 0, time[1], "easeOutSine"],
-					[0, 0, 0, time[2], "easeInSine"],
+					[0, 0, 0, time[2], "easeInSine"]
 				];
 			}
 			if (this.extraData) {
@@ -251,7 +251,7 @@ export class noteMod {
 				nu.animation.dissolveArrow = [0];
 				nu.animation.dissolve = [
 					[1 - (i + 1) / (length + 1), fadeTimings[0]],
-					[0, fadeTimings[1], despawnEasing],
+					[0, fadeTimings[1], despawnEasing]
 				];
 				nu.time = note.time + (i + 1) * gap;
 				nu.interactable = false;

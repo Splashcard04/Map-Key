@@ -1,4 +1,4 @@
-import { ColorType, Vec3 } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { ColorType, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 
 type TextObject = {
 	pos: Vec3;

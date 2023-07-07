@@ -1,4 +1,4 @@
-import { Environment } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { Environment } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { MKLog, logFunctionss } from "./general.ts";
 
 export class multiEnv {

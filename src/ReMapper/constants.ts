@@ -1,4 +1,4 @@
-import { ColorType } from "https://deno.land/x/remapper@3.1.1/src/mod.ts";
+import { ColorType } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 
 //Property presets for BlenderFrameMath
 export type BFM_PROPS = "_beatTime" | "_seconds" | "_totalFrames" | "_framesPerBeat";
@@ -36,25 +36,25 @@ export type NOTE_FILTER_PROPS =
 export enum position {
 	x = "position[0]",
 	y = "position[1]",
-	z = "position[2]",
+	z = "position[2]"
 }
 
 export enum rotation {
 	pitch = "rotation[0]",
 	yaw = "rotation[1]",
-	roll = "rotation[2]",
+	roll = "rotation[2]"
 }
 
 export enum localRotation {
 	pitch = "localRotation[0]",
 	yaw = "localRotation[1]",
-	roll = "localRotation[2]",
+	roll = "localRotation[2]"
 }
 
 export enum scale {
 	x = "scale[0]",
 	y = "scale[1]",
-	z = "scale[2]",
+	z = "scale[2]"
 }
 
 export const Env = {
@@ -63,7 +63,7 @@ export const Env = {
 		Lightning: "1L\\.\\[\\d+\\]\\w+\\.\\[\\d+\\]LightningWithTarget$",
 		solidLaser: "FrontLaserL$",
 		directionalLight: "DirectionalLightFront$",
-		gagaLogo: "[^Logo]{4}\\.\\[\\d+\\]Logo$",
+		gagaLogo: "[^Logo]{4}\\.\\[\\d+\\]Logo$"
 	},
 	billie: {
 		directionalLight: "Day\\.\\[\\d+\\]\\w+Front$",
@@ -72,20 +72,20 @@ export const Env = {
 		clouds: "Clouds$",
 		smoke: "BigSmokePS$",
 		railLight: "t\\.\\[\\d+\\]Neon\\w+L$",
-		rain: "Rain$",
+		rain: "Rain$"
 	},
 	BTS: {
 		doorLight: "MagicDoorSprite",
 		upperClouds: "HighCloudsGenerator$",
 		lowerClouds: "LowCloudsGenerator$",
-		allClouds: "Clouds$",
+		allClouds: "Clouds$"
 	},
 	all: {
 		cinemaScreen: "CinemaScreen$",
 		cinemaDirLight: "CinemaDirectionalLight$",
 		mirror: "Place\\.\\[\\d+\\]Mirror$",
-		playerPlatform: "PlayersPlace$",
-	},
+		playerPlatform: "PlayersPlace$"
+	}
 };
 
 export enum lightTypes {
@@ -100,7 +100,7 @@ export enum lightTypes {
 	billieLeft = 10,
 	billieRight = 11,
 	gagaLeft = 18,
-	gagaRight = 19,
+	gagaRight = 19
 }
 
 export const colors = {
@@ -241,13 +241,13 @@ export const colors = {
 		lightGray: [211, 211, 211, 1] as ColorType,
 		gainsboro: [220, 220, 220, 1] as ColorType,
 		whiteSmoke: [245, 245, 245, 1] as ColorType,
-		white: [255, 255, 255, 1] as ColorType,
+		white: [255, 255, 255, 1] as ColorType
 	},
 	pink: [1, 0.3, 1, 1] as ColorType,
 	orange: [1, 0.45, 0.1, 1] as ColorType,
 	yellow: [1, 1, 0.1, 1] as ColorType,
 	brown: [0.5, 0.12, 0.01, 1] as ColorType,
-	cyan: [0.1, 0.9, 0.9, 1],
+	cyan: [0.1, 0.9, 0.9, 1]
 };
 
 export type shaderKeywords = {
