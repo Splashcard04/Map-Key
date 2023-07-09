@@ -1,4 +1,4 @@
-import { ColorType } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+type ColorType = [number, number, number, number] | [number, number, number]
 
 //Property presets for BlenderFrameMath
 export type BFM_PROPS = "_beatTime" | "_seconds" | "_totalFrames" | "_framesPerBeat";
