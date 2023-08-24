@@ -213,3 +213,15 @@ export function rotatedKeyframe(pos: Vec3, rot: Vec3, anchor: Vec3, frameTime: n
 		return [point[0], point[1], point[2], frameTime, ease] as [number, number, number, number, EASE];
 	}
 }
+
+/**
+ * Create a new array from a function of x. e.g arrFromFunction(10, x => { return 2 * x })
+ * @param length The length of the arr.
+ * @param func The function to run through the arr.
+ * @returns arr
+ */
+export function arrFromFunction(length: number, func: (x: number) => void) {
+	return Array.from(Array(length).keys()).map(x => {
+		return func(x);
+	});
+}
