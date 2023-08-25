@@ -1,6 +1,9 @@
-export type GEO_FILTER_PROPS = "track" | "position" | "rotation" | "scale" | "type" | "material" | "position[0]" | "position[1]" | "position[2]" | "rotation[0]" | "rotation[1]" | "rotation[2]" | "scale[0]" | "scale[1]" | "scale[2]";
+type transformBase<T extends string> = `position${T}` | `rotation${T}` | `scale${T}`;
+type transformProps = "position" | "rotation" | "scale" | transformBase<"[0]"> | transformBase<"[1]"> | transformBase<"[2]">;
 
-export type ENV_FILTER_PROPS = "track" | "position" | "rotation" | "scale" | "id" | "lookupMethod" | "position[0]" | "position[1]" | "position[2]" | "rotation[0]" | "rotation[1]" | "rotation[2]" | "scale[0]" | "scale[1]" | "scale[2]";
+export type GEO_FILTER_PROPS = "track" | "type" | "material" | transformProps;
+
+export type ENV_FILTER_PROPS = "track" | "id" | "lookupMethod" | transformProps;
 
 export type NOTE_FILTER_PROPS =
 	| "time"
