@@ -1,12 +1,12 @@
 import { activeDiffGet, copy, CustomEvent, EASE, Note, notesBetween, rand } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { allBetween, MKLog, repeat } from "../utils/general.ts";
+import { allBetween, MKLog, repeat } from "../functions/general.ts";
 
 export type easeBase = "Sine" | "Quad" | "Cubic" | "Quart" | "Quint" | "Circ" | "Linear" | "Step";
 
 export class noteMod {
 	/**
 	 * A class to aid in adding quick noteMod effects.
-	 * @param startTime The starting time of the notes, including notes on this time.
+	 * @param startTime The starting time of the notes,w including notes on this time.
 	 * @param endTime The ending time of the notes, excluding notes on this time.
 	 * @param extraData Anything extra to add to the notes on top of the notemods.
 	 */

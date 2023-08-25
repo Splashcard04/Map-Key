@@ -1,7 +1,7 @@
 import { PRNGs, Seed } from "https://deno.land/x/seed@1.0.0/index.ts";
 import { copy, setDecimals } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { makeNoise2D, makeNoise3D, makeNoise4D } from "https://deno.land/x/open_simplex_noise@v2.5.0/mod.ts";
-import { MKLog, repeat } from "../utils/general.ts";
+import { MKLog, repeat } from "./general.ts";
 
 export class randArray {
 	/**
