@@ -1,5 +1,5 @@
 import { Environment, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { despawner } from "../utils/despawner.ts";
+import { despawn } from "./despawner.ts";
 
 export class environmentPreset {
 	/**
@@ -11,11 +11,11 @@ export class environmentPreset {
 	 * @param HUD Whether to include the HUD or not.
 	 */
 	emptyBTS(HUD?: boolean) {
-		const ds = new despawner("Contains", ["Clouds", "PillarTrackLaneRingsR", "PillarPair", "TrackMirror", "SideLaser", "Construction"]);
 		if (!HUD) {
-			ds.ids.push("GameHUD");
+			despawn("Contains", ["Clouds", "PillarTrackLaneRingsR", "PillarPair", "TrackMirror", "SideLaser", "Construction", "GameHUD"]);
+		} else {
+			despawn("Contains", ["Clouds", "PillarTrackLaneRingsR", "PillarPair", "TrackMirror", "SideLaser", "Construction"]);
 		}
-		ds.push();
 		let env = new Environment("MagicDoorSprite", "Contains");
 		env.position = [0, 0, 1000];
 		env.scale = [0.1, 0.1, 0.1];
@@ -59,25 +59,21 @@ export class environmentPreset {
 	 * @param Clouds
 	 */
 	emptyBillie(sunPosition: Vec3 = [0, 100, 1000], HUD?: boolean, Rain?: boolean, Background = true, Clouds?: boolean) {
-		const ds = new despawner(
-			"Contains",
-			["Mountains", "LeftRail", "RightRail", "LeftFarRail1", "LeftFarRail2", "RightFarRail1", "RightFarRail2", "RailingFullBack", "RailingFullFront", "LastRailingCurve", "LightRailingSegment", "BottomPairLasers", "BigSmokePS"],
-			[],
-			["WaterRainRipples", "RectangleFakeGlow", "Mirror", "Waterfall"]
-		);
+		const ids: string[] = ["Mountains", "LeftRail", "RightRail", "LeftFarRail1", "LeftFarRail2", "RightFarRail1", "RightFarRail2", "RailingFullBack", "RailingFullFront", "LastRailingCurve", "LightRailingSegment", "BottomPairLasers", "BigSmokePS"],
+			hardIds: string[] = ["WaterRainRipples", "RectangleFakeGlow", "Mirror", "Waterfall"];
 		if (!HUD) {
-			ds.ids.push("NarrowGameHUD");
+			ids.push("NarrowGameHUD");
 		}
 		if (!Rain) {
-			ds.ids.push("Rain");
+			ids.push("Rain");
 		}
 		if (!Background) {
-			ds.hardDespawn?.push("BackgroundGradient");
+			hardIds.push("BackgroundGradient");
 		}
 		if (!Clouds) {
-			ds.ids.push("Clouds");
+			ids.push("Clouds");
 		}
-		ds.push();
+		despawn("Contains", ids, [], hardIds);
 		const env = new Environment("Sun", "Contains");
 		env.position = sunPosition;
 		env.push();

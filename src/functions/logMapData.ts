@@ -1,9 +1,15 @@
 import { activeDiff } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { graphDistribution } from "./random.ts";
 
+/**
+ * log specific pieces of your map to the console
+ * @param objects log object data to the console?
+ * @param fakeArray log fake object data to the console?
+ * @param moddedMapData log modded map data to the console?
+ * @param graphs Whether to display graphs for the logged data.
+ */
 export function logMapData(objects = true, fakeArray = true, moddedMapData = true, graphs?: boolean) {
 	const map = activeDiff;
-
 	console.log(`
 	\x1b[3m ================ ${map.name} ================
 	`);

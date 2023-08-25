@@ -1,6 +1,6 @@
 import * as e from "https://deno.land/x/remapper@3.1.2/src/easings.ts";
-import { Color, ColorType, EASE, Event, LightID, setDecimals } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { repeat } from "./general.ts";
+import { ColorType, EASE, Event, LightID } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { repeat } from "../functions/general.ts";
 
 export class lightGradient {
 	/**
@@ -81,31 +81,5 @@ export class strobeGenerator {
 				off.push();
 			}
 		});
-	}
-}
-
-export class lerpGradient {
-	/**
-	 * A class to ease in the creation of HSV hue-cycling.
-	 * @param startingColor The color to start from. (HSV)
-	 * @param loopPoint The number of repeats before returning to the starting color.
-	 */
-	constructor(public startingColor: ColorType = [0, 1, 1, 1], public loopPoint: number = 10) {}
-	/**
-	 * Returns the color at a certain position.
-	 * @param index The position to check for. (TIP: if index == loopPoint, startingColor will be returned).
-	 * @param precision How many decimals to include in the final rgb value.
-	 * @returns Color.
-	 */
-	export(index: number, precision = 2) {
-		if (this.startingColor[3]) {
-			return new Color([(this.startingColor[0] + index / this.loopPoint) % 1, this.startingColor[1], this.startingColor[2], this.startingColor[3]], "HSV").export().map(x => {
-				return setDecimals(x, precision);
-			}) as ColorType;
-		} else {
-			return new Color([(this.startingColor[0] + index / this.loopPoint) % 1, this.startingColor[1], this.startingColor[2], 1], "HSV").export().map(x => {
-				return setDecimals(x, precision);
-			}) as ColorType;
-		}
 	}
 }

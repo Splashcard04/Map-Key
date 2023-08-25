@@ -1,6 +1,6 @@
 import { activeDiffGet, GEO_TYPE, Geometry, Json, ModelScene, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { shaderKeywords } from "../constants.ts";
-import { logFunctionss, MKLog } from "./general.ts";
+import { shaderKeywords } from "../data/types.ts";
+import { logFunctionss, MKLog } from "../functions/general.ts";
 
 export type addGroupSettings = {
 	sceneName: ModelScene;

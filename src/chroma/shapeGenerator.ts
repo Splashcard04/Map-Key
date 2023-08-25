@@ -1,7 +1,7 @@
 import { easeInCirc } from "https://deno.land/x/remapper@3.1.2/src/easings.ts";
 import { arrAdd, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { GEO_FILTER_PROPS } from "../constants.ts";
-import { logFunctionss, MKLog, repeat } from "./general.ts";
+import { GEO_FILTER_PROPS } from "../data/types.ts";
+import { logFunctionss, MKLog, repeat } from "../functions/general.ts";
 
 export class Polygon {
 	/**

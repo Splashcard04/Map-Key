@@ -1,5 +1,5 @@
 import { activeDiffGet, copy, Environment, ENV_NAMES, Geometry, info, Json, jsonPrune, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { MKLog } from "./general.ts";
+import { MKLog } from "../functions/general.ts";
 
 export type USESettings = {
 	name?: string;
