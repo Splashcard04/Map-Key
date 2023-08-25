@@ -1,5 +1,5 @@
 import { Geometry, activeDiffGet, Environment, Note } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { GEO_FILTER_PROPS, ENV_FILTER_PROPS, position, rotation, scale, NOTE_FILTER_PROPS, localRotation } from "../constants.ts";
+import { GEO_FILTER_PROPS, ENV_FILTER_PROPS, rotation, NOTE_FILTER_PROPS, localRotation } from "../data/types.ts";
 import { logFunctionss, MKLog } from "./general.ts";
 
 /**
@@ -8,7 +8,7 @@ import { logFunctionss, MKLog } from "./general.ts";
  * @param forEach What to execute for each geometry piece that passes.
  * @author Aurellis
  */
-export function filterGeometry(filter: [GEO_FILTER_PROPS | position | rotation | scale, number[] | string | number][], forEach: (x: Geometry) => void) {
+export function filterGeometry(filter: [GEO_FILTER_PROPS, number[] | string | number][], forEach: (x: Geometry) => void) {
 	let count = 0;
 	activeDiffGet().geometry((arr: Geometry[]) => {
 		arr.forEach(geo => {
@@ -45,7 +45,7 @@ export function filterGeometry(filter: [GEO_FILTER_PROPS | position | rotation |
  * @param forEach What to execute for each environment that passes.
  * @author Aurellis
  */
-export function filterEnvironments(filter: [ENV_FILTER_PROPS | position | rotation | scale, number[] | string | number][], forEach: (x: Environment) => void) {
+export function filterEnvironments(filter: [ENV_FILTER_PROPS, number[] | string | number][], forEach: (x: Environment) => void) {
 	let count = 0;
 	activeDiffGet().environment((arr: Environment[]) => {
 		arr.forEach(env => {
