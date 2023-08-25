@@ -1,4 +1,4 @@
-import { logFunctionss, MKLog } from "./general.ts";
+import { logFunctionss, MKLog } from "../functions/general.ts";
 import { Environment, LOOKUP } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 
 export class despawner {
