@@ -1,3 +1,5 @@
+import { EASE, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+
 type ColorType = [number, number, number, number] | [number, number, number];
 
 //Property presets for BlenderFrameMath
@@ -171,4 +173,28 @@ export const colors = {
 	gainsboro: [0.8627, 0.8627, 0.8627] as ColorType,
 	whiteSmoke: [0.9608, 0.9608, 0.9608] as ColorType,
 	white: [1, 1, 1] as ColorType
+};
+
+/**
+ * Shortcut for -69420, saves space when moving objects out of player sight.
+ */
+export const ye = -69420;
+
+/**
+ * Shortcut for [-69420, -69420, -69420], saves space when moving objects out of player sight.
+ */
+export const ye3 = [ye, ye, ye] as Vec3;
+
+/**
+ * Shortcut for keyframe of [-69420, -69420, -69420, time, ease?], saves space when moving objects out of player sight.
+ * @param time The time of the keyframe.
+ * @param ease Optional easing.
+ * @param spline Optional spline.
+ * @returns Keyframe
+ */
+export const yeframe = (time: number, ease?: EASE, spline?: "splineCatmullRom") => {
+	const out: [number, number, number, number, string?, string?] = [ye, ye, ye, time];
+	if (ease) out.push(ease);
+	if (spline) out.push(spline);
+	return out;
 };
