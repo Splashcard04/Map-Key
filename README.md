@@ -17,7 +17,7 @@ import * as mk from "https://deno.land/x/mapkey@1.3.1/src/ReMapper/mod.ts";
 Or specify the individual items you need.
 
 ```ts
-import { playerAnim, Polygon } from "https://deno.land/x/mapkey@1.3.1/src/ReMapper/mod.ts";
+import { playerAnim, Polygon } from "https://deno.land/x/mapkey@2.0/mod.ts";
 ```
 
 **Important!**

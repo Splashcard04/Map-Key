@@ -1,6 +1,5 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
 import { arcsBetween, arrDiv, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, EASE, FILENAME, getSeconds, info, lerp, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { BFM_PROPS } from "../constants.ts";
 
 export let logFunctionss = false;
 
@@ -36,47 +35,6 @@ export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => v
 	notesBetween(time, timeEnd, forAll);
 	arcsBetween(time, timeEnd, forAll);
 	chainsBetween(time, timeEnd, forAll);
-}
-
-export class blenderFrameMath {
-	/**
-	 * Some basic math to aid with the timing of Blender animations to RM.
-	 * @param bpm The BPM of the song.
-	 * @param beats The duration of your animation in RM.
-	 * @param fps The fps of your blender project.
-	 * @author Aurellis
-	 */
-	constructor(public bpm: number, public beats: number, public fps: number) {}
-	/**
-	 * Console logs the duration (in seconds) that you animation goes for in the song.
-	 */
-	durationInSong() {
-		console.log(`An animation of ${this.beats} beats at ${this.bpm} BPM will take ${(this.beats * 60) / this.bpm} seconds`);
-	}
-	/**
-	 * Console logs the total frames required in blender to match your animation.
-	 */
-	totalFramesInBlender() {
-		console.log(`The animation will need ${(this.beats * this.fps * 60) / this.bpm} total frames in blender at ${this.fps} fps.`);
-	}
-	/**
-	 * Console logs the length in seconds and frames that each beat in your song will take.
-	 */
-	beatLength() {
-		console.log(`Each beat takes ${60 / this.bpm} seconds, or ${(this.fps * 60) / this.bpm} frames`);
-	}
-	/**
-	 * Gets the same information that the other methods supply. Returning it rather than logging it.
-	 * @param property The property you wish to return.
-	 * @returns The value of the property.
-	 */
-	returnProperty(property: BFM_PROPS) {
-		const _beatTime = 60 / this.bpm; //Seconds per song beat
-		const _seconds = this.beats * _beatTime; //Seconds of full animation
-		const _totalFrames = _seconds * this.fps; //Total frame count of the full animation
-		const _framesPerBeat = _beatTime * this.fps; //Like _beat_time but synced to fps
-		return eval(property); //Converts the string BFM_PROP into the name of one of the consts
-	}
 }
 
 /**
