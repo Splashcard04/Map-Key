@@ -159,13 +159,11 @@ export function distance(point1: Vec3, point2: Vec3) {
  * @param spline The optional spline of the keyframe.
  * @returns Keyframe.
  */
-export function rotatedKeyframe(pos: Vec3, rot: Vec3, anchor: Vec3, frameTime: number, ease: EASE = "easeLinear", spline?: "splineCatmullRom") {
-	const point = rotatePoint(pos, rot, anchor);
-	if (spline) {
-		return [point[0], point[1], point[2], frameTime, ease, spline] as [number, number, number, number, EASE, "splineCatmullRom"];
-	} else {
-		return [point[0], point[1], point[2], frameTime, ease] as [number, number, number, number, EASE];
-	}
+export function rotatedKeyframe(pos: Vec3, rot: Vec3, anchor: Vec3, frameTime: number, ease?: EASE, spline?: "splineCatmullRom") {
+	const point: Array<number | string> = rotatePoint(pos, rot, anchor).concat(frameTime);
+	if (ease) point.push(ease);
+	if (spline) point.push(spline);
+	return point as [number, number, number, number, EASE?, "splineCatmullRom"?];
 }
 
 /**
