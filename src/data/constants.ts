@@ -194,7 +194,7 @@ export const ye3 = [ye, ye, ye] as Vec3;
  * @returns Keyframe
  */
 export const yeframe = (time: number, ease?: EASE, spline?: "splineCatmullRom") => {
-	const out: [number, number, number, number, string?, string?] = [ye, ye, ye, time];
+	const out: [number, number, number, number, EASE?, "splineCatmullRom"?] = [ye, ye, ye, time];
 	if (ease) out.push(ease);
 	if (spline) out.push(spline);
 	return out;
