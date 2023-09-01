@@ -1,5 +1,5 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { arcsBetween, arrDiv, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, EASE, FILENAME, getSeconds, info, lerp, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { arcsBetween, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, EASE, FILENAME, getSeconds, info, lerp, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 
 export let logFunctionss = false;
 
@@ -17,18 +17,12 @@ export function logFunctions(): void {
  * @returns ColorType - Linear RGB values.
  * @author splashcard__ & scuffedItalian
  */
-export function rgb(value: ColorType, colorMultiplier?: number) {
+export function rgb(value: ColorType, colorMultiplier = 1) {
 	if (!value[3]) value.push(1);
-	else value[3] = value[3] * 255;
-	if (colorMultiplier) {
-		return arrMul(value, colorMultiplier / 255).map(x => {
-			return setDecimals(x, 3);
-		}) as ColorType;
-	} else {
-		return arrDiv(value, 255).map(x => {
-			return setDecimals(x, 3);
-		}) as ColorType;
-	}
+	else value[3] *= 255;
+	return arrMul(value, colorMultiplier / 255).map(x => {
+		return setDecimals(x, 3);
+	}) as ColorType;
 }
 
 export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => void) {
@@ -40,6 +34,7 @@ export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => v
 /**
  * Copies the map to a new directory.
  * Useful for if you are working outside of the default BS game directory.
+ * Make sure to run this after your map.save() or it won't transfer any of your changes.
  * @param diffs The diff files. You must include all diffs listed in the Info.dat.
  * @param todir The directory to copy to. Directory must either use double backslashes, or single forward slashes (i.e., \\ or /)
  * @param otherFiles Any other files that you wish to copy over (i.e., Contributer images, scripts, models etc.)
@@ -75,10 +70,10 @@ export function MKLog(message: any, errorLevel?: "Warning" | "Error") {
 		console.log(`[MapKey:   ${getSeconds()}s] ${message}`);
 	}
 	if (errorLevel == "Error") {
-		console.log(`\x1b[1m\x1b[31m[Error In MapKey: ${getSeconds()}s] \x1b[31m${message}\x1b[1m\x1b[37m`);
+		console.log(`\x1b[31m[Error In MapKey: ${getSeconds()}s] ${message}\x1b[37m`);
 	}
 	if (errorLevel == "Warning") {
-		console.log(`\x1b[1m\x1b[33m[Warning In MapKey: ${getSeconds()}s] \x1b[1m\x1b[33m${message}\x1b[1m\x1b[37m`);
+		console.log(`\x1b[33m[Warning In MapKey: ${getSeconds()}s] ${message}\x1b[37m`);
 	}
 }
 
@@ -125,21 +120,22 @@ export function repeat(repeat: number, code: (i: number) => void) {
 /**
  * Lerps the values of 2 arrays.
  * @param startArr The starting arr. This must be shorter than or equal to the second arr.
- * @param endArr The ending arr. This must be longer than or equal to the first arr.
+ * @param end The ending arr. This must be longer than or equal to the first arr.
  * @param fraction The fraction of lerp.
  * @param easing Any easing to use.
  * @returns number[] - with length = startArr
  */
-export function arrLerp(startArr: number[], endArr: number[], fraction: number, easing?: EASE) {
-	if (startArr.length > endArr.length) {
-		MKLog("First array must be shorter or equal to the second array.", "Error");
-		return [0] as number[];
+export function arrLerp(startArr: number[], end: number[] | number, fraction: number, easing?: EASE) {
+	if (typeof end == "number") {
+		return startArr.map(x => {
+			return lerp(x, end as number, fraction, easing);
+		});
+	} else {
+		repeat(startArr.length, i => {
+			startArr[i] = end[i] ? lerp(startArr[i], end[i], fraction, easing) : startArr[i];
+		});
+		return startArr;
 	}
-	const res: number[] = [];
-	repeat(startArr.length, i => {
-		res.push(lerp(startArr[i], endArr[i], fraction, easing));
-	});
-	return res;
 }
 
 /**
