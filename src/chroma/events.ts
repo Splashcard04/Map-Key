@@ -37,49 +37,45 @@ export class lightGradient {
 	}
 }
 
-export class strobeGenerator {
-	/**
-	 * Creates a strobe sequence. With "interval" number of events every beat.
-	 * @param time The time to start the strobe.
-	 * @param duration The duration of the strobe.
-	 * @param interval How many times per beat to add a strobe event, or one event every 1/interval beats.
-	 * @param type The event type to use.
-	 * @param color The on color to use, the off color will always be [0,0,0,0]. Can also be a boolean to use vanilla colors.
-	 * @param ids Specific ids to target.
-	 * @param ease Whether to use an easing on the strobe. Any special easings like, bounce, elastic, etc... will yield very weird results.
-	 * @author Splashcard & Aurellis
-	 */
-	constructor(public time: number, public duration: number, public interval = 1, public type = 0, public color: ColorType | boolean = true, public ids?: LightID, public ease?: EASE) {}
-
-	push() {
-		repeat(this.duration * this.interval, i => {
-			let time = 0;
-			if (this.ease) {
-				// "Activate" the import so it works
-				e.easeInBack;
-				time = eval(`e.${this.ease}(${i},${this.time},${this.duration},${this.duration * this.interval})`);
-			} else {
-				time = this.time + i / this.interval;
+/**
+ * Creates a strobe sequence. With "interval" number of events every beat.
+ * @param time The time to start the strobe.
+ * @param duration The duration of the strobe.
+ * @param interval How many times per beat to add a strobe event, or one event every 1/interval beats.
+ * @param type The event type to use.
+ * @param color The on color to use, the off color will always be [0,0,0,0]. Can also be a boolean to use vanilla colors.
+ * @param ids Specific ids to target.
+ * @param ease Whether to use an easing on the strobe. Any special easings like, bounce, elastic, etc... will yield very weird results.
+ * @author Splashcard & Aurellis
+ */
+export function strobeGenerator(time: number, duration: number, interval = 1, type = 0, color: ColorType | boolean = true, ids?: LightID, ease?: EASE) {
+	repeat(duration * interval, i => {
+		let t = 0;
+		if (ease) {
+			// "Activate" the import so it works
+			e.easeInBack;
+			t = eval(`e.${ease}(${i},${time},${duration},${duration * interval})`);
+		} else {
+			t = time + i / interval;
+		}
+		if (i % 2 == 0) {
+			const on = new Event(t).backLasers().on(color);
+			if (ids) {
+				on.lightID = ids;
 			}
-			if (i % 2 == 0) {
-				const on = new Event(time).backLasers().on(this.color);
-				if (this.ids) {
-					on.lightID = this.ids;
-				}
-				if (this.type) {
-					on.type = this.type;
-				}
-				on.push();
-			} else {
-				const off = new Event(time).backLasers().on([0, 0, 0, 0]);
-				if (this.ids) {
-					off.lightID = this.ids;
-				}
-				if (this.type) {
-					off.type = this.type;
-				}
-				off.push();
+			if (type) {
+				on.type = type;
 			}
-		});
-	}
+			on.push();
+		} else {
+			const off = new Event(time).backLasers().on([0, 0, 0, 0]);
+			if (ids) {
+				off.lightID = ids;
+			}
+			if (type) {
+				off.type = type;
+			}
+			off.push();
+		}
+	});
 }
