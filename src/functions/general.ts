@@ -172,7 +172,7 @@ export function rotatedKeyframe(pos: Vec3, rot: Vec3, anchor: Vec3, frameTime: n
  * @param func The function to run through the arr.
  * @returns arr
  */
-export function arrFromFunction(length: number, func: (x: number) => void) {
+export function arrFromFunction(length: number, func: (x: number) => number) {
 	return Array.from(Array(length).keys()).map(x => {
 		return func(x);
 	});
