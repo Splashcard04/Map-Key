@@ -1,5 +1,6 @@
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
 import { arcsBetween, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, EASE, FILENAME, getSeconds, info, lerp, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { seedRNG } from "./random.ts";
 
 export let logFunctionss = false;
 
@@ -176,4 +177,12 @@ export function arrFromFunction(length: number, func: (x: number) => number) {
 	return Array.from(Array(length).keys()).map(x => {
 		return func(x);
 	});
+}
+
+export function shuffle<T>(array: T[], seed: number = Math.random()): T[] {
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(seedRNG(0, 1, seed * Math.PI * (i + 1)) * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+	return array;
 }
