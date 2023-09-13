@@ -1,6 +1,8 @@
-import { activeDiffGet, GEO_TYPE, Geometry, Json, ModelScene, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { activeDiffGet, GEO_TYPE, ModelScene, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { shaderKeywords } from "../data/types.ts";
 import { logFunctionss, MKLog } from "../functions/general.ts";
+import { GEO_SHADER } from "https://deno.land/x/remapper@3.1.2/src/constants.ts";
+import { ColorType } from "https://deno.land/x/remapper@3.1.2/src/general.ts";
 
 export type addGroupSettings = {
 	sceneName: ModelScene;
@@ -8,24 +10,39 @@ export type addGroupSettings = {
 	geoType: GEO_TYPE;
 };
 
-export class Material {
+export class geometryMaterial {
 	/**
 	 * Creates a new geometry material with shader type and keywords.
 	 * @param name The name of your material.
 	 * @param material The material to create.
 	 */
-	private addGroup: Json = {};
 
-	constructor(public name: string, public material: RawGeometryMaterial) {}
-	/**Import raw material Json. */
-	import(json: Json) {
-		this.material = json as RawGeometryMaterial;
+	constructor(public name: string) {}
+
+	private material: RawGeometryMaterial = { shader: "Standard" };
+
+	/**
+	 * Set the shader for your material.
+	 * @param shader The shader to apply.
+	 */
+	shader(shader: GEO_SHADER) {
+		this.material.shader = shader;
 		return this;
 	}
-
-	/**Add the material to the primary group of a modelscene. */
-	addPrimaryGroup(addGroup: addGroupSettings) {
-		this.addGroup = addGroup;
+	/**
+	 * Set the color of your material.
+	 * @param color The color to apply.
+	 */
+	color(color: ColorType) {
+		this.material.color = color;
+		return this;
+	}
+	/**
+	 * Set the track of your material.
+	 * @param track The track to apply.
+	 */
+	track(track: string) {
+		this.material.track = track;
 		return this;
 	}
 
@@ -59,20 +76,6 @@ export class Material {
 
 		if (logFunctionss) {
 			MKLog(`New Geometry Material titled ${this.name}`);
-		}
-
-		if (this.addGroup.sceneName) {
-			// sceneName implies addgroup is defined
-			const scene = this.addGroup.sceneName;
-			const matName = this.addGroup.blenderMatName;
-			const geoType = this.addGroup.geoType;
-
-			scene.addPrimaryGroups(matName, new Geometry(geoType, this.name));
-
-			if (logFunctionss) {
-				const logscene = scene.toString();
-				MKLog(`Added a primary group to ${logscene} of material ${this.name}`);
-			}
 		}
 	}
 }
