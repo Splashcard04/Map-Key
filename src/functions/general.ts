@@ -7,8 +7,8 @@ import { ensureFileSync } from "https://deno.land/std@0.110.0/fs/ensure_file.ts"
 /**
  * Put this at the top of your script to console log functions as they are executed.
  */
-export function logFunctions(): void {
-	MKCache("Write", "logFunctions", true);
+export function setFunctionLogging(state = true): void {
+	MKCache("Write", "logFunctions", state);
 }
 
 export function MKCache(process: "Read" | "Write", name: string, data?: any) {
