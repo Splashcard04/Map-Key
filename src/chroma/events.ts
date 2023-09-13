@@ -14,10 +14,10 @@ export class lightGradient {
 	 */
 	constructor(public time = 0, public duration = 1, public colors: ColorType[]) {}
 
-	public lightType = 0;
-	public lightID?: number | number[];
-	public lerpType?: "HSV" | "RGB";
-	public ease?: EASE;
+	private lightType = 0;
+	private lightID?: number | number[];
+	private lerpType?: "HSV" | "RGB";
+	private ease?: EASE;
 
 	type(type = 0) {
 		this.lightType = type;
