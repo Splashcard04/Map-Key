@@ -60,25 +60,25 @@ export class lightGradient {
 }
 
 /**
- * Creates a strobe sequence. With "interval" number of events every beat.
+ * Creates a strobe sequence. With `density` number of events every beat.
  * @param time The time to start the strobe.
  * @param duration The duration of the strobe.
- * @param interval How many times per beat to add a strobe event, or one event every 1/interval beats.
+ * @param density How many times per beat to add a strobe event, or one event every 1/density beats.
  * @param type The event type to use.
  * @param color The on color to use, the off color will always be [0,0,0,0]. Can also be a boolean to use vanilla colors.
  * @param ids Specific ids to target.
  * @param ease Whether to use an easing on the strobe. Any special easings like, bounce, elastic, etc... will yield very weird results.
  * @author Splashcard & Aurellis
  */
-export function strobeGenerator(time: number, duration: number, interval = 1, type = 0, color: ColorType | boolean = true, ids?: LightID, ease?: EASE) {
-	repeat(duration * interval, i => {
+export function strobeGenerator(time: number, duration: number, density = 1, type = 0, color: ColorType | boolean = true, ids?: LightID, ease?: EASE) {
+	repeat(duration * density, i => {
 		let t = 0;
 		if (ease) {
 			// "Activate" the import so it works
 			e.easeInBack;
-			t = eval(`e.${ease}(${i},${time},${duration},${duration * interval})`);
+			t = eval(`e.${ease}(${i},${time},${duration},${duration * density})`);
 		} else {
-			t = time + i / interval;
+			t = time + i / density;
 		}
 		if (i % 2 == 0) {
 			const on = new Event(t).backLasers().on(color);
