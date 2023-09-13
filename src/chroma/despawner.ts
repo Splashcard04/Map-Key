@@ -1,4 +1,4 @@
-import { logFunctionss, MKLog } from "../functions/general.ts";
+import { MKCache, MKLog } from "../functions/general.ts";
 import { Environment, LOOKUP } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 
 /**
@@ -25,7 +25,7 @@ export function despawn(lookup: LOOKUP, ids: string[] = [], restore?: string[], 
 		env.active = true;
 		env.push();
 	});
-	if (logFunctionss) {
+	if (MKCache("Read", "logFunctions")) {
 		MKLog(`New despawner using ${lookup} created.\nDespawning ${ids.length} environments...`);
 	}
 }

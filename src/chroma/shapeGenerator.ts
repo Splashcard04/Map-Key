@@ -1,6 +1,6 @@
 import { easeInCirc } from "https://deno.land/x/remapper@3.1.2/src/easings.ts";
 import { arrAdd, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { logFunctionss, MKLog, repeat } from "../functions/general.ts";
+import { MKCache, MKLog, repeat } from "../functions/general.ts";
 
 export class Polygon {
 	/**
@@ -59,7 +59,7 @@ export class Polygon {
 
 			cube.push();
 		}
-		if (logFunctionss) {
+		if (MKCache("Read", "logFunctions")) {
 			MKLog(`New shape generated...\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`);
 		}
 	}
@@ -87,7 +87,7 @@ export class Polygon {
 			cube.rotation = [this.rotation[0], this.rotation[1], this.rotation[2] - (180 * angle) / Math.PI];
 			returnArray.push(cube);
 		});
-		if (logFunctionss) {
+		if (MKCache("Read", "logFunctions")) {
 			MKLog(`New shape generated...\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`);
 		}
 		return returnArray;

@@ -1,14 +1,39 @@
+// deno-lint-ignore-file no-explicit-any
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
 import { arcsBetween, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, EASE, FILENAME, getSeconds, info, lerp, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { seedRNG } from "./random.ts";
-
-export let logFunctionss = false;
+import { ensureFileSync } from "https://deno.land/std@0.110.0/fs/ensure_file.ts";
 
 /**
  * Put this at the top of your script to console log functions as they are executed.
  */
 export function logFunctions(): void {
-	logFunctionss = true;
+	MKCache("Write", "logFunctions", true);
+}
+
+export function MKCache(process: "Read" | "Write", name: string, data?: any) {
+	const fileName = "MK_Cache.json";
+	ensureFileSync(fileName);
+	if (process == "Read") {
+		try {
+			const cache: Record<string, any> = JSON.parse(Deno.readTextFileSync(fileName));
+			return cache[name];
+		} catch (e) {
+			console.error(`MK_Cache suffered from error, invalidating cache: ${e}`);
+			Deno.writeTextFileSync(fileName, JSON.stringify({}));
+		}
+	} else {
+		try {
+			const cache: Record<string, any> = JSON.parse(Deno.readTextFileSync(fileName));
+			if (data) {
+				cache[name] = data;
+			}
+			Deno.writeTextFileSync(fileName, JSON.stringify(cache));
+		} catch (e) {
+			console.error(`MK_Cache suffered from error, invalidating cache: ${e}`);
+			Deno.writeTextFileSync(fileName, JSON.stringify({}));
+		}
+	}
 }
 
 /**
@@ -64,8 +89,6 @@ export async function copytodir(diffs: FILENAME<DIFFS>[] = [], todir: string, ot
  * @param message The message to log with Map Key label.
  * @param errorLevel Whether to log the message as a warning or an error (or leave blank for regular log)
  */
-
-// deno-lint-ignore no-explicit-any
 export function MKLog(message: any, errorLevel?: "Warning" | "Error") {
 	if (!errorLevel) {
 		console.log(`[MapKey:   ${getSeconds()}s] ${message}`);

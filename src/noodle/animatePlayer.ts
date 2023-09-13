@@ -1,5 +1,5 @@
 import { CustomEvent, CustomEventInternals, Note } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { allBetween, logFunctionss, MKLog } from "../functions/general.ts";
+import { allBetween, MKCache, MKLog } from "../functions/general.ts";
 
 export class playerAnim {
 	/**
@@ -30,7 +30,7 @@ export class playerAnim {
 			n.track.add(this.noteTrack);
 		});
 
-		if (logFunctionss) {
+		if (MKCache("Read", "logFunctions")) {
 			MKLog(`Added new player animation at beat ${this.time} until beat ${this.timeEnd}...`);
 		}
 	}

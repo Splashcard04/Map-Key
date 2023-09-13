@@ -1,6 +1,6 @@
 import { Geometry, activeDiffGet, Environment, Note } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { GEO_FILTER_PROPS, ENV_FILTER_PROPS, rotation, NOTE_FILTER_PROPS, localRotation } from "../data/types.ts";
-import { logFunctionss, MKLog } from "./general.ts";
+import { MKCache, MKLog } from "./general.ts";
 
 /**
  * Works like notesBetween, except it searches for geometry with multiple properties and values for those properties.
@@ -30,7 +30,7 @@ export function filterGeometry(filter: [GEO_FILTER_PROPS, number[] | string | nu
 			}
 		});
 	});
-	if (logFunctionss) {
+	if (MKCache("Read", "logFunctions")) {
 		MKLog(
 			`Filtered ${activeDiffGet().geometry(arr => {
 				arr.length;
@@ -67,7 +67,7 @@ export function filterEnvironments(filter: [ENV_FILTER_PROPS, number[] | string 
 			}
 		});
 	});
-	if (logFunctionss) {
+	if (MKCache("Read", "logFunctions")) {
 		MKLog(
 			`Filtered ${activeDiffGet().environment(arr => {
 				arr.length;
@@ -131,7 +131,7 @@ export function filterNotes(filter: [NOTE_FILTER_PROPS | rotation | localRotatio
 			}
 		});
 	}
-	if (logFunctionss) {
+	if (MKCache("Read", "logFunctions")) {
 		MKLog(`Filtered ${activeDiffGet().fakeNotes.length + activeDiffGet().notes.length} notes... Notes found: ${count}...`);
 	}
 }

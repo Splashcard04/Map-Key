@@ -1,6 +1,6 @@
 import { activeDiffGet, GEO_TYPE, ModelScene, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { shaderKeywords } from "../data/types.ts";
-import { logFunctionss, MKLog } from "../functions/general.ts";
+import { MKCache, MKLog } from "../functions/general.ts";
 import { GEO_SHADER } from "https://deno.land/x/remapper@3.1.2/src/constants.ts";
 import { ColorType } from "https://deno.land/x/remapper@3.1.2/src/general.ts";
 
@@ -74,7 +74,7 @@ export class geometryMaterial {
 	push() {
 		activeDiffGet().geoMaterials[this.name] = this.material;
 
-		if (logFunctionss) {
+		if (MKCache("Read", "logFunctions")) {
 			MKLog(`New Geometry Material titled ${this.name}`);
 		}
 	}
