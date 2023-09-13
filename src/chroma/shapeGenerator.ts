@@ -1,6 +1,5 @@
 import { easeInCirc } from "https://deno.land/x/remapper@3.1.2/src/easings.ts";
 import { arrAdd, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { GEO_FILTER_PROPS } from "../data/types.ts";
 import { logFunctionss, MKLog, repeat } from "../functions/general.ts";
 
 export class Polygon {
@@ -50,23 +49,6 @@ export class Polygon {
 			// Apply the offset position to the rotated position
 			cube.position = arrAdd(rotatePoint([-Math.sin(angle) * this.radius, -Math.cos(angle) * this.radius, 0], this.rotation), this.position);
 
-			/*
-                So that I remember how this math works - Aurellis
-
-                The scale is determined by using the "Length of a chord in a circle formula".
-                l = 2rsin(theta/2)
-                => rsin(theta/2) = l/2 (since l/2 is the opp of a triangle formed by r, l/2, and the line between [0,0,0] and the midpoint of l)
-                => since r = hyp and l/2 = opp, therefore sin(theta/2) = 0.5l/r.
-                This works for a chord where the ends are r distance from [0,0,0].
-
-                but our case uses a chord where the midpoint is r distance from [0,0,0],
-                therefore tan is applicable as opp/adj rather than opp/hyp since r is now adj rather than hyp.
-                giving the formula 2rTan(theta/2). where theta = 2pi/2sides or simplified pi/sides.
-
-                then, to account for the fact that the line is 2d rather than 1d,
-                the r value can either be radius-scale for the innermost corner to touch,
-                or radius+scale for the outermost corners to touch.
-                */
 			if (this.innercorners) {
 				cube.scale = [(this.radius - this.scale[1] / 2) * Math.tan(Math.PI / this.sides) * 2, this.scale[1], this.scale[2]];
 			} else {
@@ -76,53 +58,39 @@ export class Polygon {
 			cube.rotation = [this.rotation[0], this.rotation[1], this.rotation[2] - (180 * angle) / Math.PI];
 
 			cube.push();
-
-			if (logFunctionss) {
-				MKLog(`New shape generated...\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`);
-			}
+		}
+		if (logFunctionss) {
+			MKLog(`New shape generated...\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`);
 		}
 	}
 	/**
 	 * Returns the array of geometry instead of pushing to the diff.
-	 * @param returnProp If defined, the method will return the property of a cube in the shape. [index, property] where index is the cube, and property is either position, scale or rotation.
 	 * @returns Geometry array.
 	 */
-	return(returnProp?: [number, GEO_FILTER_PROPS]) {
-		const returnArray = [];
-		const cube = new Geometry("Cube", this.material);
-		for (let side = 0; side < this.sides; side++) {
+	return() {
+		const returnArray: Geometry[] = [];
+		repeat(this.sides, side => {
+			const cube = new Geometry("Cube", this.material);
 			// Track assignment
 			if (this.track && this.iterateTrack) {
 				cube.track.value = `${this.track}_${side + this.iterateOffset}`;
 			} else if (this.track && !this.iterateTrack) {
 				cube.track.value = this.track;
 			}
-
-			// Determine that angle of the side (could have used rotatePoint here, but this was a bit easier)
 			const angle = (Math.PI * 2 * side) / this.sides;
-
-			// Apply the offset position to the rotated position
 			cube.position = arrAdd(rotatePoint([-Math.sin(angle) * this.radius, -Math.cos(angle) * this.radius, 0], this.rotation), this.position);
 			if (this.innercorners) {
 				cube.scale = [(this.radius - this.scale[1] / 2) * Math.tan(Math.PI / this.sides) * 2, this.scale[1], this.scale[2]];
 			} else {
 				cube.scale = [(this.radius + this.scale[1] / 2) * Math.tan(Math.PI / this.sides) * 2, this.scale[1], this.scale[2]];
 			}
-
 			cube.rotation = [this.rotation[0], this.rotation[1], this.rotation[2] - (180 * angle) / Math.PI];
-
 			returnArray.push(cube);
-			if (returnProp && side == returnProp[0]) {
-				return eval(`cube.${returnProp[1]}`);
-			}
-
-			if (logFunctionss) {
-				MKLog(`New shape generated...\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`);
-			}
+		});
+		if (logFunctionss) {
+			MKLog(`New shape generated...\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`);
 		}
-		if (!returnProp) {
-			return returnArray as Geometry[];
-		}
+		return returnArray;
 	}
 }
 
@@ -166,33 +134,31 @@ export class primitiveShape {
 	 * @param alignedSides Aligns the rotation of the sides to the nearest clockwise side of the 2d prism base shape.
 	 */
 	prism(sides = 3, radius = 10, length = 10, innerCorners?: boolean, alignedSides?: boolean) {
-		this.collection = [];
+		// Make the front face
 		const shape = new Polygon(this.material, sides, radius, arrAdd(rotatePoint([0, 0, -length / 2], this.rotation), this.position), this.scale, this.rotation, innerCorners, this.track, this.iterateTrack, this.iterateOffset);
-		let tempArr: Geometry[] = shape.return();
-		tempArr.forEach(geo => {
-			this.collection.push(geo);
-		});
+		this.collection = this.collection.concat(shape.return());
+		//Move to back face
 		shape.position = arrAdd(rotatePoint([0, 0, length / 2], this.rotation), this.position);
 		shape.iterateOffset = sides + this.iterateOffset;
-		tempArr = shape.return();
-		tempArr.forEach(geo => {
-			this.collection.push(geo);
-		});
+		this.collection = this.collection.concat(shape.return());
 
-		const cube = new Geometry("Cube", this.material);
+		// Extrusion sides
 		repeat(sides, side => {
+			const cube = new Geometry("Cube", this.material);
 			// Track assignment
 			if (this.track && this.iterateTrack) {
 				cube.track.value = `${this.track}_${side + 2 * sides + this.iterateOffset}`;
 			} else if (this.track && !this.iterateTrack) {
 				cube.track.value = this.track;
 			}
-			let angle = (Math.PI * 2 * (side + 0.5)) / sides;
-			let pos;
+			let angle = (Math.PI * 2 * (side + 0.5)) / sides,
+				pos;
 			if (innerCorners) {
-				pos = rotatePoint([-Math.sin(angle) * Math.hypot(radius, (shape.return([0, "scale[0]"]) + shape.return([0, "scale[1]"])) / 2), -Math.cos(angle) * Math.hypot(radius, (shape.return([0, "scale[0]"]) + shape.return([0, "scale[1]"])) / 2), 0], this.rotation);
+				const shapeScale = [(radius - this.scale[1] / 2) * Math.tan(Math.PI / sides) * 2, this.scale[1], this.scale[2]];
+				pos = rotatePoint([-Math.sin(angle) * Math.hypot(radius, (shapeScale[0] + shapeScale[1]) / 2), -Math.cos(angle) * Math.hypot(radius, (shapeScale[0] + shapeScale[1]) / 2), 0], this.rotation);
 			} else {
-				pos = rotatePoint([-Math.sin(angle) * Math.hypot(radius, (shape.return([0, "scale[0]"]) - shape.return([0, "scale[1]"])) / 2), -Math.cos(angle) * Math.hypot(radius, (shape.return([0, "scale[0]"]) - shape.return([0, "scale[1]"])) / 2), 0], this.rotation);
+				const shapeScale = [(radius + this.scale[1] / 2) * Math.tan(Math.PI / sides) * 2, this.scale[1], this.scale[2]];
+				pos = rotatePoint([-Math.sin(angle) * Math.hypot(radius, (shapeScale[0] - shapeScale[1]) / 2), -Math.cos(angle) * Math.hypot(radius, (shapeScale[0] - shapeScale[1]) / 2), 0], this.rotation);
 			}
 			cube.position = arrAdd(pos, this.position);
 			if (alignedSides) {
