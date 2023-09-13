@@ -12,20 +12,42 @@ export class lightGradient {
 	 * @param lerpType The color lerp to use.
 	 * @param easing The easing to use on each color.
 	 */
-	constructor(public time = 0, public duration = 1, public type = 0, public colors: ColorType[], public lerpType?: "HSV" | "RGB", public easing?: EASE) {}
+	constructor(public time = 0, public duration = 1, public colors: ColorType[]) {}
+
+	public lightType = 0;
+	public lightID?: number | number[];
+	public lerpType?: "HSV" | "RGB";
+	public ease?: EASE;
+
+	type(type = 0) {
+		this.lightType = type;
+		return this;
+	}
+	ID(id: number | number[]) {
+		this.lightID = id;
+		return this;
+	}
+	lerp(lerp: "HSV" | "RGB") {
+		this.lerpType = lerp;
+		return this;
+	}
+	easing(ease: EASE) {
+		this.ease = ease;
+		return this;
+	}
 
 	/**push the gradient to the difficulty */
 	push() {
 		const ev = new Event(this.time).backLasers().on(this.colors[0]);
-		ev.type = this.type;
+		ev.type = this.lightType;
 		ev.push();
 		let i = 0;
 		this.colors.forEach(color => {
 			if (i !== 0) {
 				const ev = new Event((i * this.duration) / (this.colors.length - 1)).backLasers().in(color);
-				ev.type = this.type;
-				if (this.easing) {
-					ev.easing = this.easing;
+				ev.type = this.lightType;
+				if (this.ease) {
+					ev.easing = this.ease;
 				}
 				if (this.lerpType) {
 					ev.lerpType = this.lerpType;
