@@ -1,6 +1,6 @@
-import * as e from "https://deno.land/x/remapper@3.1.2/src/easings.ts";
 import { ColorType, EASE, Event, LightID } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { repeat } from "../functions/general.ts";
+import { lerp } from "https://deno.land/x/remapper@3.1.2/src/general.ts";
 
 export class lightGradient {
 	/**
@@ -96,9 +96,7 @@ export function strobeGenerator(time: number, duration: number, density = 1, typ
 	repeat(duration * density, i => {
 		let t = 0;
 		if (ease) {
-			// "Activate" the import so it works
-			e.easeInBack;
-			t = eval(`e.${ease}(${i},${time},${duration},${duration * density})`);
+			t = lerp(time, time + duration, i / (duration * density), ease);
 		} else {
 			t = time + i / density;
 		}
@@ -112,7 +110,7 @@ export function strobeGenerator(time: number, duration: number, density = 1, typ
 			}
 			on.push();
 		} else {
-			const off = new Event(time).backLasers().on([0, 0, 0, 0]);
+			const off = new Event(t).backLasers().on([0, 0, 0, 0]);
 			if (ids) {
 				off.lightID = ids;
 			}
