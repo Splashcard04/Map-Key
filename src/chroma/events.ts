@@ -19,18 +19,34 @@ export class lightGradient {
 	private lerpType?: "HSV" | "RGB";
 	private ease?: EASE;
 
+	/**
+	 * Set the lightType
+	 * @param type The lightType to run the event on.
+	 */
 	type(type = 0) {
 		this.lightType = type;
 		return this;
 	}
+	/**
+	 * Set the lightID/s
+	 * @param id The light ids to run the event on.
+	 */
 	ID(id: number | number[]) {
 		this.lightID = id;
 		return this;
 	}
+	/**
+	 * Set the lerp type.
+	 * @param lerp Either lerp by HSV or RGB.
+	 */
 	lerp(lerp: "HSV" | "RGB") {
 		this.lerpType = lerp;
 		return this;
 	}
+	/**
+	 * Set the easing for each transition.
+	 * @param ease The easing.
+	 */
 	easing(ease: EASE) {
 		this.ease = ease;
 		return this;
@@ -40,6 +56,9 @@ export class lightGradient {
 	push() {
 		const ev = new Event(this.time).backLasers().on(this.colors[0]);
 		ev.type = this.lightType;
+		if (this.lightID) {
+			ev.lightID = this.lightID;
+		}
 		ev.push();
 		let i = 0;
 		this.colors.forEach(color => {
@@ -51,6 +70,9 @@ export class lightGradient {
 				}
 				if (this.lerpType) {
 					ev.lerpType = this.lerpType;
+				}
+				if (this.lightID) {
+					ev.lightID = this.lightID;
 				}
 				ev.push();
 			}
