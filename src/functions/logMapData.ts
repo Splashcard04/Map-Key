@@ -1,5 +1,4 @@
 import { activeDiff } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { graphDistribution } from "./random.ts";
 
 /**
  * log specific pieces of your map to the console
@@ -8,7 +7,7 @@ import { graphDistribution } from "./random.ts";
  * @param moddedMapData log modded map data to the console?
  * @param graphs Whether to display graphs for the logged data.
  */
-export function logMapData(objects = true, fakeArray = true, moddedMapData = true, graphs?: boolean) {
+export function logMapData(objects = true, fakeArray = true, moddedMapData = true) {
 	const map = activeDiff;
 	console.log(`
 	\x1b[3m ================ ${map.name} ================
@@ -16,42 +15,10 @@ export function logMapData(objects = true, fakeArray = true, moddedMapData = tru
 
 	if (objects) {
 		console.log(`\x1b[36m======== Object Data ========`, "\n", `\x1b[32mnotes: ${map.notes.length}\n walls: ${map.walls.length}\n bombs: ${map.bombs.length}\n arcs: ${map.arcs.length}\n chains: ${map.chains.length}`);
-		if (graphs) {
-			console.log(`\x1b[36mMap note frequency:\n\x1b[31mStart:\x1b[97m`);
-			let arr: number[] = [];
-			map.notes.forEach(note => {
-				arr.push(note.time);
-			});
-			graphDistribution(arr, 20, 100);
-			console.log("\x1b[31mEnd...\x1b[97m");
-			console.log("\x1b[36mMap wall frequency:\n\x1b[31mStart:\x1b[97m");
-			arr = [];
-			map.walls.forEach(wall => {
-				arr.push(wall.time);
-			});
-			graphDistribution(arr, 20, 100);
-			console.log("\x1b[31mEnd...\x1b[97m");
-		}
 	}
 
 	if (fakeArray) {
 		console.log(`\x1b[36m======== Fake Array ========`, "\n", `\x1b[32mfake notes: ${map.fakeNotes.length}\n fake walls: ${map.fakeWalls.length}\n fake bombs: ${map.fakeBombs.length}\n fake chains: ${map.fakeChains.length}`);
-		if (graphs) {
-			console.log(`\x1b[36mMap fake note frequency:\n\x1b[31mStart:\x1b[97m`);
-			let arr: number[] = [];
-			map.fakeNotes.forEach(note => {
-				arr.push(note.time);
-			});
-			graphDistribution(arr, 20, 100);
-			console.log("\x1b[31mEnd...\x1b[97m");
-			console.log("\x1b[36mMap fake wall frequency:\n\x1b[31mStart:\x1b[97m");
-			arr = [];
-			map.fakeWalls.forEach(wall => {
-				arr.push(wall.time);
-			});
-			graphDistribution(arr, 20, 100);
-			console.log("\x1b[31mEnd...\x1b[97m");
-		}
 	}
 
 	if (moddedMapData) {
@@ -72,16 +39,5 @@ export function logMapData(objects = true, fakeArray = true, moddedMapData = tru
 			players = arr.length;
 		});
 		console.log(`\x1b[36m======== Modded Map Data ========\n \x1b[32manimateTracks: ${anims}\n path animations: ${paths}\n parentTracks: ${parents}\n player tracks: ${players}\x1b[97m`);
-		if (graphs) {
-			console.log(`\x1b[36mMap animateTrack frequency:\n\x1b[31mStart:\x1b[97m`);
-			const array: number[] = [];
-			map.animateTracks(arr => {
-				arr.forEach(anim => {
-					array.push(anim.time);
-				});
-			});
-			graphDistribution(array, 20, 100);
-			console.log("\x1b[31mEnd...\x1b[97m");
-		}
 	}
 }
