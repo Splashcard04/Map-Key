@@ -1,16 +1,26 @@
 // deno-lint-ignore-file no-explicit-any
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { arcsBetween, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, EASE, FILENAME, getSeconds, info, lerp, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { arcsBetween, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, EASE, FILENAME, getSeconds, info, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { seedRNG } from "./random.ts";
 import { ensureFileSync } from "https://deno.land/std@0.110.0/fs/ensure_file.ts";
+import { jsonRemove } from "https://deno.land/x/remapper@3.1.2/src/general.ts";
 
 /**
  * Put this at the top of your script to console log functions as they are executed.
  */
-export function setFunctionLogging(state = true): void {
+export function setFunctionLogging(state?: boolean): void {
+	if (typeof state == "undefined") {
+		state = true;
+	}
 	MKCache("Write", "logFunctions", state);
 }
 
+/**
+ * Access and modify the MK_Cache.
+ * @param process Whether to read the cache fo write to it.
+ * @param name The name of the entry in the chache to access.
+ * @param data The data to write (if write process is specified), if left undefined the property will be removed from the cache.
+ */
 export function MKCache(process: "Read" | "Write", name: string, data?: any) {
 	const fileName = "MK_Cache.json";
 	ensureFileSync(fileName);
@@ -25,7 +35,9 @@ export function MKCache(process: "Read" | "Write", name: string, data?: any) {
 	} else {
 		try {
 			const cache: Record<string, any> = JSON.parse(Deno.readTextFileSync(fileName));
-			if (data) {
+			if (typeof data == "undefined") {
+				jsonRemove(cache, name);
+			} else {
 				cache[name] = data;
 			}
 			Deno.writeTextFileSync(fileName, JSON.stringify(cache));
@@ -44,13 +56,19 @@ export function MKCache(process: "Read" | "Write", name: string, data?: any) {
  * @author splashcard__ & scuffedItalian
  */
 export function rgb(value: ColorType, colorMultiplier = 1) {
-	if (!value[3]) value.push(1);
+	if (!value[3]) value.push(255);
 	else value[3] *= 255;
 	return arrMul(value, colorMultiplier / 255).map(x => {
 		return setDecimals(x, 3);
 	}) as ColorType;
 }
 
+/**
+ * A notesBetween variant that targets notes, arcs, and chains.
+ * @param time The start time.
+ * @param timeEnd The end time.
+ * @param forAll The action to run on all filtered objects.
+ */
 export function allBetween(time: number, timeEnd: number, forAll: (n: Note) => void) {
 	notesBetween(time, timeEnd, forAll);
 	arcsBetween(time, timeEnd, forAll);
@@ -139,27 +157,6 @@ export function pointRotation(point1: Vec3, point2: Vec3, defaultAngle?: Vec3) {
  */
 export function repeat(repeat: number, code: (i: number) => void) {
 	for (let i = 0; i < repeat; i++) code(i);
-}
-
-/**
- * Lerps the values of 2 arrays.
- * @param startArr The starting arr. This must be shorter than or equal to the second arr.
- * @param end The ending arr. This must be longer than or equal to the first arr.
- * @param fraction The fraction of lerp.
- * @param easing Any easing to use.
- * @returns number[] - with length = startArr
- */
-export function arrLerp(startArr: number[], end: number[] | number, fraction: number, easing?: EASE) {
-	if (typeof end == "number") {
-		return startArr.map(x => {
-			return lerp(x, end as number, fraction, easing);
-		});
-	} else {
-		repeat(startArr.length, i => {
-			startArr[i] = end[i] ? lerp(startArr[i], end[i], fraction, easing) : startArr[i];
-		});
-		return startArr;
-	}
 }
 
 /**
