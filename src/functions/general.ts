@@ -199,10 +199,10 @@ export function arrFromFunction(length: number, func: (x: number) => number) {
 	});
 }
 
-export function shuffle<T>(array: T[], seed: number = Math.random()): T[] {
+export function shuffle<T extends number[]>(array: T, seed: number = Math.random()): T {
 	for (let i = array.length - 1; i > 0; i--) {
 		const j = Math.floor(seedRNG(0, 1, seed * Math.PI * (i + 1)) * (i + 1));
 		[array[i], array[j]] = [array[j], array[i]];
 	}
-	return array;
+	return array as T;
 }
