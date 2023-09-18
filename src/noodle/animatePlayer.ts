@@ -1,45 +1,12 @@
-import { CustomEvent, CustomEventInternals, EASE, Note } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { allBetween, MKCache, MKLog } from "../functions/general.ts";
+import { CustomEvent, CustomEventInternals, EASE } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { MKCache, MKLog } from "../functions/general.ts";
 import { activeDiffGet } from "https://deno.land/x/remapper@3.1.2/src/beatmap.ts";
 import { Vec3 } from "https://deno.land/x/remapper@3.1.2/src/general.ts";
 
-export class playerAnim {
-	/**
-	 * A class to animate notes and the player at once.
-	 * @param time The time to start animating the player.
-	 * @param timeEnd The time to stop animating the player.
-	 * @param animation Assign data to the track to assign player / notes to.
-	 * @author Splashcard & Aurellis
-	 */
-	constructor(public time: number = 0, public timeEnd: number = 0, public animation?: (x: CustomEventInternals.AnimateTrack) => void, public playerTrack: string = "player", public noteTrack: string = "notes") {
-		this.playerTrack = playerTrack;
-		this.noteTrack = noteTrack;
-	}
+type fakeKeyFrame = [number, number, number, number, EASE?, "splineCatmullRom"?];
 
-	/**Push the animation to the difficulty.*/
-	push() {
-		// Figure out how to check if a push() statement was included. Then MKLog a warning.
-
-		if (this.animation) {
-			const anim = new CustomEvent(this.time).animateTrack(this.playerTrack, this.timeEnd - this.time);
-			this.animation(anim);
-			anim.push();
-		}
-
-		new CustomEvent(this.time).assignPlayerToTrack(this.playerTrack).push();
-		new CustomEvent(this.time).assignTrackParent([this.noteTrack], this.playerTrack).push();
-		allBetween(this.time, this.timeEnd, (n: Note) => {
-			n.track.add(this.noteTrack);
-		});
-
-		if (MKCache("Read", "logFunctions")) {
-			MKLog(`Added new player animation at beat ${this.time} until beat ${this.timeEnd}...`);
-		}
-	}
-}
-
-export class animatePlayer {
-	private json: { position: [number, number, number, number, EASE?, "splineCatmullRom"?][]; rotation: [number, number, number, number, EASE?, "splineCatmullRom"?][]; lastBeat: number } = { position: [], rotation: [], lastBeat: 0 };
+export class playerAnimation {
+	private json: { position: fakeKeyFrame[]; rotation: fakeKeyFrame[]; lastBeat: number } = { position: [[0, 0, 0, 0]], rotation: [[0, 0, 0, 0]], lastBeat: 0 };
 	/**
 	 * Animates the player over the course of your map.
 	 * @param playerTrack (Default - "player") The track to assign the player to.
@@ -56,54 +23,79 @@ export class animatePlayer {
 	addAnimation(time: number, duration: number, animation: (x: CustomEventInternals.AnimateTrack) => void) {
 		const anim = new CustomEvent().animateTrack();
 		animation(anim);
-		if (typeof anim.animate.position[0] == "number") {
-			const pos = anim.animate.position as Vec3;
-			anim.animate.position = [[pos[0], pos[1], pos[2], 0, "easeStep"]];
-		}
-		if (typeof anim.animate.rotation[0] == "number") {
-			const rot = anim.animate.rotation as Vec3;
-			anim.animate.rotation = [[rot[0], rot[1], rot[2], 0, "easeStep"]];
-		}
-		// Transform times to 0-1
-		if (anim.animate.length) {
-			const pos = anim.animate.position as [number, number, number, number, EASE?, "splineCatmullRom"?][];
+
+		// Pos stuff
+		if (anim.animate.position) {
+			// Make everything a keyframe
+			let pos = anim.animate.position;
+			if (typeof anim.animate.position[0] == "number") {
+				const temp = anim.animate.position as Vec3;
+				pos = [[temp[0], temp[1], temp[2], 0, "easeStep"]];
+			}
+
+			pos = pos as fakeKeyFrame[];
+
+			// Transform times to 0-1
+			if (anim.animate.length) {
+				pos.forEach(x => {
+					x[3] = x[3] / anim.animate.length;
+				});
+			}
+
+			// Rework timings based on time + duration
 			pos.forEach(x => {
-				x[3] = x[3] / anim.animate.length;
+				x[3] = time + x[3] * duration;
 			});
-			const rot = anim.animate.rotation as [number, number, number, number, EASE?, "splineCatmullRom"?][];
-			rot.forEach(x => {
-				x[3] = x[3] / anim.animate.length;
+
+			// Add steps where needed
+			pos[0][4] = "easeStep";
+
+			// Push
+			pos.forEach(x => {
+				this.json.position.push(x as fakeKeyFrame);
 			});
 		}
 
-		// Rework timings based on time + duration
-		const pos = anim.animate.position as [number, number, number, number, EASE?, "splineCatmullRom"?][],
-			rot = anim.animate.rotation as [number, number, number, number, EASE?, "splineCatmullRom"?][];
+		// Rot stuff
+		if (anim.animate.rotation) {
+			// Make everything a keyframe
+			let rot = anim.animate.rotation;
+			if (typeof anim.animate.rotation[0] == "number") {
+				const temp = anim.animate.rotation as Vec3;
+				rot = [[temp[0], temp[1], temp[2], 0, "easeStep"]];
+			}
 
-		pos.forEach(x => {
-			x[3] = time + x[3] * duration;
-		});
-		rot.forEach(x => {
-			x[3] = time + x[3] * duration;
-		});
+			rot = rot as fakeKeyFrame[];
 
-		// Add steps where needed
+			// Transform times to 0-1
+			if (anim.animate.length) {
+				rot.forEach(x => {
+					x[3] = x[3] / anim.animate.length;
+				});
+			}
 
-		pos[0][4] = "easeStep";
-		rot[0][4] = "easeStep";
+			// Rework timings based on time + duration
+
+			rot.forEach(x => {
+				x[3] = time + x[3] * duration;
+			});
+
+			// Add steps where needed
+
+			rot[0][4] = "easeStep";
+
+			// Push
+			rot.forEach(x => {
+				this.json.rotation.push(x as fakeKeyFrame);
+			});
+		}
 
 		// Calculate final beat
 		if (this.json.lastBeat < time + duration) {
 			this.json.lastBeat = time + duration;
 		}
 
-		// Push
-		pos.forEach(x => {
-			this.json.position.push(x);
-		});
-		rot.forEach(x => {
-			this.json.rotation.push(x);
-		});
+		return this;
 	}
 	/**
 	 * Pushes your player animation to the active difficulty. If you included a push() statement in the addAnimation() sections, it will get duplicated and the animation will be broken.
@@ -139,5 +131,9 @@ export class animatePlayer {
 		anim.animate.position = this.json.position;
 		anim.animate.rotation = this.json.rotation;
 		anim.push();
+
+		if (MKCache("Read", "logFunctions")) {
+			MKLog(`Added new player animation with ${anim.animate.position.length + anim.animate.rotation.length} keyframes...`);
+		}
 	}
 }
