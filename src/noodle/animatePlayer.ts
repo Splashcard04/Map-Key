@@ -26,66 +26,40 @@ export class playerAnimation {
 
 		// Pos stuff
 		if (anim.animate.position) {
-			// Make everything a keyframe
 			let pos = anim.animate.position;
 			if (typeof anim.animate.position[0] == "number") {
 				const temp = anim.animate.position as Vec3;
 				pos = [[temp[0], temp[1], temp[2], 0, "easeStep"]];
 			}
-
-			pos = pos as fakeKeyFrame[];
-
-			// Transform times to 0-1
+			pos = pos as fakeKeyFrame[]; // Silly types have errors
 			if (anim.animate.length) {
 				pos.forEach(x => {
 					x[3] = x[3] / anim.animate.length;
 				});
 			}
-
-			// Rework timings based on time + duration
+			pos[0][4] = "easeStep";
 			pos.forEach(x => {
 				x[3] = time + x[3] * duration;
-			});
-
-			// Add steps where needed
-			pos[0][4] = "easeStep";
-
-			// Push
-			pos.forEach(x => {
 				this.json.position.push(x as fakeKeyFrame);
 			});
 		}
 
 		// Rot stuff
 		if (anim.animate.rotation) {
-			// Make everything a keyframe
 			let rot = anim.animate.rotation;
 			if (typeof anim.animate.rotation[0] == "number") {
 				const temp = anim.animate.rotation as Vec3;
 				rot = [[temp[0], temp[1], temp[2], 0, "easeStep"]];
 			}
-
-			rot = rot as fakeKeyFrame[];
-
-			// Transform times to 0-1
+			rot = rot as fakeKeyFrame[]; // Type thingo
 			if (anim.animate.length) {
 				rot.forEach(x => {
 					x[3] = x[3] / anim.animate.length;
 				});
 			}
-
-			// Rework timings based on time + duration
-
+			rot[0][4] = "easeStep";
 			rot.forEach(x => {
 				x[3] = time + x[3] * duration;
-			});
-
-			// Add steps where needed
-
-			rot[0][4] = "easeStep";
-
-			// Push
-			rot.forEach(x => {
 				this.json.rotation.push(x as fakeKeyFrame);
 			});
 		}
