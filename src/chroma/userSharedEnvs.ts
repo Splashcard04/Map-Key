@@ -1,5 +1,6 @@
 import { activeDiffGet, copy, Environment, ENV_NAMES, Geometry, info, Json, jsonPrune, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { MKLog } from "../functions/general.ts";
+import { optimizeMaterials, optimizeStaticEnvironment } from "../functions/optimizers.ts";
 
 export type USESettings = {
 	name?: string;
@@ -24,26 +25,18 @@ export type USESettings = {
  * @param settings.features.forceEffectsFilter Suggests the effectsFilter to be used with the env.
  * @param settings.features.useChromaEvents Suggests the chromaEvents setting to be used with the env.
  * @param settings.features.basicBeatMapEvents The raw json of basic lighting events to be loaded with the env.
+ * @param optimizeMats (Default - true) Whether or not to run the material optimizer on the geometry in the map.
+ * @param staticifyEnv Whether or not to convert animated environments/geometry into static objects.
  */
-export async function exportShareableEnv(settings?: USESettings) {
+export async function exportShareableEnv(settings?: USESettings, optimizeMats = true, staticifyEnv?: boolean) {
 	if (!settings) {
 		settings = {};
 	}
-	// Default values
-	if (!settings.name) {
-		settings.name = `${info.name} environment`;
+	if (optimizeMats) {
+		optimizeMaterials();
 	}
-	if (!settings.author) {
-		settings.author = info.mapper;
-	}
-	if (!settings.environmentVersion) {
-		settings.environmentVersion = "0.0.1";
-	}
-	if (!settings.description) {
-		settings.description = "Empty description...";
-	}
-	if (!settings.features) {
-		settings.features = {};
+	if (staticifyEnv) {
+		optimizeStaticEnvironment();
 	}
 	// Add light events
 	const eventArray: Json[] = [];
@@ -61,6 +54,7 @@ export async function exportShareableEnv(settings?: USESettings) {
 		}
 	}
 	if (eventArray.length !== 0) {
+		if (!settings.features) settings.features = {};
 		settings.features.basicBeatMapEvents = eventArray.map((x: Json) => {
 			return x.json;
 		});
@@ -100,11 +94,11 @@ export async function exportShareableEnv(settings?: USESettings) {
 			`${settings.name}.dat`,
 			JSON.stringify({
 				version: "1.0.0",
-				name: settings.name,
-				author: settings.author,
-				environmentVersion: settings.environmentVersion,
+				name: settings.name ? settings.name : `${info.name} environment`,
+				author: settings.author ? settings.author : info.mapper,
+				environmentVersion: settings.environmentVersion ? settings.environmentVersion : "0.0.1",
 				environmentName: info.environment,
-				description: settings.description,
+				description: settings.description ? settings.description : "Empty description...",
 				features: settings.features,
 				environment: envArray.map((x: Json) => {
 					return x.json;
