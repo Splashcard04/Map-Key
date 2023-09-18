@@ -13,7 +13,7 @@ export class playerAnimation {
 	 * @param noteTrack (Default - "notes") The track to assign the notes and other objects to.
 	 * @param affectFake (Default - false) Whether or not to affect fake objects too.
 	 */
-	constructor(public playerTrack = "player", public noteTrack = "notes", public affectFake = false) {}
+	constructor(private playerTrack = "player", private noteTrack = "notes", private affectFake = false) {}
 	/**
 	 * Add an animation to your player.
 	 * @param time The time of the animation.
