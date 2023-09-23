@@ -11,23 +11,23 @@ To use Map Key in your script, you will need to import it. This works in the sam
 You can either import all items (not recommended as you will have to prefix everything with `mk.`).
 
 ```ts
-import * as mk from "https://deno.land/x/mapkey@1.3.1/src/ReMapper/mod.ts";
+import * as mk from "https://deno.land/x/mapkey@2.0.0/src/ReMapper/mod.ts";
 ```
 
 Or specify the individual items you need.
 
 ```ts
-import { playerAnim, Polygon } from "https://deno.land/x/mapkey@2.0/mod.ts";
+import { playerAnim, Polygon } from "https://deno.land/x/mapkey@2.0.0/mod.ts";
 ```
 
 **Important!**
 When you add your import it will likely show an error, hover over the link, click quick fix => cache dependancy.
 
-To get started with map key, head over to the [Wiki](https://github.com/Splashcard04/Map-Key/wiki).
+To get started with Map Key, head over to the [Wiki](https://github.com/Splashcard04/Map-Key/wiki).
 
 ## Pull Request Guide
 
-If you didn't already know, map key is an extension for remapper which is composed of mostly utils, if you would like to PR your own function, constant or preset, follow this guide.
+If you didn't already know, Map Key is an extension for remapper which is composed of mostly utils, if you would like to PR your own function, constant or preset, follow this guide.
 
 ### Functions / Utils
 
