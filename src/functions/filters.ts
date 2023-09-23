@@ -1,31 +1,18 @@
 import { Geometry, activeDiffGet, Environment, Note } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-import { GEO_FILTER_PROPS, ENV_FILTER_PROPS, rotation, NOTE_FILTER_PROPS, localRotation } from "../data/types.ts";
 import { MKCache, MKLog } from "./general.ts";
 
 /**
- * Works like notesBetween, except it searches for geometry with multiple properties and values for those properties.
- * @param filter The [[property, value], [property, value]] etc. that the geometry must have to pass.
- * @param forEach What to execute for each geometry piece that passes.
+ * Works like notesBetween, except it searches for geometry based on properties.
+ * @param condition The condition that the geometry must pass to be affected.
+ * @param action The action to run on all passing geometry.
  * @author Aurellis
  */
-export function filterGeometry(filter: [GEO_FILTER_PROPS, number[] | string | number][], forEach: (x: Geometry) => void) {
+export function filterGeometry(condition: (x: Geometry) => boolean, action: (x: Geometry) => void) {
 	let count = 0;
 	activeDiffGet().geometry((arr: Geometry[]) => {
 		arr.forEach(geo => {
-			let pass = true;
-			filter.forEach(fill => {
-				if (fill[0] == "track") {
-					if (!geo.track.has(fill[1].toString())) {
-						pass = false;
-					}
-				} else {
-					if (eval(`geo.${fill[0]}.toString()`) !== fill[1].toString()) {
-						pass = false;
-					}
-				}
-			});
-			if (pass) {
-				forEach(geo);
+			if (condition(geo)) {
+				action(geo);
 				count++;
 			}
 		});
@@ -40,29 +27,17 @@ export function filterGeometry(filter: [GEO_FILTER_PROPS, number[] | string | nu
 }
 
 /**
- * Works like notesBetween, except it searches for environments with multiple properties and values for those properties.
- * @param filter The [[property, value], [property, value]] etc. that the environments must have to pass.
- * @param forEach What to execute for each environment that passes.
+ * Works like notesBetween, except it searches for environments based on properties.
+ * @param condition The condition that the environments must pass to be affected.
+ * @param action The action to run on all passing environments.
  * @author Aurellis
  */
-export function filterEnvironments(filter: [ENV_FILTER_PROPS, number[] | string | number][], forEach: (x: Environment) => void) {
+export function filterEnvironments(condition: (X: Environment) => boolean, action: (x: Environment) => void) {
 	let count = 0;
 	activeDiffGet().environment((arr: Environment[]) => {
 		arr.forEach(env => {
-			let pass = true;
-			filter.forEach(fill => {
-				if (fill[0] == "track") {
-					if (!env.track.has(fill[1].toString())) {
-						pass = false;
-					}
-				} else {
-					if (eval(`env.${fill[0]}.toString()`) !== fill[1].toString()) {
-						pass = false;
-					}
-				}
-			});
-			if (pass) {
-				forEach(env);
+			if (condition(env)) {
+				action(env);
 				count++;
 			}
 		});
@@ -77,56 +52,24 @@ export function filterEnvironments(filter: [ENV_FILTER_PROPS, number[] | string 
 }
 
 /**
- * Works like notesBetween, except you can filter by multiple properties and values.
- * @param filter The [[property, value], [property, value]] etc. that the notes must have to pass.
- * @param forEach What to execute for each note that passes.
- * @author Aurellis
+ * Works like notesBetween, except it searches based on certain properties.
+ * @param fake Whether to check for fake notes, or regular notes.
+ * @param condition The condition that the notes must pass to be affected.
+ * @param action The action that will be run on all passing notes.
  */
-export function filterNotes(filter: [NOTE_FILTER_PROPS | rotation | localRotation, number[] | string | number | boolean][], forEach: (x: Note) => void) {
-	let fake = false;
+export function filterNotes(fake: boolean, condition: (x: Note) => boolean, action: (x: Note) => void) {
 	let count = 0;
-	filter.forEach(fill => {
-		if (fill[0] == "fake" && fill[1]) {
-			fake = true;
-		}
-	});
 	if (fake) {
-		activeDiffGet().fakeNotes.forEach((n: Note) => {
-			let pass = true;
-			filter.forEach(fill => {
-				if (fill[0] !== "fake") {
-					if (fill[0] == "track") {
-						if (!n.track.has(fill[1].toString())) {
-							pass = false;
-						}
-					} else {
-						if (eval(`n.${fill[0]}.toString()`) !== fill[1].toString()) {
-							pass = false;
-						}
-					}
-				}
-			});
-			if (pass) {
-				forEach(n);
+		activeDiffGet().fakeNotes.forEach(note => {
+			if (condition(note)) {
+				action(note);
 				count++;
 			}
 		});
 	} else {
-		activeDiffGet().notes.forEach((n: Note) => {
-			let pass = true;
-			filter.forEach(fill => {
-				if (fill[0] == "track") {
-					if (!n.track.has(fill[1].toString())) {
-						pass = false;
-					}
-				} else {
-					if (eval(`n.${fill[0]}.toString()`) !== fill[1].toString()) {
-						pass = false;
-					}
-				}
-			});
-			if (pass) {
-				forEach(n);
+		activeDiffGet().notes.forEach(note => {
+			if (condition(note)) {
+				action(note);
 				count++;
 			}
 		});

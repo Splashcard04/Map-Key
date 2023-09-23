@@ -1,36 +1,3 @@
-type transformBase<T extends string> = `position${T}` | `rotation${T}` | `scale${T}`;
-type transformProps = "position" | "rotation" | "scale" | transformBase<"[0]"> | transformBase<"[1]"> | transformBase<"[2]">;
-
-export type GEO_FILTER_PROPS = "track" | "type" | "material" | transformProps;
-
-export type ENV_FILTER_PROPS = "track" | "id" | "lookupMethod" | transformProps;
-
-export type NOTE_FILTER_PROPS =
-	| "time"
-	| "type"
-	| "track"
-	| "x"
-	| "y"
-	| "direction"
-	| "fake"
-	| "interactable"
-	| "color"
-	| "color[0]"
-	| "color[1]"
-	| "color[2]"
-	| "color[3]"
-	| "rotation"
-	| "rotation[0]"
-	| "rotation[1]"
-	| "rotation[2]"
-	| "localRotation"
-	| "localRotation[0]"
-	| "localRotation[1]"
-	| "localRotation[2]"
-	| "offset"
-	| "NJS";
-
-// to use with params in the filter functions
 export enum position {
 	x = "position[0]",
 	y = "position[1]",
