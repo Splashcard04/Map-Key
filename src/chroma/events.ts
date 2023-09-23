@@ -1,6 +1,5 @@
-import { ColorType, EASE, Event, LightID } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { ColorType, EASE, Event, LightID, lerp } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { repeat } from "../functions/general.ts";
-import { lerp } from "https://deno.land/x/remapper@3.1.2/src/general.ts";
 
 export class lightGradient {
 	/**

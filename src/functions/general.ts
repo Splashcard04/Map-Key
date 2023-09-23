@@ -1,9 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { arcsBetween, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, EASE, FILENAME, getSeconds, info, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { arcsBetween, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, EASE, FILENAME, getSeconds, info, jsonRemove, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { seedRNG } from "./random.ts";
 import { ensureFileSync } from "https://deno.land/std@0.110.0/fs/ensure_file.ts";
-import { jsonRemove } from "https://deno.land/x/remapper@3.1.2/src/general.ts";
 
 /**
  * Put this at the top of your script to console log functions as they are executed.

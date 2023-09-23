@@ -1,6 +1,4 @@
-import { EASE, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
-
-type ColorType = [number, number, number, number] | [number, number, number];
+import { ColorType, EASE, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 
 //Property presets for BlenderFrameMath
 

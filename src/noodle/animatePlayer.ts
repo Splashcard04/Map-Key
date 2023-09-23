@@ -1,7 +1,5 @@
-import { CustomEvent, CustomEventInternals, EASE } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { CustomEvent, CustomEventInternals, EASE, Vec3, activeDiffGet } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { MKCache, MKLog } from "../functions/general.ts";
-import { activeDiffGet } from "https://deno.land/x/remapper@3.1.2/src/beatmap.ts";
-import { Vec3 } from "https://deno.land/x/remapper@3.1.2/src/general.ts";
 
 type fakeKeyFrame = [number, number, number, number, EASE?, "splineCatmullRom"?];
 
