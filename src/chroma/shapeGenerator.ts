@@ -49,7 +49,6 @@ export class Polygon {
 		const returnArray: Geometry[] = [];
 		repeat(this.sides, side => {
 			const cube = new Geometry("Cube", this.material);
-			// Track assignment
 			if (this.track && this.iterateTrack) {
 				cube.track.value = `${this.track}_${side + this.iterateOffset}`;
 			} else if (this.track && !this.iterateTrack) {
@@ -57,11 +56,7 @@ export class Polygon {
 			}
 			const angle = (Math.PI * 2 * side) / this.sides;
 			cube.position = arrAdd(rotatePoint([-Math.sin(angle) * this.radius, -Math.cos(angle) * this.radius, 0], this.rotation), this.position);
-			if (this.innercorners) {
-				cube.scale = [(this.radius - this.scale[1] / 2) * Math.tan(Math.PI / this.sides) * 2, this.scale[1], this.scale[2]];
-			} else {
-				cube.scale = [(this.radius + this.scale[1] / 2) * Math.tan(Math.PI / this.sides) * 2, this.scale[1], this.scale[2]];
-			}
+			cube.scale = [(this.innercorners ? this.radius - this.scale[1] / 2 : this.radius + this.scale[1] / 2) * Math.tan(Math.PI / this.sides) * 2, this.scale[1], this.scale[2]];
 			cube.rotation = [this.rotation[0], this.rotation[1], this.rotation[2] - (180 * angle) / Math.PI];
 			returnArray.push(cube);
 		});
