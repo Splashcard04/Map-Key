@@ -34,31 +34,9 @@ export class Polygon {
 	 * Push the shape to the active diff.
 	 */
 	push() {
-		const cube = new Geometry("Cube", this.material);
-		for (let side = 0; side < this.sides; side++) {
-			// Track assignment
-			if (this.track && this.iterateTrack) {
-				cube.track.value = `${this.track}_${side + this.iterateOffset}`;
-			} else if (this.track && !this.iterateTrack) {
-				cube.track.value = this.track;
-			}
-
-			// Determine that angle of the side (could have used rotatePoint here, but this was a bit easier)
-			const angle = (Math.PI * 2 * side) / this.sides;
-
-			// Apply the offset position to the rotated position
-			cube.position = arrAdd(rotatePoint([-Math.sin(angle) * this.radius, -Math.cos(angle) * this.radius, 0], this.rotation), this.position);
-
-			if (this.innercorners) {
-				cube.scale = [(this.radius - this.scale[1] / 2) * Math.tan(Math.PI / this.sides) * 2, this.scale[1], this.scale[2]];
-			} else {
-				cube.scale = [(this.radius + this.scale[1] / 2) * Math.tan(Math.PI / this.sides) * 2, this.scale[1], this.scale[2]];
-			}
-
-			cube.rotation = [this.rotation[0], this.rotation[1], this.rotation[2] - (180 * angle) / Math.PI];
-
-			cube.push();
-		}
+		this.return().forEach(geo => {
+			geo.push();
+		});
 		if (MKCache("Read", "logFunctions")) {
 			MKLog(`New shape generated...\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`);
 		}

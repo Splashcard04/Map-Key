@@ -1,12 +1,6 @@
-import { activeDiffGet, ColorType, GEO_SHADER, GEO_TYPE, ModelScene, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { activeDiffGet, ColorType, GEO_SHADER, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { shaderKeywords } from "../data/types.ts";
 import { MKCache, MKLog } from "../functions/general.ts";
-
-export type addGroupSettings = {
-	sceneName: ModelScene;
-	blenderMatName: string;
-	geoType: GEO_TYPE;
-};
 
 export class geometryMaterial {
 	/**
