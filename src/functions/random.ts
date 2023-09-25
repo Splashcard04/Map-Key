@@ -25,9 +25,8 @@ export class randArray {
 	 * @returns An array of random values.
 	 */
 	run() {
-		const _prngs = PRNGs;
 		const res: number[] = [];
-		const number = new Seed("", eval(`_prngs.${this.algorithm}`));
+		const number = new Seed("", PRNGs[this.algorithm]);
 		for (let i = 0; i < this.length; i++) {
 			number.seed = `${this.seed}${i}`;
 			if (this.decimals == 0) {
@@ -47,9 +46,8 @@ export class randArray {
 	 */
 	runUniqueConsecutive(buffer = 20, debugBuffer = false, countSingleRuns = false) {
 		const bufferruns = [];
-		const _prngs = PRNGs;
 		const res: number[] = [];
-		const number = new Seed("", eval(`_prngs.${this.algorithm}`));
+		const number = new Seed("", PRNGs[this.algorithm]);
 		let gen = 0;
 		for (let i = 0; i < this.length; i++) {
 			let j = 0;
@@ -90,9 +88,8 @@ export class randArray {
 	 */
 	runUnique(buffer = 20, debugBuffer = false, countSingleRuns = false) {
 		const bufferruns = [];
-		const _prngs = PRNGs;
 		const res: number[] = [];
-		const number = new Seed("", eval(`_prngs.${this.algorithm}`));
+		const number = new Seed("", PRNGs[this.algorithm]);
 		let gen = 0;
 		for (let i = 0; i < this.length; i++) {
 			let j = 0;
@@ -177,11 +174,8 @@ export class Noise {
  * @author Aurellis
  */
 export function seedRNG(min: number, max: number, seed: number | string = Date.now()) {
-	const number = new Seed(seed.toString(), PRNGs.mulberry32);
-	if (min > max) {
-		[min, max] = [max, min];
-	}
-	return number.randomFloat(min, max);
+	[min, max] = min > max ? [max, min] : [min, max];
+	return new Seed(seed.toString()).randomFloat(min, max);
 }
 
 /**
