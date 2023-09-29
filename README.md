@@ -23,7 +23,7 @@ import { playerAnimation, Polygon } from "https://deno.land/x/mapkey@2.0.0/mod.t
 **Important!**
 When you add your import it will likely show an error, hover over the link, click quick fix => cache dependancy.
 
-To get started with Map Key, head over to the [Wiki](https://github.com/Splashcard04/Map-Key/wiki).
+To get started with Map Key, head over to the [Wiki](https://github.com/Splashcard04/Map-Key/DOCS.md).
 
 ## Pull Request Guide
 
