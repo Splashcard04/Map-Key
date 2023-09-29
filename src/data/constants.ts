@@ -25,6 +25,9 @@ export const Env = {
 		lowerClouds: "LowCloudsGenerator$",
 		allClouds: "Clouds$"
 	},
+	FitBeat: {
+		solidLaser: "Rot\\w+\\.\\[\\d+\\]BaseL.+Laser$"
+	},
 	all: {
 		cinemaScreen: "CinemaScreen$",
 		cinemaDirLight: "CinemaDirectionalLight$",
