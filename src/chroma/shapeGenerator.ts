@@ -76,7 +76,7 @@ export class primitiveShape {
 	 * @param scale The scale of the individual sides of the shape. (Note - the x value is ignored as it is used to fill the sides).
 	 * @param rotation The rotation to apply to the shape.
 	 * @param track The track for the shape.
-	 * @param iterateTrack (Default - true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < the number of cubes in the shape}
+	 * @param iterateTrack (Default = true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < the number of cubes in the shape}
 	 * @param iterateOffset The offset to begin iterating tracks from.
 	 * @author Aurellis
 	 */

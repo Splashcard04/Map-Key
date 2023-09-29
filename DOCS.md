@@ -99,4 +99,108 @@ This will create a strobing sequence that flashes between red and black between 
 -   ease: (Optional) Whether to use an easing on the strobe.
 
 **Important**
-The current update of remapper contains broken easing functions, this won't affect most cases, but it does affect some easings on the strobe generator. This issue does not affect animation or keyframes as they use Unity's easings.
+The current update of ReMapper (3.1.2) contains broken easing functions, this won't affect most cases, but it does affect some easings on the strobe generator. This issue does not affect animation or keyframes as they use Unity's easings.
+
+## Material Creator
+
+This class helps to make geometry materials and add them to your map. Also includes a type to help with auto-filling shader keywords.
+**Example:**
+
+```js
+new geometryMaterial("solidBlack").shader("BTSPillar").push();
+```
+
+This will create a new material called `"solidBlack"` that uses the `BTSPillar` shader.
+
+### Params
+
+-   name: The name of your material.
+-   shader(): The shader for your material to use.
+-   color(): The color of your material.
+-   track(): The track of your material.
+-   shaderKeywords(): The shader keywords to apply to your material.
+
+### Formatting shader keywords.
+
+To properly apply your shader keywords, they will need to be formatted correctly.
+For example, if you are using the `BTSPillar` shader, your keywords should be formatted like:
+
+```js
+.shaderKeywords({"BTSPillar": [keyword, keyword, keyword]})
+```
+
+## Polygon generator
+
+This class will create a 2d polygon out of geometry cubes.
+**Example:**
+
+```js
+new Polygon("material", 5, 10, [0, 0, 10], [1, 1, 1]).push();
+```
+
+This will create a pentagon out of cubes with the material called `"material"`, the pentagon will have a radius of 10 and the cubes will be 1 meter wide.
+
+### Params
+
+-   material: The name of the material to create the polygon with.
+-   sides: The number of sides on the shape.
+-   radius: The radius of the shape, this will be the distance form the center to the middle of each side.
+-   position: The position of the center to the shape.
+-   scale: The scale of each side in the shape, the X value of this is ignored since it is used to fill the sides.
+-   rotation: The rotation of the shape.
+-   innercorcners: Makes the edges join on the inner corners of each side rather than the outer. This option makes triangles look better.
+-   track: The track to give each of the sides of the shape.
+-   iterateTrack: (Default = true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < sides}
+-   iterateOffset: The number to start iterating tracks from, the first track number will be this number.
+-   push(): Pushes the polygon to the active diff.
+-   return(): returns the array of geometry instead of pushing it, this is an advanced feature that only has some very specific uses.
+
+## Primitive Shape Generator
+
+Despite the name, this class is rather useful. It can create several basic 3d shapes from geometry cubes.
+Currently, the shapes it can generate are:
+
+-   Prisms: Any 2d shape that has been extruded, this includes cubes.
+-   Spheres: These spheres are made out of rings.
+-   Cones: This includes pyramids.
+
+**Example:**
+
+```js
+new primitiveShape("material", [0, 0, 10], [1, 1, 1]).prism(4, 5, 10, false, true).push();
+```
+
+This will create a cube with sides 10 meters in length using the material `"material"`
+
+### Base Params
+
+-   material: The name of the geometry material to create the shape with.
+-   position: The position of the center of the shape.
+-   scale: The scale of each of the pieces that make up the sides of the shape, X value is ignored as it is used to fill the sides.
+-   rotation: The rotation of the shape.
+-   track: The track to apply to each piece of the shape.
+-   iterateTrack: (Default = true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < the number of cubes in the shape}.
+-   iterateOffset: The offset to begin iterating tracks from.
+
+### Prism Params
+
+-   sides: The number of sides of the prism.
+-   radius: The radius of the 2d shape at each end.
+-   length: The length of the extrustion between each end.
+-   innerCorners: Makes the corners touch on the inside edge of each side rather than the outside edge.
+-   alignedSides: Aligns the rotation of the sides to the nearest clockwise side of the 2d shape at each end of the prism.
+
+### Ring Sphere Params
+
+-   rings: The number of rings to make the sphere from.
+-   segments: The number of segments in each ring.
+-   radius: The radius of the sphere.
+-   innerCorners: Makes the segments join on the inside edge of each corner rather than the outside edge.
+
+### Ring Cone Params
+
+-   rings: The number of rings to make the cone from.
+-   segments: The number of segments in each ring.
+-   baseRadius: The radius of the base shape of the cone.
+-   depth: The depth of the cone. i.e., the distance from the base to the point.
+-   innerCorners: Makes the segments join on the inside edge of each corner rather than the outside edge.
