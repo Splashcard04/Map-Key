@@ -150,7 +150,7 @@ This will create a pentagon out of cubes with the material called `"material"`, 
 -   rotation: The rotation of the shape.
 -   innercorcners: Makes the edges join on the inner corners of each side rather than the outer. This option makes triangles look better.
 -   track: The track to give each of the sides of the shape.
--   iterateTrack: (Default = true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < sides}
+-   iterateTrack: (Default = true) Changes the track value for each piece of the shape. False: every piece will have the same track. True: each piece will have the track `${track}_${i}` where {0 <= i < sides}.
 -   iterateOffset: The number to start iterating tracks from, the first track number will be this number.
 -   push(): Pushes the polygon to the active diff.
 -   return(): returns the array of geometry instead of pushing it, this is an advanced feature that only has some very specific uses.
