@@ -33,6 +33,7 @@ The following guide will explain the key features of MapKey, note that this is f
 ## Despawner
 
 This function will remove certain environment objects from your map.
+
 **Example:**
 
 ```js
@@ -51,6 +52,7 @@ This will use the `Contains` lookup to despawn `PlayersPlace` and `Mirror`, then
 ## Light Gradient
 
 A simple gradient creator, this creates a gradient transition for a light over a set number of beats.
+
 **Example:**
 
 ```js
@@ -80,6 +82,7 @@ This will create a gradient from beat 0 to beat 16 on event type 1 (ring lights)
 ## Strobe Generator
 
 A simple generator function to create strobe sequences in your map.
+
 **Example:**
 
 ```js
@@ -104,6 +107,7 @@ The current update of ReMapper (3.1.2) contains broken easing functions, this wo
 ## Material Creator
 
 This class helps to make geometry materials and add them to your map. Also includes a type to help with auto-filling shader keywords.
+
 **Example:**
 
 ```js
@@ -132,6 +136,7 @@ For example, if you are using the `BTSPillar` shader, your keywords should be fo
 ## Polygon generator
 
 This class will create a 2d polygon out of geometry cubes.
+
 **Example:**
 
 ```js
