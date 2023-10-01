@@ -1,8 +1,6 @@
 import { activeDiffGet, copy, jsonRemove, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { filterGeometry, repeat } from "../../mod.ts";
 
-export type materialNamingMethods = "Numbered" | "By Properties" | "Geometry Type Numbered" | "Shader Numbered";
-
 /**
  * Returns if 2 arrs are identical, disregarding order.
  */
@@ -11,30 +9,9 @@ function duplicateArrsNoOrder<T extends any[]>(arr1: T, arr2: T) {
 	if (arr1.length !== arr2.length) {
 		return false;
 	}
-	const arr1inst: Record<string, number> = {},
-		arr2inst: Record<string, number> = {};
-	arr1.forEach(x => {
-		if (!arr1inst[`${x}`]) {
-			arr1inst[`${x}`] = 1;
-		} else {
-			arr1inst[`${x}`]++;
-		}
-	});
-	arr2.forEach(x => {
-		if (!arr2inst[`${x}`]) {
-			arr2inst[`${x}`] = 1;
-		} else {
-			arr2inst[`${x}`]++;
-		}
-	});
-	const temparr = Object.entries(arr1inst);
-	let ret = true;
-	repeat(temparr.length, i => {
-		if (arr2inst[temparr[i][0]] !== temparr[i][1]) {
-			ret = false;
-		}
-	});
-	return ret;
+	arr1 = arr1.sort();
+	arr2 = arr2.sort();
+	return arr1.toString() == arr2.toString();
 }
 
 /**
