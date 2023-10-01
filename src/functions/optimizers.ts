@@ -4,6 +4,40 @@ import { filterGeometry, repeat } from "../../mod.ts";
 export type materialNamingMethods = "Numbered" | "By Properties" | "Geometry Type Numbered" | "Shader Numbered";
 
 /**
+ * Returns if 2 arrs are identical, disregarding order.
+ */
+// deno-lint-ignore no-explicit-any
+function duplicateArrsNoOrder<T extends any[]>(arr1: T, arr2: T) {
+	if (arr1.length !== arr2.length) {
+		return false;
+	}
+	const arr1inst: Record<string, number> = {},
+		arr2inst: Record<string, number> = {};
+	arr1.forEach(x => {
+		if (!arr1inst[`${x}`]) {
+			arr1inst[`${x}`] = 1;
+		} else {
+			arr1inst[`${x}`]++;
+		}
+	});
+	arr2.forEach(x => {
+		if (!arr2inst[`${x}`]) {
+			arr2inst[`${x}`] = 1;
+		} else {
+			arr2inst[`${x}`]++;
+		}
+	});
+	const temparr = Object.entries(arr1inst);
+	let ret = true;
+	repeat(temparr.length, i => {
+		if (arr2inst[temparr[i][0]] !== temparr[i][1]) {
+			ret = false;
+		}
+	});
+	return ret;
+}
+
+/**
  * Converts all identical materials on geometry into a single map-wide material.
  * @param namingMethod Decides the way to name the created materials. Defaults to numbered.
  */
@@ -19,7 +53,8 @@ export function optimizeMaterials() {
 				activeDiffGet().geometry(ray => {
 					ray.forEach(x => {
 						const xmat = x.material as RawGeometryMaterial;
-						if (mat.shader == xmat.shader && mat.color == xmat.color && mat.shaderKeywords == xmat.shaderKeywords && mat.track == xmat.track) {
+						// Very ugly condition
+						if (mat.shader == xmat.shader && mat.color?.toString() == xmat.color?.toString() && (xmat.shaderKeywords ? (mat.shaderKeywords ? duplicateArrsNoOrder(xmat.shaderKeywords, mat.shaderKeywords) : false) : !mat.shaderKeywords) && mat.track == xmat.track) {
 							copied = true;
 							x.material = name;
 						}
@@ -47,7 +82,7 @@ export function optimizeMaterials() {
 					proc = false;
 				}
 			});
-			if (mat.shader == xmat.shader && mat.color == xmat.color && mat.shaderKeywords == xmat.shaderKeywords && mat.track == xmat.track && i !== j && proc) {
+			if (mat.shader == xmat.shader && mat.color?.toString() == xmat.color?.toString() && (xmat.shaderKeywords ? (mat.shaderKeywords ? duplicateArrsNoOrder(xmat.shaderKeywords, mat.shaderKeywords) : false) : !mat.shaderKeywords) && mat.track == xmat.track && i !== j && proc) {
 				dupes.push([i, j]);
 			}
 		});
