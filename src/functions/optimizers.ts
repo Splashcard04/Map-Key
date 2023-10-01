@@ -6,9 +6,6 @@ import { filterGeometry, repeat } from "../../mod.ts";
  */
 // deno-lint-ignore no-explicit-any
 function duplicateArrsNoOrder<T extends any[]>(arr1: T, arr2: T) {
-	if (arr1.length !== arr2.length) {
-		return false;
-	}
 	arr1 = arr1.sort();
 	arr2 = arr2.sort();
 	return arr1.toString() == arr2.toString();
