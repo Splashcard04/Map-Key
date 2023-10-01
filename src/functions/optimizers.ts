@@ -1,4 +1,5 @@
-import { activeDiffGet, copy, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { activeDiffGet, copy, jsonRemove, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { filterGeometry, repeat } from "../../mod.ts";
 
 export type materialNamingMethods = "Numbered" | "By Properties" | "Geometry Type Numbered" | "Shader Numbered";
 
@@ -6,23 +7,14 @@ export type materialNamingMethods = "Numbered" | "By Properties" | "Geometry Typ
  * Converts all identical materials on geometry into a single map-wide material.
  * @param namingMethod Decides the way to name the created materials. Defaults to numbered.
  */
-export function optimizeMaterials(namingMethod: materialNamingMethods = "Numbered") {
+export function optimizeMaterials() {
 	activeDiffGet().geometry(arr => {
 		let i = 0;
 		arr.forEach(geo => {
 			let copied = false;
 			if (typeof geo.material !== "string") {
-				const mat = copy(geo.material);
-				let name: string;
-				if (namingMethod == "By Properties") {
-					name = `${mat.color?.join()}${mat.shader}${mat.shaderKeywords?.join()}${mat.track}`;
-				} else if (namingMethod == "Geometry Type Numbered") {
-					name = `${geo.type}${i}`;
-				} else if (namingMethod == "Shader Numbered") {
-					name = `${mat.shader}${i}`;
-				} else {
-					name = i.toString();
-				}
+				const mat = copy(geo.material),
+					name = `${i}`;
 				geo.material = name;
 				activeDiffGet().geometry(ray => {
 					ray.forEach(x => {
@@ -41,6 +33,35 @@ export function optimizeMaterials(namingMethod: materialNamingMethods = "Numbere
 				}
 			}
 		});
+	});
+	// Optimize duplicate materials
+	const matArr = Object.entries(activeDiffGet().geoMaterials),
+		dupes: number[][] = [];
+	repeat(matArr.length, i => {
+		const mat = matArr[i][1];
+		repeat(matArr.length, j => {
+			const xmat = matArr[j][1];
+			let proc = true;
+			dupes.forEach(x => {
+				if (x[0] == j) {
+					proc = false;
+				}
+			});
+			if (mat.shader == xmat.shader && mat.color == xmat.color && mat.shaderKeywords == xmat.shaderKeywords && mat.track == xmat.track && i !== j && proc) {
+				dupes.push([i, j]);
+			}
+		});
+	});
+	dupes.forEach(d => {
+		filterGeometry(
+			x => {
+				return x.material == matArr[d[1]][0];
+			},
+			geo => {
+				geo.material = matArr[d[0]][0];
+			}
+		);
+		jsonRemove(activeDiffGet().geoMaterials, matArr[d[1]][0]);
 	});
 }
 
