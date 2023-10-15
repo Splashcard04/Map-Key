@@ -224,15 +224,14 @@ This will export all your environments and geometry into a file called `My cool 
 
 ### Params
 
--   settings: {
+-   settings:
+
     -   name: The name for the environment (in game) and the environment file.
     -   author: The author of the environment, will default to the mapper name if left blank.
     -   environmentVersion: The version of your environment, useful if you continue to make changes to your environment.
     -   description: The description of your environment, this is currently unused by chroma but will be added later.
     -   copyLightEvents: Optional to copy lighting events from the map to your environment.
     -   features: see below.
-
-}
 
 -   optimizeMats: (Default = true) Whether or not to run the material optimizer on your map.
 -   staticifyEnv: Whether or not to convert animated environments/geometry into static objects in your map.
