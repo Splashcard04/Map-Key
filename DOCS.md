@@ -284,6 +284,7 @@ This will take every piece of geometry that has the track `"cubes"`, or the posi
 ## Environment Filter
 
 This function is exactly the same as the [geometry filter](#geometry-filter), but for environment objects.
+
 **Example:**
 
 ```js
@@ -305,6 +306,7 @@ This will add the track `"stuff"` to all environment objects that use the `"Cont
 ## Note Filter
 
 Works exactly the same as the other filter functions, except it runs for notes.
+
 **Example:**
 
 ```js
