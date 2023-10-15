@@ -164,10 +164,7 @@ export function repeat(repeat: number, code: (i: number) => void) {
  * @param point2 The second point.
  * @returns number - The distance between point1 and point2.
  */
-export function distance(point1: Vec3, point2: Vec3) {
-	// Literally just an abstraction of Math.hypot(), but it is a bit more user-friendly
-	return Math.hypot(point2[0] - point1[0], point2[1] - point1[1], point2[2] - point1[2]);
-}
+export const distance = (point1: Vec3, point2: Vec3) => Math.hypot(...arrSubtract(point2, point1));
 
 /**
  * Works the same way as rotatepoint but returns a keyframe, so you can replace a keyframe with this function.

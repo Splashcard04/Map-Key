@@ -47,7 +47,7 @@ This will use the `Contains` lookup to despawn `PlayersPlace` and `Mirror`, then
 -   lookup: The lookup method to use for despawning objects.
 -   ids: The ids of your objects to despawn.
 -   restore: (Optional) Objects to restore after despawning.
--   hardDespawn: (Optional) Object to despawn based on the `active` property. These objects canot be used later in your map, and will not be restored by `restore`.
+-   hardDespawn: (Optional) Object to despawn based on the `active` property. These objects can't be used later in your map and will not be restored by `restore`.
 
 ## Light Gradient
 
@@ -149,7 +149,7 @@ This will create a pentagon out of cubes with the material called `"material"`, 
 
 -   material: The name of the material to create the polygon with.
 -   sides: The number of sides on the shape.
--   radius: The radius of the shape, this will be the distance form the center to the middle of each side.
+-   radius: The radius of the shape, this will be the distance from the center to the middle of each side.
 -   position: The position of the center to the shape.
 -   scale: The scale of each side in the shape, the X value of this is ignored since it is used to fill the sides.
 -   rotation: The rotation of the shape.
@@ -191,7 +191,7 @@ This will create a cube with sides 10 meters in length using the material `"mate
 
 -   sides: The number of sides of the prism.
 -   radius: The radius of the 2d shape at each end.
--   length: The length of the extrustion between each end.
+-   length: The length of the extrusion between each end.
 -   innerCorners: Makes the corners touch on the inside edge of each side rather than the outside edge.
 -   alignedSides: Aligns the rotation of the sides to the nearest clockwise side of the 2d shape at each end of the prism.
 
@@ -209,3 +209,117 @@ This will create a cube with sides 10 meters in length using the material `"mate
 -   baseRadius: The radius of the base shape of the cone.
 -   depth: The depth of the cone. i.e., the distance from the base to the point.
 -   innerCorners: Makes the segments join on the inside edge of each corner rather than the outside edge.
+
+## Environment Exporter
+
+This function will take all the environments from your map and convert them into a file that you can share. To read more on how to use these files, look [here](https://github.com/Aeroluna/Heck/wiki/EnvironmentJSONS). This function optionally also optimizes the geometry materials in your map using the `optimizeMaterials()` function, and can convert your animated environment pieces into static ones with the `optimizeStaticEnvironment()` function. These functions are both features of MapKey that you can use separately if you want.
+
+**Example:**
+
+```js
+exportShareableEnv({ name: "My cool environment" });
+```
+
+This will export all your environments and geometry into a file called `My cool environment.dat`. This function will modify elements of your map, so it's highly recommended to run the function after your `map.save()`.
+
+### Params
+
+-   settings: {
+    -   name: The name for the environment (in game) and the environment file.
+    -   author: The author of the environment, will default to the mapper name if left blank.
+    -   environmentVersion: The version of your environment, useful if you continue to make changes to your environment.
+    -   description: The description of your environment, this is currently unused by chroma but will be added later.
+    -   copyLightEvents: Optional to copy lighting events from the map to your environment.
+    -   features: { - forceEffectsFilter: Suggests the effectsFilter to be used with the environment. - useChromaEvents: Suggests the chromaEvents setting to be used with the environment. - basicBeatMapEvents: The raw JSON of lighting events to be loaded with your environment. The copyLightEvents setting already does this.
+        }
+
+}
+
+-   optimizeMats: (Default = true) Whether or not to run the material optimizer on your map.
+-   staticifyEnv: Whether or not to convert animated environments/geometry into static objects in your map.
+
+## Environment Importer
+
+This function can be used to import the environments and geometry from a user shared environment file and add them to your map.
+
+**Example:**
+
+```js
+importShareableEnv("My cool environment");
+```
+
+This will take the environment data from `My cool environment.dat` and add it to your map.
+
+### Params
+
+-   file: The name of the environment file. If the file is in a folder, you will need to include the name of the folder (e.g., `New Folder/My cool environment`). You don't need to include the `.dat` on the end.
+-   conflictingBaseEnv: This parameter is only needed if the base environment in the imported environment is different from the one in your map. This option will allow you to specify which base environment to use.
+
+## Geometry Filter
+
+This function will filter through all the geometry objects in your map based on certain conditions, then run some code for each geometry that is filtered. It works in the same way as lightRemapper does.
+
+**Example:**
+
+```js
+filterGeometry(
+	x => x.track.has("cubes") || geo.position == [0, 10, 0],
+	geo => {
+		geo.position = [0, 0, 10];
+	}
+);
+```
+
+This will take every piece of geometry that has the track `"cubes"`, or the position `[0, 10, 0]` and move them to the position `[0, 0, 10]`.
+
+### Params
+
+-   condition: The condition that the geometry must pass to be affected.
+-   action: The action to run on all passing geometry.
+
+## Environment Filter
+
+This function is exactly the same as the [geometry filter](#geometry-filter), but for environment objects.
+**Example:**
+
+```js
+filterEnvironments(
+	env => env.lookupMethod == "Contains",
+	env => {
+		env.track.add("stuff");
+	}
+);
+```
+
+This will add the track `"stuff"` to all environment objects that use the `"Contains"` lookup.
+
+### Params
+
+-   condition: The condition that the environments must pass to be affected.
+-   action: The action to run on all passing environments.
+
+## Note Filter
+
+Works exactly the same as the other filter functions, except it runs for notes.
+**Example:**
+
+```js
+filterNotes(
+	false,
+	n => n.time >= 64 && n.time < 128,
+	note => {
+		note.animate.dissolve = [
+			[0, 0],
+			[1, 0.1]
+		];
+	}
+);
+```
+
+This will filter through all the non-fake notes in your map for any between beat 64 and 128. Then add a dissolve animation to the filtered notes. This implementation of the note filter function could be simply done with a `notesBetween()` from ReMapper.
+
+### Params
+
+-   fake: Whether to target fake or regular notes.
+-   condition: The condition that the notes must pass to be affected.
+-   action: The action to run on all passing notes.

@@ -126,6 +126,9 @@ export async function exportShareableEnv(settings?: USESettings, optimizeMats = 
  * @todo Event imports.
  */
 export function importShareableEnv(file: string, conflictingBaseEnv?: "Keep Map Environment" | "Use Imported Environment") {
+	if (!/.*\.dat/.test(file)) {
+		file += ".dat";
+	}
 	const USE = JSON.parse(Deno.readTextFileSync(file));
 	// deno-lint-ignore no-explicit-any
 	const env = USE.environment as any[];
