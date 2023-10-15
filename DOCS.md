@@ -230,13 +230,18 @@ This will export all your environments and geometry into a file called `My cool 
     -   environmentVersion: The version of your environment, useful if you continue to make changes to your environment.
     -   description: The description of your environment, this is currently unused by chroma but will be added later.
     -   copyLightEvents: Optional to copy lighting events from the map to your environment.
-    -   features: { - forceEffectsFilter: Suggests the effectsFilter to be used with the environment. - useChromaEvents: Suggests the chromaEvents setting to be used with the environment. - basicBeatMapEvents: The raw JSON of lighting events to be loaded with your environment. The copyLightEvents setting already does this.
-        }
+    -   features: see below.
 
 }
 
 -   optimizeMats: (Default = true) Whether or not to run the material optimizer on your map.
 -   staticifyEnv: Whether or not to convert animated environments/geometry into static objects in your map.
+
+The features section of settings has the following parameters:
+
+-   forceEffectsFilter: Suggests the effectsFilter to be used with the environment.
+-   useChromaEvents: Suggests the chromaEvents setting to be used with the environment.
+-   basicBeatMapEvents: The raw JSON of lighting events to be loaded with your environment. The copyLightEvents setting already does this.
 
 ## Environment Importer
 
