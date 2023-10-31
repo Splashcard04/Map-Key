@@ -62,7 +62,7 @@ export class lightGradient {
 		let i = 0;
 		this.colors.forEach(color => {
 			if (i !== 0) {
-				const ev = new Event((i * this.duration) / (this.colors.length - 1)).backLasers().in(color);
+				const ev = new Event((i * this.duration) / (this.colors.length - 1) + this.time).backLasers().in(color);
 				ev.type = this.lightType;
 				if (this.ease) {
 					ev.easing = this.ease;
