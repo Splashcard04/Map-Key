@@ -146,7 +146,7 @@ export class geometryMaterial {
 		this.shader = "WaterfallMirror";
 		return this;
 	}
-	/**Push the material to the active diff (and primary group if applicable). */
+	/**Push the material to the active diff. */
 	push() {
 		activeDiffGet().geoMaterials[this.name] = this.material;
 
