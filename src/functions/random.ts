@@ -1,7 +1,8 @@
-import { PRNGs, Seed } from "https://deno.land/x/seed@1.0.0/index.ts";
-import { copy, setDecimals } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { Seed } from "https://deno.land/x/seed@1.0.0/index.ts";
+import { Vec2, copy, setDecimals } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { makeNoise2D, makeNoise3D, makeNoise4D } from "https://deno.land/x/open_simplex_noise@v2.5.0/mod.ts";
 import { MKLog, repeat } from "./general.ts";
+import { arrFromFunction } from "../../mod.ts";
 
 export class randArray {
 	/**
@@ -10,118 +11,65 @@ export class randArray {
 	 * @param range The min/max that the numbers in the array can be.
 	 * @param length The length of the array (how many numbers to generate).
 	 * @param decimals The precision of the result (0 for integers).
-	 * @param algorithm The seeded prng algorithm to use.
-	 * @author Aurellis
 	 */
-	constructor(public seed: number | string = Date.now(), public range: [number, number] = [0, 1], public length: number = 2, public decimals = 5, public algorithm: "mulberry32" | "jsf32" | "sfc32" | "xoshiro128" = "mulberry32") {
-		range.sort((a, b) => {
-			if (a > b) return 1;
-			if (a < b) return -1;
-			return 0;
-		});
-	}
+	constructor(public seed: number | string = Math.random(), public range: Vec2 = [0, 1], public length = 2, public decimals = 5) {}
 	/**
 	 * Creates the array based on set parameters.
 	 * @returns An array of random values.
 	 */
 	run() {
+		return arrFromFunction(this.length, x => setDecimals(seedRNG(this.range[0], this.range[1], `${this.seed}blahblah${x}`), this.decimals));
+	}
+	/**
+	 * Ensures that no two numbers in the array are identical. This is the slowest method on this class. Please only use it if you must.
+	 * @param buffer The number of times to try for a unique number (prevents infinite repeats under certain circumstances).
+	 * @returns An array of random values.
+	 */
+	runUnique(buffer = this.length) {
 		const res: number[] = [];
-		const number = new Seed("", PRNGs[this.algorithm]);
-		for (let i = 0; i < this.length; i++) {
-			number.seed = `${this.seed}${i}`;
-			if (this.decimals == 0) {
-				res.push(number.randomInt(this.range[0], this.range[1]));
-			} else {
-				res.push(setDecimals(number.randomFloat(this.range[0], this.range[1]), this.decimals));
+		repeat(this.length, i => {
+			let unique = false,
+				att = NaN;
+			for (let j = 0; j < buffer && !unique; j++) {
+				att = setDecimals(seedRNG(this.range[0], this.range[1], `${this.seed}blah${i}blah${j}`), this.decimals);
+				let copy = false;
+				res.forEach(x => {
+					if (x == att) {
+						copy = true;
+					}
+				});
+				unique = !copy;
 			}
-		}
+			if (!unique) {
+				MKLog(`Failed to find unique number, using ${att} instead...`, "Error");
+			}
+			res.push(att);
+		});
 		return res;
 	}
 	/**
 	 * Ensures that no consecutive numbers are identical.
 	 * @param buffer The number of times to try for a unique number (prevents infinite repeats under certain circumstances).
-	 * @param debugBuffer Whether or not to log the number of runs needed for each array entry.
-	 * @param countSingleRuns Whether or not to count successful runs (runs that generated a unique number on the first try) in the buffer log.
 	 * @returns An array of random values.
 	 */
-	runUniqueConsecutive(buffer = 20, debugBuffer = false, countSingleRuns = false) {
-		const bufferruns = [];
+	runUniqueConsecutive(buffer = this.length) {
 		const res: number[] = [];
-		const number = new Seed("", PRNGs[this.algorithm]);
-		let gen = 0;
-		for (let i = 0; i < this.length; i++) {
-			let j = 0;
-			for (let unique = false; unique == false && j < buffer; j++) {
-				number.seed = `${this.seed}${i}${j}`;
-				if (this.decimals == 0) {
-					gen = number.randomInt(this.range[0], this.range[1]);
-				} else {
-					gen = setDecimals(number.randomFloat(this.range[0], this.range[1]), this.decimals);
-				}
-				if (gen !== res[i - 1]) {
+		let prev = NaN;
+		repeat(this.length, i => {
+			let unique = false,
+				att = NaN;
+			for (let j = 0; j < buffer && !unique; j++) {
+				att = setDecimals(seedRNG(this.range[0], this.range[1], `${this.seed}blah${i}blah${j}`), this.decimals);
+				if (att !== prev) {
 					unique = true;
 				}
 			}
-			if (debugBuffer) {
-				if (countSingleRuns) {
-					bufferruns.push(j);
-				} else if (j !== 1) {
-					bufferruns.push(j);
-				}
+			if (!unique) {
+				MKLog(`Failed to find unique number, using ${att} instead...`, "Error");
 			}
-			if (j >= buffer) {
-				MKLog(`Failed to find unique number, using ${gen} instead...`, "Error");
-			}
-			res.push(gen);
-		}
-		if (debugBuffer) {
-			MKLog(bufferruns);
-		}
-		return res;
-	}
-	/**
-	 * Ensures that no two numbers in the array are identical. This is the slowest method on this class. Please only use it if you must.
-	 * @param buffer The number of times to try for a unique number (prevents infinite repeats under certain circumstances).
-	 * @param debugBuffer Whether or not to log the number of runs needed for each array entry.
-	 * @param countSingleRuns Whether or not to count successful runs (runs that generated a unique number on the first try) in the buffer log.
-	 * @returns An array of random values.
-	 */
-	runUnique(buffer = 20, debugBuffer = false, countSingleRuns = false) {
-		const bufferruns = [];
-		const res: number[] = [];
-		const number = new Seed("", PRNGs[this.algorithm]);
-		let gen = 0;
-		for (let i = 0; i < this.length; i++) {
-			let j = 0;
-			for (let unique = false; unique == false && j < buffer; j++) {
-				number.seed = `${this.seed}${i}${j}`;
-				if (this.decimals == 0) {
-					gen = number.randomInt(this.range[0], this.range[1]);
-				} else {
-					gen = setDecimals(number.randomFloat(this.range[0], this.range[1]), this.decimals);
-				}
-				unique = true;
-				res.forEach(existing => {
-					if (existing == gen) {
-						unique = false;
-					}
-				});
-			}
-			if (debugBuffer) {
-				if (countSingleRuns) {
-					bufferruns.push(j);
-				} else if (j !== 1) {
-					bufferruns.push(j);
-				}
-			}
-			if (j >= buffer) {
-				MKLog(`Failed to find unique number, using ${gen} instead...`, "Error");
-			}
-			res.push(gen);
-		}
-		if (debugBuffer) {
-			MKLog(bufferruns);
-		}
+			res.push(att);
+			prev = att;
+		});
 		return res;
 	}
 }
