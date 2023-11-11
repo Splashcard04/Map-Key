@@ -41,7 +41,7 @@ export class randArray {
 				unique = !copy;
 			}
 			if (!unique) {
-				MKLog(`Failed to find unique number, using ${att} instead...\nError in randArray: ${this.seed}`, "Error");
+				MKLog(`Failed to find unique number for randArray, using ${att} in index [${i}] instead...`, "Error");
 			}
 			res.push(att);
 		});
@@ -65,7 +65,7 @@ export class randArray {
 				}
 			}
 			if (!unique) {
-				MKLog(`Failed to find unique number, using ${att} instead...\nError in randArray: ${this.seed}`, "Error");
+				MKLog(`Failed to find unique number for randArray, using ${att} in index [${i}] instead...`, "Error");
 			}
 			res.push(att);
 			prev = att;
