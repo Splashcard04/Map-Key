@@ -111,27 +111,20 @@ This class helps to make geometry materials and add them to your map. Also inclu
 **Example:**
 
 ```js
-new geometryMaterial("solidBlack").shader("BTSPillar").push();
+new geometryMaterial("solidBlack").BTSPillar().push();
 ```
 
 This will create a new material called `"solidBlack"` that uses the `BTSPillar` shader.
 
 ### Params
 
--   name: The name of your material.
--   shader(): The shader for your material to use.
--   color(): The color of your material.
--   track(): The track of your material.
--   shaderKeywords(): The shader keywords to apply to your material.
+-   name: The name of the material
 
-### Formatting shader keywords.
+Each shader method has the following params:
 
-To properly apply your shader keywords, they will need to be formatted correctly.
-For example, if you are using the `BTSPillar` shader, your keywords should be formatted like:
-
-```js
-.shaderKeywords({"BTSPillar": [keyword, keyword, keyword]})
-```
+-   shaderKeywords?: The list of shader keywords to apply to the material. Some shaders don't have autofill for keywords.
+-   color?: The color of the material.
+-   track?: The track to add to your material.
 
 ## Polygon generator
 
