@@ -16,7 +16,7 @@ export function setFunctionLogging(state?: boolean): void {
 
 /**
  * Access and modify the MK_Cache.
- * @param process Whether to read the cache fo write to it.
+ * @param process Whether to read the cache or write to it.
  * @param name The name of the entry in the chache to access.
  * @param data The data to write (if write process is specified), if left undefined the property will be removed from the cache.
  */
