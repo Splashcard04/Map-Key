@@ -32,13 +32,12 @@ export class randArray {
 				att = NaN;
 			for (let j = 0; j < buffer && !unique; j++) {
 				att = setDecimals(seedRNG(this.range[0], this.range[1], `${this.seed}blah${i}blah${j}`), this.decimals);
-				let copy = false;
+				unique = true;
 				res.forEach(x => {
 					if (x == att) {
-						copy = true;
+						unique = false;
 					}
 				});
-				unique = !copy;
 			}
 			if (!unique) {
 				MKLog(`Failed to find unique number for randArray, using ${att} in index [${i}] instead...`, "Error");
@@ -49,26 +48,34 @@ export class randArray {
 	}
 	/**
 	 * Ensures that no consecutive numbers are identical.
+	 * @param gap The number of indexes before allowing an identical number.
 	 * @param buffer The number of times to try for a unique number (prevents infinite repeats under certain circumstances).
 	 * @returns An array of random values.
 	 */
-	runUniqueConsecutive(buffer = this.length) {
-		const res: number[] = [];
-		let prev = NaN;
+	runUniqueConsecutive(gap = 1, buffer = this.length) {
+		const res: number[] = [],
+			prev: number[] = [];
+		repeat(gap, () => {
+			prev.push(NaN);
+		});
 		repeat(this.length, i => {
 			let unique = false,
 				att = NaN;
 			for (let j = 0; j < buffer && !unique; j++) {
 				att = setDecimals(seedRNG(this.range[0], this.range[1], `${this.seed}blah${i}blah${j}`), this.decimals);
-				if (att !== prev) {
-					unique = true;
-				}
+				unique = true;
+				repeat(prev.length, i => {
+					if (att == prev[i]) {
+						unique = false;
+					}
+				});
 			}
 			if (!unique) {
 				MKLog(`Failed to find unique number for randArray, using ${att} in index [${i}] instead...`, "Error");
 			}
 			res.push(att);
-			prev = att;
+			prev.push(att);
+			prev.shift();
 		});
 		return res;
 	}
