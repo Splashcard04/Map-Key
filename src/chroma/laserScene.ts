@@ -1,4 +1,4 @@
-import { ModelScene, GroupObjectTypes, Environment, Geometry, Json } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { ModelScene, GroupObjectTypes, Environment, Geometry, Json, copy } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 
 export class laserScene {
 	json: Json = {};
@@ -29,14 +29,17 @@ export class laserScene {
 		this.json.amt = amount;
 		return this;
 	}
-	/**add the lasers to the primary group */
-	push() {
-		const laserMats: string[] = [];
-		const obj = this.object;
-		this.json.mod(obj);
-		for (let i = 0; i < this.json.amt; i++) {
-			laserMats.push(this.json.mat + i.toString());
+	/**add the lasers to the primary group.
+	 * @param dupe Whether to copy the class on push.
+	 */
+	push(dupe = true) {
+		const temp = dupe ? copy(this) : this,
+			laserMats: string[] = [],
+			obj = this.object;
+		temp.json.mod(obj);
+		for (let i = 0; i < temp.json.amt; i++) {
+			laserMats.push(temp.json.mat + i.toString());
 		}
-		this.scene.addPrimaryGroups(laserMats, obj);
+		temp.scene.addPrimaryGroups(laserMats, obj);
 	}
 }

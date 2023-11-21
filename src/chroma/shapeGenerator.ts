@@ -1,5 +1,5 @@
 import { easeInCirc } from "https://deno.land/x/remapper@3.1.2/src/easings.ts";
-import { arrAdd, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { arrAdd, copy, Geometry, GeometryMaterial, rotatePoint, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { MKCache, MKLog, repeat } from "../functions/general.ts";
 
 export class Polygon {
@@ -32,36 +32,39 @@ export class Polygon {
 
 	/**
 	 * Push the shape to the active diff.
+	 * @param dupe Whether to duplicate the class on push.
 	 */
-	push() {
-		this.return().forEach(geo => {
+	push(dupe = true) {
+		const temp = dupe ? copy(this) : this;
+		temp.return().forEach(geo => {
 			geo.push();
 		});
 		if (MKCache("Read", "logFunctions")) {
-			MKLog(`New shape generated...\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`);
+			MKLog(`New shape generated...\nsides: ${temp.sides}\nradius: ${temp.radius}\ntrack: ${temp.track}`);
 		}
 	}
 	/**
 	 * Returns the array of geometry instead of pushing to the diff.
-	 * @returns Geometry array.
+	 * @param dupe Whether to duplicate the class on return.
 	 */
-	return() {
-		const returnArray: Geometry[] = [];
-		repeat(this.sides, side => {
-			const cube = new Geometry("Cube", this.material);
-			if (this.track && this.iterateTrack) {
-				cube.track.value = `${this.track}_${side + this.iterateOffset}`;
-			} else if (this.track && !this.iterateTrack) {
-				cube.track.value = this.track;
+	return(dupe = true) {
+		const temp = dupe ? copy(this) : this,
+			returnArray: Geometry[] = [];
+		repeat(temp.sides, side => {
+			const cube = new Geometry("Cube", temp.material);
+			if (temp.track && temp.iterateTrack) {
+				cube.track.value = `${temp.track}_${side + temp.iterateOffset}`;
+			} else if (temp.track && !temp.iterateTrack) {
+				cube.track.value = temp.track;
 			}
-			const angle = (Math.PI * 2 * side) / this.sides;
-			cube.position = arrAdd(rotatePoint([-Math.sin(angle) * this.radius, -Math.cos(angle) * this.radius, 0], this.rotation), this.position);
-			cube.scale = [(this.innercorners ? this.radius - this.scale[1] / 2 : this.radius + this.scale[1] / 2) * Math.tan(Math.PI / this.sides) * 2, this.scale[1], this.scale[2]];
-			cube.rotation = [this.rotation[0], this.rotation[1], this.rotation[2] - (180 * angle) / Math.PI];
+			const angle = (Math.PI * 2 * side) / temp.sides;
+			cube.position = arrAdd(rotatePoint([-Math.sin(angle) * temp.radius, -Math.cos(angle) * temp.radius, 0], temp.rotation), temp.position);
+			cube.scale = [(temp.innercorners ? temp.radius - temp.scale[1] / 2 : temp.radius + temp.scale[1] / 2) * Math.tan(Math.PI / temp.sides) * 2, temp.scale[1], temp.scale[2]];
+			cube.rotation = [temp.rotation[0], temp.rotation[1], temp.rotation[2] - (180 * angle) / Math.PI];
 			returnArray.push(cube);
 		});
 		if (MKCache("Read", "logFunctions")) {
-			MKLog(`New shape generated...\nsides: ${this.sides}\nradius: ${this.radius}\ntrack: ${this.track}`);
+			MKLog(`New shape generated...\nsides: ${temp.sides}\nradius: ${temp.radius}\ntrack: ${temp.track}`);
 		}
 		return returnArray;
 	}
@@ -84,18 +87,21 @@ export class primitiveShape {
 
 	/**
 	 * Push the primitive shape to the active diff.
+	 * @param dupe Whether to copy the class on push.
 	 */
-	push() {
-		this.collection.forEach(geo => {
+	push(dupe = true) {
+		const temp = dupe ? copy(this) : this;
+		temp.collection.forEach(geo => {
 			geo.push();
 		});
 	}
 	/**
 	 * Returns the array of geometry that is generated.
-	 * @returns Geometry array.
+	 * @param dupe Whether to copy the class on return.
 	 */
-	return() {
-		return this.collection;
+	return(dupe = true) {
+		const temp = dupe ? copy(this) : this;
+		return temp.collection;
 	}
 
 	/**

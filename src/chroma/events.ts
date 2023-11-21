@@ -1,4 +1,4 @@
-import { ColorType, EASE, Event, LightID, lerp } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { ColorType, EASE, Event, LightID, copy, lerp } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { repeat } from "../functions/general.ts";
 
 export class lightGradient {
@@ -51,27 +51,30 @@ export class lightGradient {
 		return this;
 	}
 
-	/**push the gradient to the difficulty */
-	push() {
-		const ev = new Event(this.time).backLasers().on(this.colors[0]);
-		ev.type = this.lightType;
-		if (this.lightID) {
-			ev.lightID = this.lightID;
+	/**push the gradient to the difficulty
+	 * @param dupe Whether to copy the class on push.
+	 */
+	push(dupe = true) {
+		const temp = dupe ? copy(this) : this,
+			ev = new Event(temp.time).backLasers().on(temp.colors[0]);
+		ev.type = temp.lightType;
+		if (temp.lightID) {
+			ev.lightID = temp.lightID;
 		}
 		ev.push();
 		let i = 0;
-		this.colors.forEach(color => {
+		temp.colors.forEach(color => {
 			if (i !== 0) {
-				const ev = new Event((i * this.duration) / (this.colors.length - 1) + this.time).backLasers().in(color);
-				ev.type = this.lightType;
-				if (this.ease) {
-					ev.easing = this.ease;
+				const ev = new Event((i * temp.duration) / (temp.colors.length - 1) + temp.time).backLasers().in(color);
+				ev.type = temp.lightType;
+				if (temp.ease) {
+					ev.easing = temp.ease;
 				}
-				if (this.lerpType) {
-					ev.lerpType = this.lerpType;
+				if (temp.lerpType) {
+					ev.lerpType = temp.lerpType;
 				}
-				if (this.lightID) {
-					ev.lightID = this.lightID;
+				if (temp.lightID) {
+					ev.lightID = temp.lightID;
 				}
 				ev.push();
 			}
