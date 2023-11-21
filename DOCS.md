@@ -413,3 +413,7 @@ Noise can be created in either a 2d, 3d, or 4d space.
 A random number generator with an optional seed paramater.
 
 Nothing more needs to be said.
+
+```js
+seedRNG(0, 5, `seed`);
+```
