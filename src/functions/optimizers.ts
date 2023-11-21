@@ -1,4 +1,4 @@
-import { activeDiffGet, copy, jsonRemove, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { activeDiffGet, copy, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { filterGeometry, repeat } from "../../mod.ts";
 
 /**
@@ -11,41 +11,66 @@ function duplicateArrsNoOrder<T extends any[]>(arr1: T, arr2: T) {
 	return arr1.toString() == arr2.toString();
 }
 
+function identicalMaterials(mat1: RawGeometryMaterial | string = { shader: "BTSPillar" }, mat2: RawGeometryMaterial | string = { shader: "BTSPillar" }) {
+	if (typeof mat1 == "string" || typeof mat2 == "string") {
+		return mat1 == mat2;
+	} else {
+		return mat1.shader == mat2.shader && mat1.color?.toString() == mat2.color?.toString() && (mat2.shaderKeywords ? (mat1.shaderKeywords ? duplicateArrsNoOrder(mat2.shaderKeywords, mat1.shaderKeywords) : false) : !mat1.shaderKeywords) && mat1.track == mat2.track;
+	}
+}
+
 /**
- * Converts all identical materials on geometry into a single map-wide material.
- * @param namingMethod Decides the way to name the created materials. Defaults to numbered.
+ * Performs several actions on geometry materials across the map.
+ * - Merges all duplicate materials.
+ * - Renames all materials to numbers.
+ * - Moves duplicate materials on geometry into map-wide materials.
  */
 export function optimizeMaterials() {
-	activeDiffGet().geometry(arr => {
-		let i = 0;
-		arr.forEach(geo => {
-			let copied = false;
-			if (typeof geo.material !== "string") {
-				const mat = copy(geo.material),
-					name = `${i}`;
-				geo.material = name;
-				activeDiffGet().geometry(ray => {
-					ray.forEach(x => {
-						const xmat = x.material as RawGeometryMaterial;
-						// Very ugly condition
-						if (mat.shader == xmat.shader && mat.color?.toString() == xmat.color?.toString() && (xmat.shaderKeywords ? (mat.shaderKeywords ? duplicateArrsNoOrder(xmat.shaderKeywords, mat.shaderKeywords) : false) : !mat.shaderKeywords) && mat.track == xmat.track) {
-							copied = true;
-							x.material = name;
-						}
-					});
-				});
-				if (copied) {
-					activeDiffGet().geoMaterials[name] = mat;
-					i++;
-				} else {
-					geo.material = mat;
+	// Convert all existing mat names into numbers
+	let tempMat: Record<string, RawGeometryMaterial> = {},
+		matArr = Object.entries(activeDiffGet().geoMaterials);
+	repeat(matArr.length, i => {
+		tempMat[i] = matArr[i][1];
+		activeDiffGet().geometry(arr => {
+			arr.forEach(x => {
+				if (x.material == matArr[i][0]) {
+					x.material = i.toString();
 				}
-			}
+			});
 		});
 	});
-	// Optimize duplicate materials
-	const matArr = Object.entries(activeDiffGet().geoMaterials),
-		dupes: number[][] = [];
+	activeDiffGet().geoMaterials = tempMat;
+
+	// Convert all duplicate JSON materials into strings
+	let i = matArr.length,
+		j = 0,
+		k = 0;
+	activeDiffGet().geometry(arr => {
+		arr.forEach(x => {
+			let duped = false;
+			if (typeof x.material !== "string") {
+				activeDiffGet().geometry(arr2 => {
+					arr2.forEach(y => {
+						if (typeof y.material !== "string" && identicalMaterials(x.material, y.material) && j !== k) {
+							duped = true;
+							activeDiffGet().geoMaterials[i] = x.material as RawGeometryMaterial;
+							y.material = i.toString();
+						}
+						k++;
+					});
+				});
+			}
+			if (duped) {
+				x.material = i.toString();
+				i++;
+			}
+			j++;
+		});
+	});
+
+	// Merge all duplicate materials
+	matArr = Object.entries(activeDiffGet().geoMaterials);
+	const dupes: number[][] = [];
 	repeat(matArr.length, i => {
 		const mat = matArr[i][1];
 		repeat(matArr.length, j => {
@@ -56,22 +81,34 @@ export function optimizeMaterials() {
 					proc = false;
 				}
 			});
-			if (mat.shader == xmat.shader && mat.color?.toString() == xmat.color?.toString() && (xmat.shaderKeywords ? (mat.shaderKeywords ? duplicateArrsNoOrder(xmat.shaderKeywords, mat.shaderKeywords) : false) : !mat.shaderKeywords) && mat.track == xmat.track && i !== j && proc) {
+			if (identicalMaterials(mat, xmat) && i !== j && proc) {
 				dupes.push([i, j]);
 			}
 		});
 	});
 	dupes.forEach(d => {
 		filterGeometry(
-			x => {
-				return x.material == matArr[d[1]][0];
-			},
+			x => x.material == matArr[d[1]][0],
 			geo => {
 				geo.material = matArr[d[0]][0];
 			}
 		);
-		jsonRemove(activeDiffGet().geoMaterials, matArr[d[1]][0]);
+		delete activeDiffGet().geoMaterials[matArr[d[1]][0]];
 	});
+	// Renumber the materials
+	tempMat = {};
+	matArr = Object.entries(activeDiffGet().geoMaterials);
+	repeat(matArr.length, i => {
+		tempMat[i] = matArr[i][1];
+		activeDiffGet().geometry(arr => {
+			arr.forEach(x => {
+				if (x.material == matArr[i][0]) {
+					x.material = i.toString();
+				}
+			});
+		});
+	});
+	activeDiffGet().geoMaterials = tempMat;
 }
 
 /**
