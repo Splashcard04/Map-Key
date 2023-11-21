@@ -85,7 +85,6 @@ export class Noise {
 	/**
 	 * Creates a noise map with a seed. Noise values range from roughly -0.9 to 0.9.
 	 * @param seed The seed for the noise (leave blank for random).
-	 * @author Aurellis
 	 */
 	constructor(public seed: number = Date.now()) {}
 	/**

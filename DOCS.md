@@ -322,3 +322,94 @@ This will filter through all the non-fake notes in your map for any between beat
 -   fake: Whether to target fake or regular notes.
 -   condition: The condition that the notes must pass to be affected.
 -   action: The action to run on all passing notes.
+
+## Material Optimizer
+
+A function that runs several actions on the geometry and materials in your map.
+
+-   Merges all duplicate materials into single materials.
+-   Renames all materials into numerical names.
+-   Moves reused materials on geometry objects into single map-wide materials.
+
+**Example:**
+
+```js
+optimizeMaterials();
+```
+
+## Static Environment Converter
+
+Applies the static animations from track animations on environments and geometry at beat 0. This would be used for a modelscene that creates an environment at beat 0.
+
+**Example:**
+
+```js
+optimizeStaticEnvironment();
+```
+
+### Params
+
+-   deleteAnims (Default = true) Deletes the track animations that are being converted.
+
+## Optimize Fake Objects
+
+Makes all objects that are set to uninteractable also be fake to save performance.
+
+**Example:**
+
+```js
+optimizeFake();
+```
+
+### Objects to affect
+
+-   notes
+-   bombs
+-   arcs
+-   chains
+-   walls
+
+## Random Array
+
+Creates an array of random numbers with a seed for reproducible results.
+
+**Example:**
+
+```js
+new randArray("seed", [0, 10], 5, 0).run();
+```
+
+This will create an array of 5 values ranging from 0-10.
+
+### Params
+
+-   seed: The seed to use for generation.
+-   range: The min and max nunber to generate.
+-   length: The length of the array.
+-   decimals: The decimal precision of the numbers.
+
+-   run(): Fills the array with random numbers.
+-   runUnique(): Fills the array with unique numbers.
+-   runUniqueConsecutive(): Ensures that numbers within a certain gap are not identical.
+
+## Perlin Noise
+
+Creates a noise map based on a seed.
+
+**Example:**
+
+```js
+new Noise(324).point2D([0, 1], [-1, 1]);
+```
+
+This will create a noise map with the seed `324` and return the value at point `[0, 1]`, normalized to a range of `[-1, 1]`.
+
+If the `range` parameter isn't used, then the values range from roughly -0.9 to 0.9.
+
+Noise can be created in either a 2d, 3d, or 4d space.
+
+## Seed RNG
+
+A random number generator with an optional seed paramater.
+
+Nothing more needs to be said.
