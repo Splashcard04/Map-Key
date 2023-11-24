@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { arcsBetween, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, EASE, FILENAME, getSeconds, info, jsonRemove, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { arcsBetween, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, FILENAME, getSeconds, info, jsonRemove, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { seedRNG } from "./random.ts";
 import { ensureFileSync } from "https://deno.land/std@0.110.0/fs/ensure_file.ts";
 
@@ -165,23 +165,6 @@ export function repeat(repeat: number, code: (i: number) => void) {
  * @returns number - The distance between point1 and point2.
  */
 export const distance = (point1: Vec3, point2: Vec3) => Math.hypot(...arrSubtract(point2, point1));
-
-/**
- * Works the same way as rotatepoint but returns a keyframe, so you can replace a keyframe with this function.
- * @param pos The position/ point to be rotated.
- * @param rot The rotation of the point
- * @param anchor The optional anchor to add on top of the rotation.
- * @param frameTime The "time" value for the keyframe.
- * @param ease The optional easing of the keyframe.
- * @param spline The optional spline of the keyframe.
- * @returns Keyframe.
- */
-export function rotatedKeyframe(pos: Vec3, rot: Vec3, anchor: Vec3, frameTime: number, ease?: EASE, spline?: "splineCatmullRom") {
-	const point: Array<number | string> = rotatePoint(pos, rot, anchor).concat(frameTime);
-	if (ease) point.push(ease);
-	if (spline) point.push(spline);
-	return point as [number, number, number, number, EASE?, "splineCatmullRom"?];
-}
 
 /**
  * Create a new array from a function of x. e.g arrFromFunction(10, x => { return 2 * x })
