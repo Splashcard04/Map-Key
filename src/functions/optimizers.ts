@@ -1,4 +1,4 @@
-import { activeDiffGet, copy, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { activeDiffGet, copy, EventInternals, RawGeometryMaterial } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { filterGeometry, repeat } from "../../mod.ts";
 
 /**
@@ -278,4 +278,30 @@ export function optimizeFake(objects: optimizeFakeSettings = { notes: true, bomb
 			activeDiffGet().walls.splice(wallDelArr[i], 1);
 		}
 	}
+}
+
+function duplicateEventsNoId(ev1: EventInternals.AbstractEvent, ev2: EventInternals.AbstractEvent) {
+	ev1 = copy(ev1);
+	ev2 = copy(ev2);
+	ev1.lightID = [];
+	ev2.lightID = [];
+	return `${ev1}` == `${ev2}`;
+}
+
+/**
+ * Deletes all duplicate events and merges events that differ only in lightIDs.
+ */
+export function optimizeIdenticalEvents() {
+	const events = copy(activeDiffGet().events);
+	repeat(events.length, i => {
+		repeat(events.length, j => {
+			if (duplicateEventsNoId(events[i], events[j]) && i !== j) {
+				events[i].lightID = typeof events[i].lightID == "number" ? [events[i].lightID as number] : events[i].lightID;
+				events[j].lightID = typeof events[j].lightID == "number" ? [events[j].lightID as number] : events[j].lightID;
+				events[i].lightID = [...(events[i].lightID as number[]), ...(events[j].lightID as number[])];
+				events[j].time = -Infinity;
+			}
+		});
+	});
+	activeDiffGet().events = [...new Set(events.filter(e => e.time !== -Infinity))];
 }
