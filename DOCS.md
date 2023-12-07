@@ -12,7 +12,7 @@ To use MapKey in your project, you will need to import it to your script.
 You can import the entire MapKey module.
 
 ```js
-import * as mk from "https://deno.land/x/mapkey@2.0.0/src/ReMapper/mod.ts";
+import * as mk from "https://deno.land/x/mapkey@2.0.0/mod.ts";
 ```
 
 This is not recommended though, as you will have to prefix everything from MapKey with `mk.`.

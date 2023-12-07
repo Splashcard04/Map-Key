@@ -11,7 +11,7 @@ To use Map Key in your script, you will need to import it. This works in the sam
 You can either import all items (not recommended as you will have to prefix everything with `mk.`).
 
 ```ts
-import * as mk from "https://deno.land/x/mapkey@2.0.0/src/ReMapper/mod.ts";
+import * as mk from "https://deno.land/x/mapkey@2.0.0/mod.ts";
 ```
 
 Or specify the individual items you need.
