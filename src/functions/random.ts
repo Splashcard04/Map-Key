@@ -127,7 +127,7 @@ export class Noise {
  * @returns Random number.
  * @author Aurellis
  */
-export function seedRNG(min: number, max: number, seed: number | string = Date.now()) {
+export function seedRNG(min: number, max: number, seed: number | string = Math.random()) {
 	[min, max] = min > max ? [max, min] : [min, max];
 	return new Seed(seed.toString()).randomFloat(min, max);
 }
