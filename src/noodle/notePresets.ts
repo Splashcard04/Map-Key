@@ -104,7 +104,7 @@ export class noteMod {
 		}
 	}
 	/**
-	 * Makes the notes fly in from the side.
+	 * Makes the notes fly in from the sides.
 	 * @param spawnDistance How far away to spawn them on the left and right. Default - 10.
 	 * @param splitBy Whether to split the notes based on their color or their position. Default - "Position".
 	 * @param animationEnd When in the note's lifetime to end the animation (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns). Default - 0.4.
@@ -241,7 +241,7 @@ export class noteMod {
 	 * Creates a "ghost" trail behind the notes. (Only works for notes, not arcs, chains, or bombs)
 	 * @param length How many notes to make the trail out of. Default - 3.
 	 * @param gap The gap (in beats) between each note. Default - 1/8.
-	 * @param fadeTimings The time to start fading and completely fade out. (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns). Default - [0,5]
+	 * @param fadeTimings The time to start fading and completely fade out. (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns). Default - [0, 0.5]
 	 * @param despawnEasing The easing to use on fading out. Default - easeInExpo
 	 */
 	noteGhostTrail(length = 3, gap = 1 / 8, fadeTimings: [number, number] = [0, 0.5], despawnEasing: EASE = "easeInExpo") {

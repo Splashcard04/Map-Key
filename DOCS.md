@@ -30,6 +30,48 @@ When you add your import it will likely show an error, hover over the link, clic
 
 The following guide will explain the key features of MapKey, note that this is for version `2.0.0`, and will not be consistent with other versions.
 
+## Player Animation
+
+This class helps to create animations for the player over the course of your map inmcluding animating the notes alongside the player.
+
+**Example:**
+
+```js
+new playerAnimation("player", "notes", true)
+	.addAnimation(0, 64, x => {
+		x.animate.position = [
+			[0, 0, 0, 0],
+			[0, 10, 0, 1]
+		];
+	})
+	.push();
+```
+
+This will create a new player animation that animates the player from beat 0 to 64.
+
+### Params
+
+-   playerTrack: The track to assign the player to, this is useful for if you plan on animating the player outside of the `playerAnimation` class.
+-   noteTrack: The track to assign to the notes in your map, this will then be parented to the player track.
+-   affectFake: Whether or not to also target fake notes when assigning the tracks.
+
+### addAnimation Params
+
+`addAnimation()` will add an animation to your overall player animation, these can be chained infinitely.
+
+For example:
+
+```js
+const pa = new playerAnimation();
+pa.addAnimation(0, 1, () => {}).addAnimation(0, 1, () => {});
+// etc...
+pa.push();
+```
+
+-   time: The time to start the animation.
+-   duration: The duration of the animation.
+-   animation: A callback function that defines the animation for the player.
+
 ## Despawner
 
 This function will remove certain environment objects from your map.
@@ -368,6 +410,88 @@ optimizeFake();
 -   arcs
 -   chains
 -   walls
+
+## Notemod Presets
+
+These are a collection of preset notemods to quickly spice up the gameplay of your map.
+
+**Example:**
+
+```js
+new noteMod(0, 1).noteBeatBounce(1);
+```
+
+This will target the notes between beat 0 and 1 and make them bounce to a height of 1.
+
+### Base Params
+
+-   startTime: The beat of the first note to affect.
+-   endTime: The beat of the last note to affect.
+-   extraData: A callback function to run on all the notes that are affected by the notemod.
+
+### Note Line
+
+This makes the notes fly in as a line, then jump to their proper positions.
+
+-   position: The lineIndex, and linelayer that the line will be on. Default - [1.5, 0].
+-   jumpTime: The point in the note's lifetime that it will jump up to the proper position, [startOfJump, endOfJump] (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns). Default - [0.35, 0.45].
+
+### Note Time Slow
+
+Slows the notes down then speeds them back up as the reach the player.
+
+-   slowPoint: The point in the notes' lifetime where it will be the slowest. (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns, Must be less that 0.5 or weird results will occur). Default - 0.1.
+-   slowForce: How much to slow down the notes. Must be an integer from 1-6 (inclusive). Default - 2
+-   offset: The point to spawn the notes along the z axis. Calculated as (vanillaOffset+1)\*offset\*20. Default - 2
+-   specialEase: Optional special easing to use on the notes, only use if you know what you're doing.
+
+### Note Beat Pulse
+
+Makes the notes pulse in size on each beat.
+
+-   pulseSize: The amount to pulse (1 is nothing, 2 makes them twice the size, and 0.5 makes them half the size etc.) Default - 1.5.
+
+### Note Fly In LR
+
+Makes the notes fly in from the sides.
+
+-   spawnDistance: How far away to spawn them on the left and right. Default - 10.
+-   splitBy: Whether to split the notes based on their color or their position. Default - "Position".
+-   animationEnd: When in the note's lifetime to end the animation (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns). Default - 0.4.
+
+### Note Drop Stream
+
+Makes the notes drop down from a "stream" of notes above the player. (doesn't work for arcs and chains)
+
+-   streamY: How far up to place the stream. Default - 8.
+-   density: How many notes should be in the stream each beat. Randomises between [min, max] for each beat. Default - [1, 3].
+-   jumpTime: The point in the notes' lifetime to start dropping down, and finish dropping down. Default - [0.2, 0.4].
+-   easing: The easing to use on the notes'. Default - "easeOutQuad".
+
+### Note Sway
+
+Makes the notes sway from left to right on the beat of the song.
+
+-   rotateFrom: Whether to rotate the notes at the top, or the bottom. Default - "Top".
+-   moveDistance: How far to move the notes left and right when swaying. Default - 1.
+-   rotateAngle: How much to rotate the notes as they sway. Default - 30.
+
+### Note Beat Bounce
+
+Makes the notes bounce up and down once over their lifetime.
+
+-   height: How high to bounce up. Default - 1.
+-   time: The time to sart the bounce, the peak of the bounce, and the end of the bounce. (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns). Default - [0.1, 0.25, 0.4].
+-   easing: The easings to use in the bounce, the easing on the way up, and the easing on the way down. Default - ["easeLinear", "easeLinear"].
+
+### Note Ghost Trail
+
+Creates a "ghost" trail behind the notes. (Only works for notes, not arcs, chains, or bombs)
+
+-   length: How many notes to make the trail out of. Default - 3.
+-   gap: The gap (in beats) between each note. Default - 1/8.
+-   fadeTimings: The time to start fading and completely fade out. (0 = when the note spawns, 0.5 = when it reaches the player, 1 = when it despawns). Default - [0, 0.5]
+-   despawnEasing: The easing to use on fading out. Default - "easeInExpo".
 
 ## Random Array
 
