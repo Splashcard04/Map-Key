@@ -7,12 +7,12 @@ import { MKCache, MKLog } from "./general.ts";
  * @param action The action to run on all passing geometry.
  * @author Aurellis
  */
-export function filterGeometry(condition: (x: Geometry) => boolean, action: (x: Geometry) => void) {
+export function filterGeometry(condition: (x: Geometry) => boolean, action: (x: Geometry, index?: number) => void) {
 	let count = 0;
 	activeDiffGet().geometry((arr: Geometry[]) => {
-		arr.forEach(geo => {
+		arr.forEach((geo, i) => {
 			if (condition(geo)) {
-				action(geo);
+				action(geo, i);
 				count++;
 			}
 		});
@@ -32,12 +32,12 @@ export function filterGeometry(condition: (x: Geometry) => boolean, action: (x: 
  * @param action The action to run on all passing environments.
  * @author Aurellis
  */
-export function filterEnvironments(condition: (X: Environment) => boolean, action: (x: Environment) => void) {
+export function filterEnvironments(condition: (X: Environment) => boolean, action: (x: Environment, index?: number) => void) {
 	let count = 0;
 	activeDiffGet().environment((arr: Environment[]) => {
-		arr.forEach(env => {
+		arr.forEach((env, i) => {
 			if (condition(env)) {
-				action(env);
+				action(env, i);
 				count++;
 			}
 		});
@@ -57,12 +57,12 @@ export function filterEnvironments(condition: (X: Environment) => boolean, actio
  * @param condition The condition that the notes must pass to be affected.
  * @param action The action that will be run on all passing notes.
  */
-export function filterNotes(fake: boolean, condition: (x: Note) => boolean, action: (x: Note) => void) {
+export function filterNotes(fake: boolean, condition: (x: Note) => boolean, action: (x: Note, index?: number) => void) {
 	let count = 0;
 	if (fake) {
-		activeDiffGet().fakeNotes.forEach(note => {
+		activeDiffGet().fakeNotes.forEach((note, i) => {
 			if (condition(note)) {
-				action(note);
+				action(note, i);
 				count++;
 			}
 		});
