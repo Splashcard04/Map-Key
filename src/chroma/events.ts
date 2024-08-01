@@ -62,8 +62,7 @@ export class lightGradient {
 			ev.lightID = temp.lightID;
 		}
 		ev.push();
-		let i = 0;
-		temp.colors.forEach(color => {
+		temp.colors.forEach((color, i) => {
 			if (i !== 0) {
 				const ev = new Event((i * temp.duration) / (temp.colors.length - 1) + temp.time).backLasers().in(color);
 				ev.type = temp.lightType;
@@ -78,7 +77,6 @@ export class lightGradient {
 				}
 				ev.push();
 			}
-			i++;
 		});
 	}
 }
