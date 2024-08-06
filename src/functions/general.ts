@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { ensureDir } from "https://deno.land/std@0.110.0/fs/ensure_dir.ts";
-import { arcsBetween, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, FILENAME, getSeconds, info, jsonRemove, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
+import { arcsBetween, arrMul, arrSubtract, chainsBetween, ColorType, DIFFS, FILENAME, getSeconds, info, Note, notesBetween, rotatePoint, setDecimals, Vec3 } from "https://deno.land/x/remapper@3.1.2/src/mod.ts";
 import { seedRNG } from "./random.ts";
 import { ensureFileSync } from "https://deno.land/std@0.110.0/fs/ensure_file.ts";
 
@@ -20,30 +20,34 @@ export function setFunctionLogging(state?: boolean): void {
  * @param name The name of the entry in the chache to access.
  * @param data The data to write (if write process is specified), if left undefined the property will be removed from the cache.
  */
-export function MKCache(process: "Read" | "Write", name: string, data?: any) {
+export function MKCache(process: "Read" | "Write" | "Clear", name = "", data?: any) {
 	const fileName = "MK_Cache.json";
 	ensureFileSync(fileName);
 	if (process == "Read") {
 		try {
-			const cache: Record<string, any> = JSON.parse(Deno.readTextFileSync(fileName));
+			const raw = Deno.readTextFileSync(fileName),
+				cache: Record<string, any> = JSON.parse(raw == "" ? "{}" : raw);
 			return cache[name];
 		} catch (e) {
-			console.error(`MK_Cache suffered from error, invalidating cache: ${e}`);
+			console.log(`Cache suffered from error, invalidating cache: ${e}`);
 			Deno.writeTextFileSync(fileName, JSON.stringify({}));
 		}
-	} else {
+	} else if (process == "Write") {
 		try {
-			const cache: Record<string, any> = JSON.parse(Deno.readTextFileSync(fileName));
+			const raw = Deno.readTextFileSync(fileName),
+				cache: Record<string, any> = JSON.parse(raw == "" ? "{}" : raw);
 			if (typeof data == "undefined") {
-				jsonRemove(cache, name);
+				delete cache[name];
 			} else {
 				cache[name] = data;
 			}
 			Deno.writeTextFileSync(fileName, JSON.stringify(cache));
 		} catch (e) {
-			console.error(`MK_Cache suffered from error, invalidating cache: ${e}`);
+			console.log(`Cache suffered from error, invalidating cache: ${e}`);
 			Deno.writeTextFileSync(fileName, JSON.stringify({}));
 		}
+	} else {
+		Deno.writeTextFileSync(fileName, JSON.stringify({}));
 	}
 }
 
